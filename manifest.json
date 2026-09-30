@@ -1,0 +1,10 @@
+{
+  "name": "CARLODZ Scripts",
+  "short_name": "CARLODZ",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#030509",
+  "theme_color": "#ef233c",
+  "description": "Premium FiveM scripts by CARLODZ",
+  "icons": []
+}
