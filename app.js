@@ -7,7 +7,7 @@
 */
 const SCRIPT_VIDEOS = {
   fishing: "https://www.youtube.com/watch?v=v_GOK6WL9kg",
-  wayscoot: "",
+  wayscoot: "https://www.youtube.com/watch?v=8yIDkU6_c-w&list=RD8yIDkU6_c-w&start_radio=1",
   burgershot: "",
   pets: "",
   hunting: "",
