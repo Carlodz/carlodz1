@@ -228,7 +228,10 @@
             <div class="desc">Rent scooters easily with a modern NUI, multiple stations and a full payment system.</div>
             <div class="tags">
               <span>QBCore</span><span>Target</span><span>NUI</span><span>Rental</span>
-              
+            </div>
+            <div class="purchase-row">
+              <strong class="script-price">$5</strong>
+              <a class="buy-btn" data-buy="wayscoot" href="https://example.com/buy/wayscoot" target="_blank" rel="noopener">Buy Now <span>→</span></a>
             </div>
             <button class="details-btn" data-script="wayscoot">Details <span>→</span></button>
             <div class="script-rating" data-rating="wayscoot" aria-label="Rate WayScoot">
@@ -254,7 +257,10 @@
             <div class="desc">Cook, prepare and deliver delicious meals. Full job system with animations and props.</div>
             <div class="tags">
               <span>QBCore</span><span>Job</span><span>NUI</span><span>Delivery</span>
-              
+            </div>
+            <div class="purchase-row">
+              <strong class="script-price">$5</strong>
+              <a class="buy-btn" data-buy="burgershot" href="https://example.com/buy/burgershot" target="_blank" rel="noopener">Buy Now <span>→</span></a>
             </div>
             <button class="details-btn" data-script="burgershot">Details <span>→</span></button>
             <div class="script-rating" data-rating="burgershot" aria-label="Rate Burger Shot">
@@ -304,13 +310,16 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <h3>Carlodz Pets</h3>
+              <h3>WayPets</h3>
               <p>Pets System Script</p>
             </div>
             <div class="desc">Adopt, train and take care of your pets. Hunger, happiness and more features included.</div>
             <div class="tags">
               <span>QBCore</span><span>NUI</span><span>Animals</span><span>System</span>
-              
+            </div>
+            <div class="purchase-row">
+              <strong class="script-price">$10</strong>
+              <a class="buy-btn" data-buy="pets" href="https://example.com/buy/waypets" target="_blank" rel="noopener">Buy Now <span>→</span></a>
             </div>
             <button class="details-btn" data-script="pets">Details <span>→</span></button>
             <div class="script-rating" data-rating="pets" aria-label="Rate Carlodz Pets">
@@ -336,6 +345,10 @@
             <div class="desc">Run your own cat coffee shop with orders, crafting, cat interactions and a polished QBCore job system.</div>
             <div class="tags">
               <span>QBCore</span><span>Job</span><span>NUI</span><span>Cafe</span>
+            </div>
+            <div class="purchase-row">
+              <strong class="script-price">$5</strong>
+              <a class="buy-btn" data-buy="catcoffee" href="https://example.com/buy/catcoffee" target="_blank" rel="noopener">Buy Now <span>→</span></a>
             </div>
             <button class="details-btn" data-script="catcoffee">Details <span>→</span></button>
             <div class="script-rating" data-rating="catcoffee" aria-label="Rate Cat Coffee">
@@ -424,6 +437,16 @@
 
 
 <div class="details-modal" id="detailsModal" aria-hidden="true">
+  <div id="paymentReturn" class="payment-return" aria-live="polite" hidden>
+    <div class="payment-return-card">
+      <div class="payment-return-icon">✓</div>
+      <h2 id="paymentReturnTitle">Payment status</h2>
+      <p id="paymentReturnText">Checking your payment...</p>
+      <a id="paymentDownload" class="btn-primary" href="#" download hidden>Download Script →</a>
+      <button id="paymentReturnClose" class="details-back">Back to Scripts</button>
+    </div>
+  </div>
+
   <div class="details-backdrop" data-close-details></div>
   <section class="details-panel" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
     <div class="details-bg" id="detailsBg"></div>
@@ -444,6 +467,9 @@
         <div class="details-tags" id="detailsTags"></div>
       </div>
       <div class="details-actions">
+        <a class="btn-primary buy-details-btn" id="detailsBuy" href="#" target="_blank" rel="noopener" style="display:none">
+          <span>Buy Now</span> <strong id="detailsPrice">$0</strong> <span>→</span>
+        </a>
         <a class="btn-primary download-details-btn" id="detailsDownload" href="#" download style="display:none">
           <img src="assets/icons/download.svg" alt=""> <span data-i18n="download_script">Download Script</span>
         </a>

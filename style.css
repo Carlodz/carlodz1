@@ -466,3 +466,18 @@ html[dir="rtl"] .contact-buttons{
 html[dir="rtl"] .contact-icons{
   flex-direction:row-reverse;
 }
+
+/* Paid script purchase controls */
+.purchase-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+.script-price{font-family:'Barlow Condensed',sans-serif;font-size:24px;line-height:1;color:#fff;letter-spacing:.2px}
+.buy-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 13px;border:1px solid var(--red);border-radius:9px;background:var(--red);color:#fff;font-size:10px;font-weight:900;text-decoration:none;transition:.18s}
+.buy-btn:hover{transform:translateY(-1px);filter:brightness(1.08);box-shadow:0 10px 25px rgba(255,49,88,.18)}
+.buy-details-btn{display:flex;align-items:center;justify-content:center;gap:8px}
+.buy-details-btn strong{font-size:15px}
+.light-theme .script-price{color:#111}
+
+.payment-return{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:rgba(5,7,12,.88);backdrop-filter:blur(16px);padding:20px}
+.payment-return[hidden]{display:none}
+.payment-return-card{width:min(480px,100%);padding:34px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:rgba(18,20,28,.96);text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.payment-return-icon{width:62px;height:62px;margin:0 auto 16px;display:grid;place-items:center;border-radius:50%;background:rgba(44,210,125,.14);color:#38dc88;font-size:30px;font-weight:900}
+.payment-return-card h2{margin:0 0 10px}.payment-return-card p{color:rgba(255,255,255,.7);margin:0 0 22px}.payment-return-card .btn-primary{display:inline-flex;margin-bottom:12px}

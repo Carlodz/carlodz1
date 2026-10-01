@@ -1,3 +1,53 @@
+// =========================================================
+// PURCHASE LINKS — replace these URLs with your real store/payment pages.
+// Prices are displayed on the website only; change them here if needed.
+// =========================================================
+const PURCHASE_CONFIG = {
+  wayscoot:  { price: '$5',  product: 'wayscoot' },
+  burgershot:{ price: '$5',  product: 'burgershot' },
+  pets:      { price: '$10', product: 'waypets' },
+  catcoffee: { price: '$5',  product: 'catcoffee' }
+};
+
+// RedotPay checkout is created securely by server.js.
+// Do NOT put RedotPay appKey/private keys in this browser file.
+async function startRedotPayCheckout(key){
+  const cfg=PURCHASE_CONFIG[key];
+  if(!cfg) throw new Error('Unknown product');
+  const userId=(localStorage.getItem('carlodz-user-id') || ('web-'+crypto.randomUUID())).slice(0,32);
+  localStorage.setItem('carlodz-user-id', userId);
+  const r=await fetch('/api/create-payment',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({product:key, userId})
+  });
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok || !data.paymentUrl) throw new Error(data.message || 'Unable to create payment');
+  window.location.href=data.paymentUrl;
+}
+
+function bindPurchaseButtons(){
+  document.querySelectorAll('[data-buy]').forEach(btn=>{
+    const key=btn.getAttribute('data-buy');
+    const cfg=PURCHASE_CONFIG[key];
+    if(!cfg) return;
+    btn.href='#';
+    btn.removeAttribute('target');
+    btn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      if(btn.dataset.loading==='1') return;
+      btn.dataset.loading='1';
+      const old=btn.innerHTML;
+      btn.innerHTML='Processing...';
+      try{ await startRedotPayCheckout(key); }
+      catch(err){ alert(err.message || 'Payment could not be started.'); btn.innerHTML=old; btn.dataset.loading=''; }
+    });
+    const row=btn.closest('.purchase-row');
+    const price=row?.querySelector('.script-price');
+    if(price) price.textContent=cfg.price;
+  });
+}
+
+
 /* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
 const SCRIPT_VIDEOS = {
   fishing: "https://www.youtube.com/watch?v=v_GOK6WL9kg",
@@ -380,14 +430,17 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   }
 })();
 
+
+bindPurchaseButtons();
+
 /* Script details — opens in the same page (YouTube / direct video only) */
 const SCRIPT_DETAILS={
   fishing:{title:'Fishing',category:'FREE SCRIPT',description:'A clean fishing system for your FiveM server with fishing spots, catches, rewards and an easy QBCore setup.',logo:'assets/fishing-logo.png',photo:'assets/design-reference 2.png',tags:['QBCore','Fishing','Rewards','Free'],video:SCRIPT_VIDEOS.fishing,download:'assets/downloads/fishing/script.zip',downloadName:'Fishing.zip'},
   hunting:{title:'Hunting Zone',category:'FREE SCRIPT',description:'A lightweight hunting zone system for your FiveM server, designed to be simple, clean and easy to configure.',logo:'assets/Hunting Zone-logo.png',photo:'assets/design-reference 4.png',tags:['QBCore','Free','Hunting','Zone'],video:SCRIPT_VIDEOS.hunting,download:'assets/downloads/hunting/script.zip',downloadName:'Hunting-Zone.zip'},
-  wayscoot:{title:'WayScoot',category:'PAID SCRIPT',description:'Modern scooter rental system with multiple stations, rental timer, payment flow, polished NUI and FiveM integration.',logo:'assets/wayscoot-logo.png',photo:'assets/design-reference.png',tags:['QBCore','Target','NUI','Rental'],video:SCRIPT_VIDEOS.wayscoot},
-  burgershot:{title:'Burger Shot',category:'PAID SCRIPT',description:'Complete Burger Shot restaurant job with food props, animations, cooking flow, deliveries and modern NUI.',logo:'assets/burgershot-logo.png',photo:'assets/design-reference 3.png',tags:['QBCore','Job','NUI','Delivery'],video:SCRIPT_VIDEOS.burgershot},
-  pets:{title:'Carlodz Pets',category:'PAID SCRIPT',description:'A complete pets system with adoption, training, care and animal features built for a modern FiveM server.',logo:'assets/waypets-logo.png',photo:'assets/design-reference 1.png',tags:['QBCore','NUI','Animals','System'],video:SCRIPT_VIDEOS.pets},
-  catcoffee:{title:'Cat Coffee',category:'PAID SCRIPT',description:'Run your own cat coffee shop with orders, crafting, cat interactions and a polished QBCore job system.',logo:'assets/CATCOFFE - LOGO.png',photo:'assets/design-reference 5.png',tags:['QBCore','Job','NUI','Cafe'],video:SCRIPT_VIDEOS.catcoffee}
+  wayscoot:{title:'WayScoot',category:'PAID SCRIPT',description:'Modern scooter rental system with multiple stations, rental timer, payment flow, polished NUI and FiveM integration.',logo:'assets/wayscoot-logo.png',photo:'assets/design-reference.png',tags:['QBCore','Target','NUI','Rental'],price:'$5',buyKey:'wayscoot',video:SCRIPT_VIDEOS.wayscoot},
+  burgershot:{title:'Burger Shot',category:'PAID SCRIPT',description:'Complete Burger Shot restaurant job with food props, animations, cooking flow, deliveries and modern NUI.',logo:'assets/burgershot-logo.png',photo:'assets/design-reference 3.png',tags:['QBCore','Job','NUI','Delivery'],price:'$5',buyKey:'burgershot',video:SCRIPT_VIDEOS.burgershot},
+  pets:{title:'WayPets',category:'PAID SCRIPT',description:'A complete pets system with adoption, training, care and animal features built for a modern FiveM server.',logo:'assets/waypets-logo.png',photo:'assets/design-reference 1.png',tags:['QBCore','NUI','Animals','System'],price:'$10',buyKey:'pets',video:SCRIPT_VIDEOS.pets},
+  catcoffee:{title:'Cat Coffee',category:'PAID SCRIPT',description:'Run your own cat coffee shop with orders, crafting, cat interactions and a polished QBCore job system.',logo:'assets/CATCOFFE - LOGO.png',photo:'assets/design-reference 5.png',tags:['QBCore','Job','NUI','Cafe'],price:'$5',buyKey:'catcoffee',video:SCRIPT_VIDEOS.catcoffee}
 };
 const detailsModal=document.getElementById('detailsModal');
 const detailsVideo=document.getElementById('detailsVideo');
@@ -400,6 +453,8 @@ const detailsTags=document.getElementById('detailsTags');
 const detailsLogo=document.getElementById('detailsLogo');
 const detailsPlay=document.getElementById('detailsPlay');
 const detailsDownload=document.getElementById('detailsDownload');
+const detailsBuy=document.getElementById('detailsBuy');
+const detailsPrice=document.getElementById('detailsPrice');
 const detailsBg=document.getElementById('detailsBg');
 let currentDetail=null;
 
@@ -422,6 +477,23 @@ function showDetails(key){
   detailsDescription.textContent=d.description;
   detailsLogo.src=d.photo||d.logo;
   detailsTags.innerHTML=d.tags.map(t=>`<span>${t}</span>`).join('');
+  // Paid purchase button
+  if(detailsBuy){
+    if(d.buyKey){
+      detailsBuy.href='#';
+      detailsBuy.style.display='';
+      if(detailsPrice) detailsPrice.textContent=d.price||'';
+      detailsBuy.onclick=async (e)=>{
+        e.preventDefault();
+        try{ await startRedotPayCheckout(d.buyKey); }
+        catch(err){ alert(err.message || 'Payment could not be started.'); }
+      };
+    }else{
+      detailsBuy.removeAttribute('href');
+      detailsBuy.style.display='none';
+      detailsBuy.onclick=null;
+    }
+  }
   // Free script download button
   if(detailsDownload){
     if(d.download){
@@ -613,4 +685,25 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
       });
     });
   });
+})();
+
+/* RedotPay return/status screen */
+(async function paymentReturnStatus(){
+  const params=new URLSearchParams(location.search);
+  if(params.get('payment')!=='return') return;
+  const order=params.get('order'); const panel=document.getElementById('paymentReturn');
+  const title=document.getElementById('paymentReturnTitle'); const textEl=document.getElementById('paymentReturnText');
+  const download=document.getElementById('paymentDownload'); const close=document.getElementById('paymentReturnClose');
+  if(!panel||!order) return;
+  panel.hidden=false;
+  close?.addEventListener('click',()=>{ panel.hidden=true; history.replaceState({},'',location.pathname); });
+  try{
+    const r=await fetch('/api/payment-status?order='+encodeURIComponent(order),{cache:'no-store'}); const d=await r.json();
+    if(d.status==='PAID'){
+      title.textContent='Payment successful'; textEl.textContent='Your payment has been confirmed.';
+      if(d.download){ download.href=d.download; download.hidden=false; }
+    }else if(d.status==='PENDING'){
+      title.textContent='Payment pending'; textEl.textContent='Payment was not confirmed yet. Please wait a moment and refresh this page.';
+    }else{ title.textContent='Payment not completed'; textEl.textContent='The order is not confirmed as paid.'; }
+  }catch(e){ title.textContent='Payment status'; textEl.textContent='Unable to check the order right now.'; }
 })();
