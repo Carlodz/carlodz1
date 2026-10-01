@@ -1,53 +1,3 @@
-// =========================================================
-// PURCHASE LINKS — replace these URLs with your real store/payment pages.
-// Prices are displayed on the website only; change them here if needed.
-// =========================================================
-const PURCHASE_CONFIG = {
-  wayscoot:  { price: '$5',  product: 'wayscoot' },
-  burgershot:{ price: '$5',  product: 'burgershot' },
-  pets:      { price: '$10', product: 'waypets' },
-  catcoffee: { price: '$5',  product: 'catcoffee' }
-};
-
-// RedotPay checkout is created securely by server.js.
-// Do NOT put RedotPay appKey/private keys in this browser file.
-async function startRedotPayCheckout(key){
-  const cfg=PURCHASE_CONFIG[key];
-  if(!cfg) throw new Error('Unknown product');
-  const userId=(localStorage.getItem('carlodz-user-id') || ('web-'+crypto.randomUUID())).slice(0,32);
-  localStorage.setItem('carlodz-user-id', userId);
-  const r=await fetch('/api/create-payment',{
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({product:key, userId})
-  });
-  const data=await r.json().catch(()=>({}));
-  if(!r.ok || !data.paymentUrl) throw new Error(data.message || 'Unable to create payment');
-  window.location.href=data.paymentUrl;
-}
-
-function bindPurchaseButtons(){
-  document.querySelectorAll('[data-buy]').forEach(btn=>{
-    const key=btn.getAttribute('data-buy');
-    const cfg=PURCHASE_CONFIG[key];
-    if(!cfg) return;
-    btn.href='#';
-    btn.removeAttribute('target');
-    btn.addEventListener('click', async (e)=>{
-      e.preventDefault();
-      if(btn.dataset.loading==='1') return;
-      btn.dataset.loading='1';
-      const old=btn.innerHTML;
-      btn.innerHTML='Processing...';
-      try{ await startRedotPayCheckout(key); }
-      catch(err){ alert(err.message || 'Payment could not be started.'); btn.innerHTML=old; btn.dataset.loading=''; }
-    });
-    const row=btn.closest('.purchase-row');
-    const price=row?.querySelector('.script-price');
-    if(price) price.textContent=cfg.price;
-  });
-}
-
-
 /* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
 const SCRIPT_VIDEOS = {
   fishing: "https://www.youtube.com/watch?v=v_GOK6WL9kg",
@@ -55,7 +5,8 @@ const SCRIPT_VIDEOS = {
   burgershot: "",
   pets: "",
   hunting: "",
-  catcoffee: ""
+  catcoffee: "",
+  carlodz_character: ""
 };
 
 /* ========== i18n (EN / AR) — Cairo font for Arabic ========== */
@@ -225,17 +176,7 @@ function setLanguage(lang) {
     el.textContent = t.rate_this;
   });
 
-  // Show the flag + label of the currently selected language
-  const currentFlag = document.getElementById('currentLangFlag');
-  const currentLabel = document.getElementById('currentLangLabel');
-  const isArabic = lang === 'ar';
-  if (currentFlag) {
-    currentFlag.src = isArabic ? 'assets/flags/dz.svg' : 'assets/flags/gb.svg';
-    currentFlag.alt = isArabic ? 'العربية' : 'English';
-  }
-  if (currentLabel) currentLabel.textContent = isArabic ? 'عربي' : 'EN';
-
-  // Mark the selected language in the menu
+  // Lang buttons state
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
@@ -247,24 +188,10 @@ function setLanguage(lang) {
 (function initLang() {
   const saved = localStorage.getItem('carlodz-lang') || 'en';
   setLanguage(saved);
-  const langSwitch = document.getElementById('langSwitch');
-  const langCurrent = document.getElementById('langCurrent');
-  langCurrent?.addEventListener('click', e => {
-    e.stopPropagation();
-    const open = langSwitch?.classList.toggle('open');
-    langCurrent.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  langSwitch?.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      setLanguage(btn.dataset.lang);
-      langSwitch.classList.remove('open');
-      langCurrent?.setAttribute('aria-expanded','false');
-    });
-  });
-  document.addEventListener('click', () => {
-    langSwitch?.classList.remove('open');
-    langCurrent?.setAttribute('aria-expanded','false');
+  document.getElementById('langSwitch')?.addEventListener('click', e => {
+    const btn = e.target.closest('.lang-btn');
+    if (!btn) return;
+    setLanguage(btn.dataset.lang);
   });
 })();
 
@@ -362,41 +289,71 @@ document.getElementById('trailerBtn')?.addEventListener('click', () => {
   document.getElementById('scripts')?.scrollIntoView({ behavior: 'smooth' });
 });
 
-/* Hero slideshow — keep design-reference photos, overlay matching small logos */
-(() => {
-  const hero = document.querySelector('.hero-reference-rotate');
-  const logoOverlay = document.querySelector('.hero-logo-overlay');
-  if (!hero) return;
-
+/* Hero showcase — automatically rotates through all CARLODZ scripts and updates the hero text/logo/photo together. */
+document.addEventListener('DOMContentLoaded', () => {
+  const photo = document.querySelector('.hero-reference');
+  const logo = document.getElementById('heroBrandLogo');
+  const eyebrow = document.getElementById('heroEyebrow');
+  const subtitle = document.getElementById('heroSubtitle');
+  const description = document.getElementById('heroDescription');
+  const label = document.querySelector('.clothing-hero-label');
   const slides = [
-    { photo: 'assets/design-reference.png', logo: 'assets/wayscoot-logo.png' },
-    { photo: 'assets/design-reference 1.png', logo: 'assets/waypets-logo.png' },
-    { photo: 'assets/design-reference 2.png', logo: 'assets/fishing-logo.png' },
-    { photo: 'assets/design-reference 3.png', logo: 'assets/burgershot-logo.png' },
-    { photo: 'assets/design-reference 4.png', logo: 'assets/Hunting Zone-logo.png' },
-    { photo: 'assets/design-reference 5.png', logo: 'assets/CATCOFFE - LOGO.png' }
+    {key:'carlodzclothing', eyebrow:'PREMIUM • QBCORE • CARLODZ CHARACTER', subtitle:'THE COMPLETE CHARACTER STYLE SYSTEM', desc:'Premium QBCore clothing and character ecosystem with clothing shops, tattoo shops, female-only beauty surgery and a complete creator system.', label:'CARLODZ CLOTHING', meta:'CHARACTER • BEAUTY • STYLE'},
+    {key:'carlodz_character', eyebrow:'PREMIUM • QBCORE • CHARACTER', subtitle:'THE COMPLETE CHARACTER CREATOR SYSTEM', desc:'A dedicated Carlodz Character creator for building and customizing your FiveM character, designed to work together with Carlodz Clothing and QBCore.', label:'CARLODZ CHARACTER', meta:'CREATOR • CUSTOMIZATION • QBCORE'},
+    {key:'wayscoot', eyebrow:'PREMIUM • QBCORE • RENTAL', subtitle:'MODERN SCOOTER RENTAL SYSTEM', desc:'A polished scooter rental experience with stations, payment flow, rental timer, vehicle keys and modern NUI.', label:'WAY SCOOT', meta:'RENTAL • NUI • CITY MOBILITY'},
+    {key:'burgershot', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'COMPLETE BURGER SHOT EXPERIENCE', desc:'A complete restaurant job with cooking, food props, animations, orders, deliveries and a polished gameplay flow.', label:'BURGER SHOT', meta:'JOB • COOKING • DELIVERY'},
+    {key:'pets', eyebrow:'PREMIUM • QBCORE • PETS', subtitle:'YOUR PETS. YOUR CITY. YOUR STORY.', desc:'A modern pets system with adoption, care, interaction and animal features designed for immersive FiveM servers.', label:'CARLODZ PETS', meta:'PETS • NUI • IMMERSION'},
+    {key:'fishing', eyebrow:'FREE • QBCORE • FISHING', subtitle:'FISH. CATCH. REWARD.', desc:'A clean fishing experience with fishing spots, catches, rewards and simple QBCore integration.', label:'FISHING', meta:'FREE • FISHING • REWARDS'},
+    {key:'hunting', eyebrow:'FREE • QBCORE • HUNTING', subtitle:'ENTER THE HUNTING ZONE', desc:'A lightweight hunting zone system built for simple configuration, hunting gameplay and a clean server experience.', label:'HUNTING ZONE', meta:'FREE • HUNTING • ZONE'},
+    {key:'catcoffee', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'RUN YOUR OWN CAT COFFEE', desc:'A complete cat coffee job with orders, crafting, cat interactions and a polished QBCore workflow.', label:'CAT COFFEE', meta:'JOB • CAFE • CATS'}
   ];
-
-  let index = 0;
-  slides.forEach(s => {
-    const img = new Image();
-    img.src = s.photo;
-    const logo = new Image();
-    logo.src = s.logo;
+  if(!photo || !logo) return;
+  const heroStrip=document.getElementById('heroScriptStrip');
+  if(heroStrip){ heroStrip.innerHTML=slides.map((s,i)=>`<button type="button" class="hero-script-pill${i===0?' active':''}" data-hero-index="${i}"><span>${String(i+1).padStart(2,'0')}</span>${s.label}</button>`).join(''); }
+  let index=0, timer;
+  const apply=(i,animate=true)=>{
+    const s=slides[i], d=SCRIPT_DETAILS[s.key]; if(!d) return;
+    const swap=()=>{
+      photo.src=d.photo; logo.src=d.logo;
+      const ov=document.querySelector('.hero-logo-overlay'); if(ov){ov.src=d.logo; ov.alt=d.title;}
+      photo.alt=d.title+' showcase'; logo.alt=d.title;
+      if(eyebrow) eyebrow.textContent=s.eyebrow;
+      if(subtitle) subtitle.textContent=s.subtitle;
+      if(description) description.textContent=s.desc;
+      if(label) label.innerHTML=s.label+'<br><em>'+s.meta+'</em>';
+      document.querySelector('.hero')?.setAttribute('data-hero-script',s.key);
+      if(heroStrip) heroStrip.querySelectorAll('.hero-script-pill').forEach((el,n)=>el.classList.toggle('active',n===i));
+    };
+    if(!animate){swap();return;}
+    photo.classList.add('hero-changing'); logo.classList.add('hero-changing');
+    setTimeout(()=>{swap(); photo.classList.remove('hero-changing'); logo.classList.remove('hero-changing');},260);
+  };
+  apply(0,false);
+  timer=setInterval(()=>{index=(index+1)%slides.length;apply(index,true);},4000);
+  heroStrip?.addEventListener('click',e=>{
+    const b=e.target.closest('.hero-script-pill');
+    if(!b) return;
+    index=Number(b.dataset.heroIndex)||0;
+    apply(index,true);
+    clearInterval(timer);
+    timer=setInterval(()=>{index=(index+1)%slides.length;apply(index,true);},4000);
+    const key=slides[index]?.key;
+    if(typeof showDetails==='function' && key) showDetails(key);
   });
 
-  setInterval(() => {
-    hero.classList.add('is-changing');
-    if (logoOverlay) logoOverlay.classList.add('is-changing');
-    setTimeout(() => {
-      index = (index + 1) % slides.length;
-      hero.src = slides[index].photo;
-      if (logoOverlay) logoOverlay.src = slides[index].logo;
-      hero.classList.remove('is-changing');
-      if (logoOverlay) logoOverlay.classList.remove('is-changing');
-    }, 220);
-  }, 3500);
-})();
+  document.querySelectorAll('.script-card').forEach(card=>{
+    card.addEventListener('mouseenter',()=>{
+      const key=card.querySelector('[data-script]')?.dataset.script;
+      const i=slides.findIndex(s=>s.key===key);
+      if(i>=0){index=i;apply(i,true);clearInterval(timer);timer=setInterval(()=>{index=(index+1)%slides.length;apply(index,true);},4000);}
+    });
+    card.addEventListener('click',e=>{
+      if(e.target.closest('a,button,input,select,textarea')) return;
+      const key=card.querySelector('[data-script]')?.dataset.script;
+      if(typeof showDetails==='function' && key) showDetails(key);
+    });
+  });
+});
 
 /* Theme toggle (subtle accent flip) */
 /* Theme: dark / light, persisted */
@@ -412,18 +369,10 @@ themeBtn?.addEventListener('click', () => {
   applyTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
 });
 
-/* Service worker cleanup — prevents old GitHub Pages cache from serving stale files */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(registrations.map(reg => reg.unregister()));
-      if (window.caches) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map(key => caches.delete(key)));
-      }
-      if (navigator.serviceWorker.controller) window.location.reload();
-    } catch (_) {}
+/* Service worker */
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
   });
 }
 
@@ -462,17 +411,16 @@ if ('serviceWorker' in navigator) {
   }
 })();
 
-
-bindPurchaseButtons();
-
 /* Script details — opens in the same page (YouTube / direct video only) */
 const SCRIPT_DETAILS={
-  fishing:{title:'Fishing',category:'FREE SCRIPT',description:'A clean fishing system for your FiveM server with fishing spots, catches, rewards and an easy QBCore setup.',logo:'assets/fishing-logo.png',photo:'assets/design-reference 2.png',tags:['QBCore','Fishing','Rewards','Free'],video:SCRIPT_VIDEOS.fishing,download:'assets/downloads/fishing/script.zip',downloadName:'Fishing.zip'},
-  hunting:{title:'Hunting Zone',category:'FREE SCRIPT',description:'A lightweight hunting zone system for your FiveM server, designed to be simple, clean and easy to configure.',logo:'assets/Hunting Zone-logo.png',photo:'assets/design-reference 4.png',tags:['QBCore','Free','Hunting','Zone'],video:SCRIPT_VIDEOS.hunting,download:'assets/downloads/hunting/script.zip',downloadName:'Hunting-Zone.zip'},
-  wayscoot:{title:'WayScoot',category:'PAID SCRIPT',description:'Modern scooter rental system with multiple stations, rental timer, payment flow, polished NUI and FiveM integration.',logo:'assets/wayscoot-logo.png',photo:'assets/design-reference.png',tags:['QBCore','Target','NUI','Rental'],price:'$5',buyKey:'wayscoot',video:SCRIPT_VIDEOS.wayscoot},
-  burgershot:{title:'Burger Shot',category:'PAID SCRIPT',description:'Complete Burger Shot restaurant job with food props, animations, cooking flow, deliveries and modern NUI.',logo:'assets/burgershot-logo.png',photo:'assets/design-reference 3.png',tags:['QBCore','Job','NUI','Delivery'],price:'$5',buyKey:'burgershot',video:SCRIPT_VIDEOS.burgershot},
-  pets:{title:'WayPets',category:'PAID SCRIPT',description:'A complete pets system with adoption, training, care and animal features built for a modern FiveM server.',logo:'assets/waypets-logo.png',photo:'assets/design-reference 1.png',tags:['QBCore','NUI','Animals','System'],price:'$10',buyKey:'pets',video:SCRIPT_VIDEOS.pets},
-  catcoffee:{title:'Cat Coffee',category:'PAID SCRIPT',description:'Run your own cat coffee shop with orders, crafting, cat interactions and a polished QBCore job system.',logo:'assets/CATCOFFE - LOGO.png',photo:'assets/design-reference 5.png',tags:['QBCore','Job','NUI','Cafe'],price:'$5',buyKey:'catcoffee',video:SCRIPT_VIDEOS.catcoffee}
+  fishing:{title:'Fishing',category:'FREE SCRIPT',description:'Fish in any weather with a clean QBCore fishing system featuring catches, rewards and simple setup.',logo:'assets/fishing-logo.png',photo:'assets/design-reference 2.png',tags:['QBCore','Fishing','Any Weather','Rewards','Free'],video:SCRIPT_VIDEOS.fishing,download:'assets/downloads/fishing/script.zip',downloadName:'Fishing.zip',features:['Fishing in any weather','Catches & rewards','QBCore ready','Easy configuration']},
+  hunting:{title:'Hunting Zone',category:'FREE SCRIPT',description:'A complete hunting loop with weapon purchase, animal selling and off-road vehicle rental inside the hunting zone.',logo:'assets/Hunting Zone-logo.png',photo:'assets/design-reference 4.png',tags:['QBCore','Free','Hunting','Weapons','Animal Sales','Offroad'],video:SCRIPT_VIDEOS.hunting,download:'assets/downloads/hunting/script.zip',downloadName:'Hunting-Zone.zip',features:['Buy the weapon','Hunt and sell animals','Rent the off-road','Dedicated hunting zone']},
+  wayscoot:{title:'WayScoot',category:'PAID SCRIPT',description:'Modern scooter rental with a polished NUI, payment flow and flexible rental durations: 15 minutes or 1 hour 30 minutes.',logo:'assets/wayscoot-logo.png',photo:'assets/design-reference.png',tags:['QBCore','Target','NUI','Rental','15 Min','1H 30 Min'],video:SCRIPT_VIDEOS.wayscoot,features:['15 minute rental','1 hour 30 minute rental','Payment system','Multiple stations','Return system']},
+  burgershot:{title:'Burger Shot',category:'PAID SCRIPT',description:'A full Burger Shot system with ingredient deliveries in boxes, custom boxes, duty management, a custom NUI and an advanced order system.',logo:'assets/burgershot-logo.png',photo:'assets/design-reference 3.png',tags:['QBCore','Job','NUI','Delivery','Boxes','Duty','Orders'],video:SCRIPT_VIDEOS.burgershot,features:['Ingredient delivery with boxes','Custom box system','Duty system','New custom NUI','Advanced order system','More restaurant features']},
+  pets:{title:'Carlodz Pets',category:'PAID SCRIPT',description:'Customize your pet with a dedicated NUI, veterinary system, interactive play and a complete pet experience.',logo:'assets/waypets-logo.png',photo:'assets/design-reference 1.png',tags:['QBCore','NUI','Pets','Veterinary','Customization','Play'],video:SCRIPT_VIDEOS.pets,features:['Customize your pet','Custom NUI system','Veterinary system','Play with your pet','Pet care & interactions']},
+  catcoffee:{title:'Cat Coffee',category:'PAID SCRIPT',description:'A premium Cat Coffee job with custom NUI, advanced order menus, cat interactions and an immersive café workflow.',logo:'assets/CATCOFFE - LOGO.png',photo:'assets/design-reference 5.png',tags:['QBCore','Job','NUI','Cafe','Orders','Cats'],video:SCRIPT_VIDEOS.catcoffee,features:['Custom NUI','Advanced order menu','Play with cats','Cat Coffee job system','More café features']},
+  carlodzclothing:{title:'Carlodz Clothing',category:'PAID SCRIPT',description:'Premium QBCore clothing and character ecosystem designed to work with Carlodz Character. Includes clothing shops, tattoo shops, female-only beauty surgery, advanced character creator and creator tools.',logo:'assets/carlodz-clothing-logo.png',photo:'assets/design-reference 6.png',tags:['QBCore','Carlodz Character','Creator','Clothing','Tattoos','Beauty'],video:SCRIPT_VIDEOS.carlodzclothing,features:['Clothing system','Character creator','Tattoos','Beauty & surgery','QBCore integration']},
+  carlodz_character:{title:'Carlodz Character',category:'PAID SCRIPT',description:'A complete QBCore character creator system designed for modern FiveM servers, built to work with Carlodz Clothing for character creation and customization.',logo:'assets/carlodz_character-LOGO.png',photo:'assets/design-reference 7.png',tags:['QBCore','Character Creator','Customization','Carlodz Clothing','NUI'],video:SCRIPT_VIDEOS.carlodz_character,features:['Character creation','Character customization','Carlodz Clothing sync','Modern creator NUI','QBCore integration']}
 };
 const detailsModal=document.getElementById('detailsModal');
 const detailsVideo=document.getElementById('detailsVideo');
@@ -485,9 +433,8 @@ const detailsTags=document.getElementById('detailsTags');
 const detailsLogo=document.getElementById('detailsLogo');
 const detailsPlay=document.getElementById('detailsPlay');
 const detailsDownload=document.getElementById('detailsDownload');
-const detailsBuy=document.getElementById('detailsBuy');
-const detailsPrice=document.getElementById('detailsPrice');
 const detailsBg=document.getElementById('detailsBg');
+const detailsPurchase=document.getElementById('detailsPurchase');
 let currentDetail=null;
 
 function stopDetailsMedia(){
@@ -509,22 +456,10 @@ function showDetails(key){
   detailsDescription.textContent=d.description;
   detailsLogo.src=d.photo||d.logo;
   detailsTags.innerHTML=d.tags.map(t=>`<span>${t}</span>`).join('');
-  // Paid purchase button
-  if(detailsBuy){
-    if(d.buyKey){
-      detailsBuy.href='#';
-      detailsBuy.style.display='';
-      if(detailsPrice) detailsPrice.textContent=d.price||'';
-      detailsBuy.onclick=async (e)=>{
-        e.preventDefault();
-        try{ await startRedotPayCheckout(d.buyKey); }
-        catch(err){ alert(err.message || 'Payment could not be started.'); }
-      };
-    }else{
-      detailsBuy.removeAttribute('href');
-      detailsBuy.style.display='none';
-      detailsBuy.onclick=null;
-    }
+  // Paid scripts show Contact / Purchase; free scripts show Download.
+  if(detailsPurchase){
+    const paid=d.category==='PAID SCRIPT';
+    detailsPurchase.style.display=paid?'inline-flex':'none';
   }
   // Free script download button
   if(detailsDownload){
@@ -625,25 +560,47 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
 
 /* Discord server live information */
 (async function loadDiscordServer(){
-  const inviteCode='E4fXxY7pkg';
+  const inviteCode='Q4Z2M2veAD';
+  const fallbackName='CARLODZ COMMUNITY';
+  const fallbackIcon='assets/carlodz-clothing-logo.png';
+
   const nameEl=document.getElementById('discordServerName');
   const membersEl=document.getElementById('discordMembers');
   const onlineEl=document.getElementById('discordOnline');
   const iconEl=document.getElementById('discordServerIcon');
+  const joinEl=document.getElementById('discordJoin');
+
   if(!nameEl) return;
+
+  // Never leave the UI in a loading state.
+  nameEl.textContent=fallbackName;
+  if(iconEl) iconEl.src=fallbackIcon;
+  if(onlineEl) onlineEl.textContent='LIVE';
+  if(membersEl) membersEl.textContent='COMMUNITY';
+  if(joinEl) joinEl.href='https://discord.gg/Q4Z2M2veAD';
+
   try{
-    const r=await fetch(`https://discord.com/api/v10/invites/${inviteCode}?with_counts=true`,{cache:'no-store'});
-    if(!r.ok) throw new Error('Discord invite unavailable');
-    const d=await r.json();
-    const g=d.guild||{};
-    nameEl.textContent=g.name||'CARLODZ Community';
-    if(Number.isFinite(Number(d.approximate_member_count))) membersEl.textContent=Number(d.approximate_member_count).toLocaleString();
-    if(Number.isFinite(Number(d.approximate_presence_count))) onlineEl.textContent=Number(d.approximate_presence_count).toLocaleString();
-    if(g.id && g.icon) iconEl.src=`https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128`;
-  }catch(e){
-    nameEl.textContent='CARLODZ Community';
-    membersEl.textContent='—';
-    onlineEl.textContent='—';
+    const response=await fetch(
+      `https://discord.com/api/v10/invites/${inviteCode}?with_counts=true`,
+      {cache:'no-store'}
+    );
+    if(!response.ok) throw new Error('Discord invite unavailable');
+
+    const data=await response.json();
+    const guild=data.guild || {};
+
+    if(guild.name) nameEl.textContent=guild.name;
+
+    if(Number.isFinite(Number(data.approximate_presence_count)))
+      onlineEl.textContent=Number(data.approximate_presence_count).toLocaleString();
+
+    if(Number.isFinite(Number(data.approximate_member_count)))
+      membersEl.textContent=Number(data.approximate_member_count).toLocaleString();
+
+    if(guild.id && guild.icon && iconEl)
+      iconEl.src=`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`;
+  }catch(error){
+    // Keep the polished fallback card visible.
   }
 })();
 
@@ -651,7 +608,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
    Each visitor can rate each script once on this browser. Shared totals use CounterAPI when available. */
 (() => {
   const RATING_NS = 'carlodz-script-ratings-v1';
-  const scripts = ['hunting','wayscoot','burgershot','fishing','pets','catcoffee'];
+  const scripts = ['carlodz_character','carlodzclothing','hunting','wayscoot','burgershot','fishing','pets','catcoffee'];
   const votedKey = key => `carlodz-rated-${key}`;
 
   function setVisual(root, value){
@@ -717,25 +674,4 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
       });
     });
   });
-})();
-
-/* RedotPay return/status screen */
-(async function paymentReturnStatus(){
-  const params=new URLSearchParams(location.search);
-  if(params.get('payment')!=='return') return;
-  const order=params.get('order'); const panel=document.getElementById('paymentReturn');
-  const title=document.getElementById('paymentReturnTitle'); const textEl=document.getElementById('paymentReturnText');
-  const download=document.getElementById('paymentDownload'); const close=document.getElementById('paymentReturnClose');
-  if(!panel||!order) return;
-  panel.hidden=false;
-  close?.addEventListener('click',()=>{ panel.hidden=true; history.replaceState({},'',location.pathname); });
-  try{
-    const r=await fetch('/api/payment-status?order='+encodeURIComponent(order),{cache:'no-store'}); const d=await r.json();
-    if(d.status==='PAID'){
-      title.textContent='Payment successful'; textEl.textContent='Your payment has been confirmed.';
-      if(d.download){ download.href=d.download; download.hidden=false; }
-    }else if(d.status==='PENDING'){
-      title.textContent='Payment pending'; textEl.textContent='Payment was not confirmed yet. Please wait a moment and refresh this page.';
-    }else{ title.textContent='Payment not completed'; textEl.textContent='The order is not confirmed as paid.'; }
-  }catch(e){ title.textContent='Payment status'; textEl.textContent='Unable to check the order right now.'; }
 })();
