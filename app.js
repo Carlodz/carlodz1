@@ -383,34 +383,32 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 (async function visitorCounter(){
   const el=document.getElementById('visitorCount');
   if(!el) return;
-  const sessionKey='carlodz-visited-session';
-  const already=sessionStorage.getItem(sessionKey);
-  // Show last known count immediately
-  const last=localStorage.getItem('carlodz-last-visits');
+  // Abacus counting API (free, no signup). CounterAPI v1 was shut down on 7 Aug 2026.
+  const BASE='https://abacus.jasoncameron.dev';
+  const NS='carlodz-gthyrtj-site', KEY='visits';
+  const sessionKey='carlodz-visited-session-v2';
+  let already=false, last=null;
+  try{ already=!!sessionStorage.getItem(sessionKey); }catch(e){}
+  try{ last=localStorage.getItem('carlodz-last-visits'); }catch(e){}
   if(last) el.textContent=Number(last).toLocaleString();
+  // mark the session BEFORE the request so reloads / parallel loads never count twice
+  if(!already){ try{ sessionStorage.setItem(sessionKey,'1'); }catch(e){} }
   try{
-    // Only increment once per browser session
-    const url=already
-      ? 'https://api.counterapi.dev/v1/carlodz-site/visits'
-      : 'https://api.counterapi.dev/v1/carlodz-site/visits/up';
-    const r=await fetch(url,{cache:'no-store'});
+    const r=await fetch(`${BASE}/${already?'get':'hit'}/${NS}/${KEY}`,{cache:'no-store'});
     if(r.ok){
       const data=await r.json();
-      const n=Number(data?.count ?? data?.value);
+      const n=Number(data?.value ?? data?.count);
       if(Number.isFinite(n)){
         el.textContent=n.toLocaleString();
-        localStorage.setItem('carlodz-last-visits',String(n));
-        if(!already) sessionStorage.setItem(sessionKey,'1');
+        try{ localStorage.setItem('carlodz-last-visits',String(n)); }catch(e){}
       }
+    } else if(r.status===404 && already){
+      // counter does not exist yet: create it with this visit
+      const r2=await fetch(`${BASE}/hit/${NS}/${KEY}`,{cache:'no-store'});
+      if(r2.ok){ const d=await r2.json(); const n=Number(d?.value); if(Number.isFinite(n)) el.textContent=n.toLocaleString(); }
     }
   }catch(e){
-    // offline fallback
-    if(!last){
-      const local=Number(localStorage.getItem('carlodz-local-visits')||0)+(already?0:1);
-      localStorage.setItem('carlodz-local-visits',String(local));
-      el.textContent=local.toLocaleString();
-      if(!already) sessionStorage.setItem(sessionKey,'1');
-    }
+    // offline / blocked: keep showing the last known number
   }
 })();
 
@@ -609,9 +607,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
 })();
 
 /* 4-heart visitor rating system
-   Each visitor can rate each script once on this browser. Shared totals use CounterAPI when available. */
+   Each visitor can rate each script once on this browser. Shared totals use the Abacus counting API when available. */
 (() => {
-  const RATING_NS = 'carlodz-script-ratings-v1';
+  const RATING_NS = 'carlodz-gthyrtj-ratings';
+  const ABACUS='https://abacus.jasoncameron.dev';
   const scripts = ['carlodz_character','carlodzclothing','hunting','wayscoot','burgershot','fishing','pets','catcoffee'];
   const votedKey = key => `carlodz-rated-${key}`;
 
@@ -625,10 +624,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
     const counts = [0,0,0,0];
     await Promise.all(counts.map(async (_, i) => {
       try{
-        const r = await fetch(`https://api.counterapi.dev/v1/${RATING_NS}/${key}-heart-${i+1}`, {cache:'no-store'});
+        const r = await fetch(`${ABACUS}/get/${RATING_NS}/${key}-heart-${i+1}`, {cache:'no-store'});
         if(r.ok){
           const d = await r.json();
-          counts[i] = Number(d?.count ?? d?.value ?? 0) || 0;
+          counts[i] = Number(d?.value ?? d?.count ?? 0) || 0;
         }
       }catch(e){}
     }));
@@ -673,7 +672,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
         saveLocal(key, counts);
         render(root, counts);
         try{
-          await fetch(`https://api.counterapi.dev/v1/${RATING_NS}/${key}-heart-${rating}/up`, {cache:'no-store'});
+          await fetch(`${ABACUS}/hit/${RATING_NS}/${key}-heart-${rating}`, {cache:'no-store'});
         }catch(e){}
       });
     });
