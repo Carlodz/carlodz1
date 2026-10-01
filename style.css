@@ -529,3 +529,17 @@ html[dir="rtl"] .contact-icons{
 .payment-return-card{width:min(480px,100%);padding:34px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:rgba(18,20,28,.96);text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .payment-return-icon{width:62px;height:62px;margin:0 auto 16px;display:grid;place-items:center;border-radius:50%;background:rgba(44,210,125,.14);color:#38dc88;font-size:30px;font-weight:900}
 .payment-return-card h2{margin:0 0 10px}.payment-return-card p{color:rgba(255,255,255,.7);margin:0 0 22px}.payment-return-card .btn-primary{display:inline-flex;margin-bottom:12px}
+/* ===== Improved Cards & Filters ===== */
+.filter-bar{display:flex;gap:8px;background:#111115;padding:5px;border-radius:14px;border:1px solid var(--line)}
+.filter-btn{border:0;background:transparent;color:#888;padding:10px 18px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;transition:.2s;letter-spacing:.5px}
+.filter-btn:hover{color:#fff;background:rgba(255,255,255,.06)}
+.filter-btn.active{background:var(--red);color:#fff;box-shadow:0 6px 18px rgba(255,49,88,.3)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.script-card{background:linear-gradient(160deg,#14141a 0%,#0c0c10 100%);border:1px solid rgba(255,255,255,.08);border-radius:22px;overflow:hidden;transition:transform .28s ease,border-color .28s,box-shadow .28s;display:flex;flex-direction:column}
+.script-card:hover{transform:translateY(-8px);border-color:rgba(255,49,88,.45);box-shadow:0 28px 60px rgba(0,0,0,.45),0 0 0 1px rgba(255,49,88,.15)}
+.card-body{padding:20px;display:flex;flex-direction:column;flex:1}
+.card-meta h3{font-size:19px;font-weight:800;letter-spacing:-.3px}
+.desc{font-size:12px;line-height:1.7;color:#8e8e99;margin:14px 0;flex:1}
+.tags span{font-size:9px;padding:5px 9px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:#a0a0ab}
+.card-actions{margin-top:auto;padding-top:12px}
+@media(max-width:700px){.cards{grid-template-columns:1fr;gap:16px}.filter-bar{width:100%;justify-content:center}}
