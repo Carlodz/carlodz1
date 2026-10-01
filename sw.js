@@ -1,4 +1,4 @@
-const CACHE='carlodz-v3';
+const CACHE='carlodz-v4';
 
 self.addEventListener('install', event => {
   event.waitUntil(self.skipWaiting());
