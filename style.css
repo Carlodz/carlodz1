@@ -243,6 +243,16 @@ html[dir="rtl"] .character-label{
   transition:.2s;
   font-family:Inter,system-ui,sans-serif;
 }
+.lang-flag{
+  width:18px;
+  height:12px;
+  object-fit:cover;
+  border-radius:2px;
+  vertical-align:middle;
+  margin-right:5px;
+  display:inline-block;
+}
+html[dir="rtl"] .lang-flag{margin-right:0;margin-left:5px;}
 .lang-btn.active{
   background:var(--red);
   color:#fff;
