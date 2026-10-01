@@ -225,6 +225,16 @@ function setLanguage(lang) {
     el.textContent = t.rate_this;
   });
 
+  // Update language flags and active state
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    const flag = btn.querySelector('.lang-flag');
+    if (flag) {
+      const isArabic = btn.dataset.lang === 'ar';
+      flag.src = isArabic ? 'assets/flags/dz.svg' : 'assets/flags/gb.svg';
+      flag.alt = isArabic ? 'العربية' : 'English';
+    }
+  });
+
   // Lang buttons state
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
