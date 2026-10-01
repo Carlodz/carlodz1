@@ -225,17 +225,17 @@ function setLanguage(lang) {
     el.textContent = t.rate_this;
   });
 
-  // Update language flags and active state
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    const flag = btn.querySelector('.lang-flag');
-    if (flag) {
-      const isArabic = btn.dataset.lang === 'ar';
-      flag.src = isArabic ? 'assets/flags/dz.svg' : 'assets/flags/gb.svg';
-      flag.alt = isArabic ? 'العربية' : 'English';
-    }
-  });
+  // Show the flag + label of the currently selected language
+  const currentFlag = document.getElementById('currentLangFlag');
+  const currentLabel = document.getElementById('currentLangLabel');
+  const isArabic = lang === 'ar';
+  if (currentFlag) {
+    currentFlag.src = isArabic ? 'assets/flags/dz.svg' : 'assets/flags/gb.svg';
+    currentFlag.alt = isArabic ? 'العربية' : 'English';
+  }
+  if (currentLabel) currentLabel.textContent = isArabic ? 'عربي' : 'EN';
 
-  // Lang buttons state
+  // Mark the selected language in the menu
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
@@ -247,10 +247,24 @@ function setLanguage(lang) {
 (function initLang() {
   const saved = localStorage.getItem('carlodz-lang') || 'en';
   setLanguage(saved);
-  document.getElementById('langSwitch')?.addEventListener('click', e => {
-    const btn = e.target.closest('.lang-btn');
-    if (!btn) return;
-    setLanguage(btn.dataset.lang);
+  const langSwitch = document.getElementById('langSwitch');
+  const langCurrent = document.getElementById('langCurrent');
+  langCurrent?.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = langSwitch?.classList.toggle('open');
+    langCurrent.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  langSwitch?.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      setLanguage(btn.dataset.lang);
+      langSwitch.classList.remove('open');
+      langCurrent?.setAttribute('aria-expanded','false');
+    });
+  });
+  document.addEventListener('click', () => {
+    langSwitch?.classList.remove('open');
+    langCurrent?.setAttribute('aria-expanded','false');
   });
 })();
 
