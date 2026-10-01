@@ -1,6 +1,6 @@
 /* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
 const SCRIPT_VIDEOS = {
-  fishing: "https://www.youtube.com/watch?v=v_GOK6WL9kg",
+  fishing: "",
   wayscoot: "",
   burgershot: "",
   pets: "",
