@@ -44,8 +44,13 @@
       <input id="search" type="search" placeholder="Search scripts..." autocomplete="off" data-i18n-placeholder="search_placeholder">
     </div>
     <div class="lang-switch" id="langSwitch" aria-label="Language">
-      <button class="lang-btn active" data-lang="en" type="button"><img class="lang-flag" src="assets/flags/gb.svg" alt="English"><span>EN</span></button>
-      <button class="lang-btn" data-lang="ar" type="button"><img class="lang-flag" src="assets/flags/dz.svg" alt="العربية"><span>عربي</span></button>
+      <button class="lang-current" id="langCurrent" type="button" aria-haspopup="true" aria-expanded="false">
+        <img class="lang-flag" id="currentLangFlag" src="assets/flags/gb.svg" alt="English"><span id="currentLangLabel">EN</span>
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <button class="lang-btn" data-lang="en" type="button"><img class="lang-flag" src="assets/flags/gb.svg" alt="English"><span>EN</span></button>
+        <button class="lang-btn" data-lang="ar" type="button"><img class="lang-flag" src="assets/flags/dz.svg" alt="العربية"><span>عربي</span></button>
+      </div>
     </div>
     <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
       <img class="ui-icon" src="assets/icons/moon.svg" alt="">
@@ -432,7 +437,7 @@
   </div>
 </footer>
 
-<script src="app.js?v=20261001-02" defer></script>
+<script src="app.js?v=20261001-03" defer></script>
 
 
 <div class="details-modal" id="detailsModal" aria-hidden="true">
