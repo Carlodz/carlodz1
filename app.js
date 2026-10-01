@@ -6,7 +6,8 @@ const SCRIPT_VIDEOS = {
   pets: "",
   hunting: "",
   catcoffee: "",
-  carlodz_character: ""
+  carlodz_character: "",
+  carlodzclothing: ""
 };
 
 /* ========== i18n (EN / AR) — Cairo font for Arabic ========== */
