@@ -7,7 +7,8 @@ const SCRIPT_VIDEOS = {
   hunting: "",
   catcoffee: "",
   carlodz_character: "",
-  carlodzclothing: ""
+  carlodzclothing: "",
+  carlodzbanking: ""
 };
 
 /* ========== i18n (EN / AR) — Cairo font for Arabic ========== */
@@ -301,6 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const slides = [
     {key:'carlodzclothing', eyebrow:'PREMIUM • QBCORE • CARLODZ CHARACTER', subtitle:'THE COMPLETE CHARACTER STYLE SYSTEM', desc:'Premium QBCore clothing and character ecosystem with clothing shops, tattoo shops, female-only beauty surgery and a complete creator system.', label:'CARLODZ CLOTHING', meta:'CHARACTER • BEAUTY • STYLE'},
     {key:'carlodz_character', eyebrow:'PREMIUM • QBCORE • CHARACTER', subtitle:'THE COMPLETE CHARACTER CREATOR SYSTEM', desc:'A dedicated Carlodz Character creator for building and customizing your FiveM character, designed to work together with Carlodz Clothing and QBCore.', label:'CARLODZ CHARACTER', meta:'CREATOR • CUSTOMIZATION • QBCORE'},
+    {key:'carlodzbanking', eyebrow:'PREMIUM • QBCORE • BANKING', subtitle:'THE BEST BANKING SYSTEM FOR YOUR SERVER', desc:'A complete QBCore banking system with card and code, code sharing with friends and a loan system.', label:'CARLODZ BANKING', meta:'BANKING • CARDS • LOANS'},
     {key:'wayscoot', eyebrow:'PREMIUM • QBCORE • RENTAL', subtitle:'MODERN SCOOTER RENTAL SYSTEM', desc:'A polished scooter rental experience with stations, payment flow, rental timer, vehicle keys and modern NUI.', label:'WAY SCOOT', meta:'RENTAL • NUI • CITY MOBILITY'},
     {key:'burgershot', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'COMPLETE BURGER SHOT EXPERIENCE', desc:'A complete restaurant job with cooking, food props, animations, orders, deliveries and a polished gameplay flow.', label:'BURGER SHOT', meta:'JOB • COOKING • DELIVERY'},
     {key:'pets', eyebrow:'PREMIUM • QBCORE • PETS', subtitle:'YOUR PETS. YOUR CITY. YOUR STORY.', desc:'A modern pets system with adoption, care, interaction and animal features designed for immersive FiveM servers.', label:'CARLODZ PETS', meta:'PETS • NUI • IMMERSION'},
@@ -421,7 +423,8 @@ const SCRIPT_DETAILS={
   pets:{title:'Carlodz Pets',category:'PAID SCRIPT',description:'Customize your pet with a dedicated NUI, veterinary system, interactive play and a complete pet experience.',logo:'assets/waypets-logo.png',photo:'assets/design-reference 1.png',tags:['QBCore','NUI','Pets','Veterinary','Customization','Play'],video:SCRIPT_VIDEOS.pets,features:['Customize your pet','Custom NUI system','Veterinary system','Play with your pet','Pet care & interactions']},
   catcoffee:{title:'Cat Coffee',category:'PAID SCRIPT',description:'A premium Cat Coffee job with custom NUI, advanced order menus, cat interactions and an immersive café workflow.',logo:'assets/CATCOFFE - LOGO.png',photo:'assets/design-reference 5.png',tags:['QBCore','Job','NUI','Cafe','Orders','Cats'],video:SCRIPT_VIDEOS.catcoffee,features:['Custom NUI','Advanced order menu','Play with cats','Cat Coffee job system','More café features']},
   carlodzclothing:{title:'Carlodz Clothing',category:'PAID SCRIPT',description:'Premium QBCore clothing and character ecosystem designed to work with Carlodz Character. Includes clothing shops, tattoo shops, female-only beauty surgery, advanced character creator and creator tools.',logo:'assets/carlodz-clothing-logo.png',photo:'assets/design-reference 6.png',tags:['QBCore','Carlodz Character','Creator','Clothing','Tattoos','Beauty'],video:SCRIPT_VIDEOS.carlodzclothing,features:['Clothing system','Character creator','Tattoos','Beauty & surgery','QBCore integration']},
-  carlodz_character:{title:'Carlodz Character',category:'PAID SCRIPT',description:'A complete QBCore character creator system designed for modern FiveM servers, built to work with Carlodz Clothing for character creation and customization.',logo:'assets/carlodz_character-LOGO.png',photo:'assets/design-reference 7.png',tags:['QBCore','Character Creator','Customization','Carlodz Clothing','NUI'],video:SCRIPT_VIDEOS.carlodz_character,features:['Character creation','Character customization','Carlodz Clothing sync','Modern creator NUI','QBCore integration']}
+  carlodz_character:{title:'Carlodz Character',category:'PAID SCRIPT',description:'A complete QBCore character creator system designed for modern FiveM servers, built to work with Carlodz Clothing for character creation and customization.',logo:'assets/carlodz_character-LOGO.png',photo:'assets/design-reference 7.png',tags:['QBCore','Character Creator','Customization','Carlodz Clothing','NUI'],video:SCRIPT_VIDEOS.carlodz_character,features:['Character creation','Character customization','Carlodz Clothing sync','Modern creator NUI','QBCore integration']},
+  carlodzbanking:{title:'Carlodz Banking',category:'PAID SCRIPT',description:'The best banking system for QBCore servers: card and code, share your code with friends, and a loan system.',logo:'assets/carlodz_banking_logo.png',photo:'assets/design-reference 8.png',tags:['QBCore','Banking','Card & Code','Share Code','Loans'],video:SCRIPT_VIDEOS.carlodzbanking,features:['Best banking system','QBCore integration','Share code with friends','Card & code system','Loan system']}
 };
 const detailsModal=document.getElementById('detailsModal');
 const detailsVideo=document.getElementById('detailsVideo');
@@ -674,5 +677,61 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
         }catch(e){}
       });
     });
+  });
+})();
+
+
+/* Background music (YouTube IFrame API). Browsers block sound until the visitor interacts,
+   so it starts on the first click/tap/key press; the speaker button pauses/resumes it. */
+(() => {
+  const VIDEO_ID = 'xfdZW4NnQf0';
+  const btn = document.getElementById('musicBtn');
+  if (!btn) return;
+  let player = null, ready = false, playing = false, wantPlay = true;
+  try { wantPlay = localStorage.getItem('carlodz-music') !== 'off'; } catch (e) {}
+  const save = v => { try { localStorage.setItem('carlodz-music', v ? 'on' : 'off'); } catch (e) {} };
+  const setUI = on => {
+    btn.classList.toggle('on', on);
+    btn.classList.toggle('off', !on);
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.title = on ? 'Mute music' : 'Play music';
+  };
+  setUI(false);
+
+  window.onYouTubeIframeAPIReady = () => {
+    const vars = { autoplay: 1, controls: 0, disablekb: 1, loop: 1, playlist: VIDEO_ID, playsinline: 1, rel: 0 };
+    if (/^https?:$/.test(location.protocol)) vars.origin = location.origin;
+    player = new YT.Player('ytMusic', {
+      videoId: VIDEO_ID, width: '200', height: '200', playerVars: vars,
+      events: {
+        onReady: () => { ready = true; try { player.setVolume(40); if (wantPlay) player.playVideo(); } catch (e) {} },
+        onStateChange: ev => {
+          const S = YT.PlayerState;
+          if (ev.data === S.PLAYING) { playing = true; setUI(true); }
+          else if (ev.data === S.PAUSED) { playing = false; setUI(false); }
+          else if (ev.data === S.ENDED) { try { player.playVideo(); } catch (e) {} }
+        }
+      }
+    });
+  };
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  tag.async = true;
+  tag.onerror = () => {};
+  document.head.appendChild(tag);
+
+  // first interaction anywhere starts the music (autoplay with sound is blocked before that)
+  const kick = e => {
+    if (e.target && e.target.closest && e.target.closest('#musicBtn')) return;
+    if (ready && wantPlay && !playing) { try { player.playVideo(); } catch (err) {} }
+  };
+  ['pointerdown', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, kick, { passive: true }));
+
+  btn.addEventListener('click', () => {
+    if (!ready) { wantPlay = !wantPlay; save(wantPlay); setUI(wantPlay); return; }
+    try {
+      if (playing) { wantPlay = false; save(false); player.pauseVideo(); }
+      else { wantPlay = true; save(true); player.playVideo(); }
+    } catch (e) {}
   });
 })();
