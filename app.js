@@ -398,10 +398,18 @@ themeBtn?.addEventListener('click', () => {
   applyTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
 });
 
-/* Service worker */
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+/* Service worker cleanup — prevents old GitHub Pages cache from serving stale files */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map(reg => reg.unregister()));
+      if (window.caches) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(key => caches.delete(key)));
+      }
+      if (navigator.serviceWorker.controller) window.location.reload();
+    } catch (_) {}
   });
 }
 
