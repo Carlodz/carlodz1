@@ -1,7 +1,3 @@
-
-
-
- 
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,7 +14,7 @@
 <meta property="og:type" content="website">
 <link rel="manifest" href="manifest.json">
 <title>CARLODZ Clothing — Premium QBCore Character System</title>
-<link rel="stylesheet" href="style.css?v=20261001-paid-v6">
+<link rel="stylesheet" href="style.css?v=20261001-paid-v8">
 <link rel="icon" type="image/svg+xml" href="assets/carlodz.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +26,8 @@
     <div class="loader-bar"><span></span></div>
   </div>
 </div>
- 
+
+<div id="ytMusicWrap" aria-hidden="true"><div id="ytMusic"></div></div>
 <header class="topbar" id="topbar">
   <a class="brand" href="#home">
     <img src="assets/carlodz-logo.png" alt="CARLODZ">
@@ -48,9 +45,16 @@
       <input id="search" type="search" placeholder="Search scripts..." autocomplete="off" data-i18n-placeholder="search_placeholder">
     </div>
     <div class="lang-switch" id="langSwitch">
-      <button class="lang-btn active" data-lang="en" type="button">EN</button>
-      <button class="lang-btn" data-lang="ar" type="button">عربي</button>
+      <button class="lang-btn active" data-lang="en" type="button" aria-label="English" title="English"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><defs><clipPath id="flEn"><rect width="30" height="20" rx="2.5"/></clipPath></defs><g clip-path="url(#flEn)"><rect width="30" height="20" fill="#fff"/><rect x="12.5" width="5" height="20" fill="#cf142b"/><rect y="7.5" width="30" height="5" fill="#cf142b"/></g><rect x=".5" y=".5" width="29" height="19" rx="2.2" fill="none" stroke="rgba(128,128,128,.45)"/></svg><span>EN</span></button>
+      <button class="lang-btn" data-lang="ar" type="button" aria-label="العربية" title="العربية"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><defs><clipPath id="flDz"><rect width="30" height="20" rx="2.5"/></clipPath><mask id="flDzM"><rect width="30" height="20" fill="#fff"/><circle cx="16.6" cy="10" r="3.9" fill="#000"/></mask></defs><g clip-path="url(#flDz)"><rect width="15" height="20" fill="#006233"/><rect x="15" width="15" height="20" fill="#fff"/><circle cx="15.3" cy="10" r="5" fill="#d21034" mask="url(#flDzM)"/><polygon points="16.47,7.43 17.62,9.00 19.48,8.41 18.35,10.00 19.48,11.59 17.62,11.00 16.47,12.57 16.45,10.62 14.60,10.00 16.45,9.38" fill="#d21034"/></g><rect x=".5" y=".5" width="29" height="19" rx="2.2" fill="none" stroke="rgba(128,128,128,.45)"/></svg><span>عربي</span></button>
     </div>
+    <button class="music-btn off" id="musicBtn" type="button" aria-label="Toggle background music" aria-pressed="false" title="Play music">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>
+        <g class="mu-on"><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></g>
+        <g class="mu-off"><path d="m16 9 6 6"/><path d="m22 9-6 6"/></g>
+      </svg>
+    </button>
     <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
       <img class="ui-icon" src="assets/icons/moon.svg" alt="">
     </button>
@@ -62,7 +66,7 @@
     <img class="ui-icon" src="assets/icons/menu.svg" alt="">
   </button>
 </header>
- 
+
 <div class="visitor-strip" aria-label="Website statistics">
   <div class="visitor-item">
     <span class="visitor-dot"></span>
@@ -80,7 +84,7 @@
     <strong class="online-text" data-i18n="online">ONLINE</strong>
   </div>
 </div>
- 
+
 <main id="home">
   <section class="hero">
     <div class="hero-bg"></div>
@@ -98,7 +102,7 @@
         </button>
       </div>
       <div class="hero-script-strip" id="heroScriptStrip" aria-label="CARLODZ scripts"></div>
- 
+
       <div class="hero-stats">
         <div><strong>QB</strong><span>QBCore Ready</span></div>
         <div><strong>04</strong><span>Core Systems</span></div>
@@ -112,7 +116,7 @@
       <div class="character-label clothing-hero-label">CARLODZ CLOTHING<br><em>CHARACTER • BEAUTY • STYLE</em></div>
     </div>
   </section>
- 
+
   <!-- TOP FEATURES: 4 ONLY (Discord community is below) -->
   <section class="features">
     <div class="feature-item">
@@ -136,7 +140,7 @@
       <span data-i18n="feat4_desc">New features & fixes</span>
     </div>
   </section>
- 
+
   <section class="discord-section" id="discord">
     <div class="discord-card unified-discord" id="discordCard">
       <div class="discord-card-glow"></div>
@@ -169,7 +173,7 @@
       </div>
     </div>
   </section>
- 
+
   <section class="content" id="scripts">
     <div class="section-title">
       <div>
@@ -183,7 +187,7 @@
         <button class="filter-btn" data-filter="paid" data-i18n="filter_paid">Paid</button>
       </div>
     </div>
- 
+
     <div class="layout">
       <div class="cards" id="cards">
         <div class="clothing-feature-banner">
@@ -221,7 +225,7 @@
             </div>
           </div>
         </article>
- 
+
         <article class="script-card carlodz-character-card" data-name="carlodz character character creator customization qbcore clothing" data-category="paid">
           <div class="cover carlodz-character-cover">
             <img class="cover-logo carlodz-character-card-logo" src="assets/carlodz_character-LOGO.png" alt="Carlodz Character">
@@ -252,7 +256,38 @@
             </div>
           </div>
         </article>
- 
+
+        <article class="script-card carlodz-banking-card" data-name="carlodz banking bank loan card code share qbcore money" data-category="paid">
+          <div class="cover carlodz-banking-cover">
+            <img class="cover-logo carlodz-banking-card-logo" src="assets/carlodz_banking_logo.png" alt="Carlodz Banking">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Carlodz Banking</h3>
+              <p>Complete Banking System</p>
+            </div>
+            <div class="desc">The best banking system for your QBCore server: card and code, share your code with friends, and a loan system.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Banking</span><span>Card &amp; Code</span><span>Loans</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Best Banking System</span></div>
+              <div><b>02</b><span>QBCore Integration</span></div>
+              <div><b>03</b><span>Share Code With Friends</span></div>
+              <div><b>04</b><span>Card &amp; Code System</span></div>
+              <div><b>05</b><span>Loan System</span></div>
+              <div><b>06</b><span>Ready for FiveM</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="carlodzbanking">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+          </div>
+        </article>
+
         <article class="script-card" data-name="hunting zone hunting" data-category="free">
           <div class="cover hunting-cover">
             <img class="cover-logo" src="assets/Hunting Zone-logo.png" alt="Hunting Zone">
@@ -292,7 +327,7 @@
             </div>
           </div>
         </article>
- 
+
         <article class="script-card" data-name="wayscoot scooter rental" data-category="paid">
           <div class="cover wayscoot-cover">
             <img class="wayscoot-logo cover-logo" src="assets/wayscoot-logo.png" alt="WayScoot">
@@ -329,7 +364,7 @@
             </div>
           </div>
         </article>
- 
+
         <article class="script-card" data-name="burger shot restaurant job" data-category="paid">
           <div class="cover burger-cover">
             <img class="cover-logo" src="assets/burgershot-logo.png" alt="Burger Shot">
@@ -366,7 +401,7 @@
             </div>
           </div>
         </article>
- 
+
         <article class="script-card" data-name="fishing fishing script" data-category="free">
           <div class="cover fishing-cover">
             <img class="fishing-logo cover-logo" src="assets/fishing-logo.png" alt="Fishing Script">
@@ -404,7 +439,7 @@
             </div>
           </div>
         </article>
- 
+
         <article class="script-card" data-name="carlodz pets animal system" data-category="paid">
           <div class="cover pets-cover">
             <img class="pets-logo cover-logo" src="assets/waypets-logo.png" alt="WayPets">
@@ -441,7 +476,7 @@
             </div>
           </div>
         </article>
- 
+
         <article class="script-card" data-name="cat coffee catcoffee cafe job" data-category="paid">
           <div class="cover catcoffee-cover">
             <img class="cover-logo" src="assets/CATCOFFE - LOGO.png" alt="Cat Coffee">
@@ -478,10 +513,10 @@
           </div>
         </article>
       </div>
- 
+
     </div>
   </section>
- 
+
   <section class="about" id="about">
     <div class="about-inner">
       <div class="about-text">
@@ -511,7 +546,7 @@
       </div>
     </div>
   </section>
- 
+
   <section class="contact" id="contact">
     <div class="contact-inner">
       <small data-i18n="contact_small">NEED HELP?</small>
@@ -531,7 +566,7 @@
     </div>
   </section>
 </main>
- 
+
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
@@ -551,10 +586,10 @@
     <b data-i18n="footer_thanks">THANK YOU FOR YOUR SUPPORT!</b>
   </div>
 </footer>
- 
+
 <script src="app.js" defer></script>
- 
- 
+
+
 <div class="details-modal" id="detailsModal" aria-hidden="true">
   <div class="details-backdrop" data-close-details></div>
   <section class="details-panel" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
