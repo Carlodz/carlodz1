@@ -84,3 +84,5 @@ body.light-theme .script-card .cover{background:#f1f3f6}
 @keyframes musicPulse{50%{box-shadow:0 0 6px rgba(255,36,72,.1)}}
 body.light-theme .music-btn{background:#fff;color:#68707b}
 body.light-theme .music-btn.on{color:var(--red)}
+
+.cardealer-cover{background:radial-gradient(circle at 50% 30%,rgba(255,36,72,.16),transparent 50%),linear-gradient(145deg,#12141a,#090a0d)}
