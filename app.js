@@ -8,7 +8,8 @@ const SCRIPT_VIDEOS = {
   catcoffee: "",
   carlodz_character: "",
   carlodzclothing: "",
-  carlodzbanking: ""
+  carlodzbanking: "",
+  cardealer: ""
 };
 
 /* ========== i18n (EN / AR) — Cairo font for Arabic ========== */
@@ -303,6 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {key:'carlodzclothing', eyebrow:'PREMIUM • QBCORE • CARLODZ CHARACTER', subtitle:'THE COMPLETE CHARACTER STYLE SYSTEM', desc:'Premium QBCore clothing and character ecosystem with clothing shops, tattoo shops, female-only beauty surgery and a complete creator system.', label:'CARLODZ CLOTHING', meta:'CHARACTER • BEAUTY • STYLE'},
     {key:'carlodz_character', eyebrow:'PREMIUM • QBCORE • CHARACTER', subtitle:'THE COMPLETE CHARACTER CREATOR SYSTEM', desc:'A dedicated Carlodz Character creator for building and customizing your FiveM character, designed to work together with Carlodz Clothing and QBCore.', label:'CARLODZ CHARACTER', meta:'CREATOR • CUSTOMIZATION • QBCORE'},
     {key:'carlodzbanking', eyebrow:'PREMIUM • QBCORE • BANKING', subtitle:'THE BEST BANKING SYSTEM FOR YOUR SERVER', desc:'A complete QBCore banking system with card and code, code sharing with friends and a loan system.', label:'CARLODZ BANKING', meta:'BANKING • CARDS • LOANS'},
+    {key:'cardealer', eyebrow:'PREMIUM • QBCORE • CAR DEALER', subtitle:'THE COMPLETE CAR DEALERSHIP EXPERIENCE', desc:'A premium QBCore car dealer with a showroom, live vehicle preview, color selection and test drive.', label:'CARLODZ CAR DEALER', meta:'SHOWROOM • PREVIEW • TEST DRIVE'},
     {key:'wayscoot', eyebrow:'PREMIUM • QBCORE • RENTAL', subtitle:'MODERN SCOOTER RENTAL SYSTEM', desc:'A polished scooter rental experience with stations, payment flow, rental timer, vehicle keys and modern NUI.', label:'WAY SCOOT', meta:'RENTAL • NUI • CITY MOBILITY'},
     {key:'burgershot', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'COMPLETE BURGER SHOT EXPERIENCE', desc:'A complete restaurant job with cooking, food props, animations, orders, deliveries and a polished gameplay flow.', label:'BURGER SHOT', meta:'JOB • COOKING • DELIVERY'},
     {key:'pets', eyebrow:'PREMIUM • QBCORE • PETS', subtitle:'YOUR PETS. YOUR CITY. YOUR STORY.', desc:'A modern pets system with adoption, care, interaction and animal features designed for immersive FiveM servers.', label:'CARLODZ PETS', meta:'PETS • NUI • IMMERSION'},
@@ -422,6 +424,7 @@ const SCRIPT_DETAILS={
   catcoffee:{title:'Cat Coffee',category:'PAID SCRIPT',description:'A premium Cat Coffee job with custom NUI, advanced order menus, cat interactions and an immersive café workflow.',logo:'assets/CATCOFFE - LOGO.png',photo:'assets/design-reference 5.png',tags:['QBCore','Job','NUI','Cafe','Orders','Cats'],video:SCRIPT_VIDEOS.catcoffee,features:['Custom NUI','Advanced order menu','Play with cats','Cat Coffee job system','More café features']},
   carlodzclothing:{title:'Carlodz Clothing',category:'PAID SCRIPT',description:'Premium QBCore clothing and character ecosystem designed to work with Carlodz Character. Includes clothing shops, tattoo shops, female-only beauty surgery, advanced character creator and creator tools.',logo:'assets/carlodz-clothing-logo.png',photo:'assets/design-reference 6.png',tags:['QBCore','Carlodz Character','Creator','Clothing','Tattoos','Beauty'],video:SCRIPT_VIDEOS.carlodzclothing,features:['Clothing system','Character creator','Tattoos','Beauty & surgery','QBCore integration']},
   carlodz_character:{title:'Carlodz Character',category:'PAID SCRIPT',description:'A complete QBCore character creator system designed for modern FiveM servers, built to work with Carlodz Clothing for character creation and customization.',logo:'assets/carlodz_character-LOGO.png',photo:'assets/design-reference 7.png',tags:['QBCore','Character Creator','Customization','Carlodz Clothing','NUI'],video:SCRIPT_VIDEOS.carlodz_character,features:['Character creation','Character customization','Carlodz Clothing sync','Modern creator NUI','QBCore integration']},
+  cardealer:{title:'Carlodz Car Dealer',category:'PAID SCRIPT',description:'A premium QBCore car dealership: browse the showroom, preview each vehicle, choose your color and take a test drive before buying.',logo:'assets/carlodzcardiler-logo.png',photo:'assets/design-reference 9.png',tags:['QBCore','Car Dealer','Showroom','Preview','Colors','Test Drive'],video:SCRIPT_VIDEOS.cardealer,features:['Showroom','Vehicle preview','Choose your color','Test drive','QBCore integration']},
   carlodzbanking:{title:'Carlodz Banking',category:'PAID SCRIPT',description:'The best banking system for QBCore servers: card and code, share your code with friends, and a loan system.',logo:'assets/carlodz_banking_logo.png',photo:'assets/design-reference 8.png',tags:['QBCore','Banking','Card & Code','Share Code','Loans'],video:SCRIPT_VIDEOS.carlodzbanking,features:['Best banking system','QBCore integration','Share code with friends','Card & code system','Loan system']}
 };
 const detailsModal=document.getElementById('detailsModal');
@@ -611,7 +614,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
 (() => {
   const RATING_NS = 'carlodz-gthyrtj-ratings';
   const ABACUS='https://abacus.jasoncameron.dev';
-  const scripts = ['carlodz_character','carlodzclothing','hunting','wayscoot','burgershot','fishing','pets','catcoffee'];
+  const scripts = ['carlodz_character','carlodzclothing','cardealer','hunting','wayscoot','burgershot','fishing','pets','catcoffee'];
   const votedKey = key => `carlodz-rated-${key}`;
 
   function setVisual(root, value){
