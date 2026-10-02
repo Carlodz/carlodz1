@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root{
@@ -86,3 +87,5 @@ body.light-theme .music-btn{background:#fff;color:#68707b}
 body.light-theme .music-btn.on{color:var(--red)}
 
 .cardealer-cover{background:radial-gradient(circle at 50% 30%,rgba(255,36,72,.16),transparent 50%),linear-gradient(145deg,#12141a,#090a0d)}
+.carlodj-cover{background:radial-gradient(circle at 50% 25%,rgba(255,180,0,.18),transparent 55%),linear-gradient(145deg,#14121a,#0a090d);height:290px}
+.carlodj-card-logo{width:70%;max-height:110px}
