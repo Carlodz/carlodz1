@@ -1,4 +1,5 @@
-* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
+
+/* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
 const SCRIPT_VIDEOS = {
   fishing: "",
   wayscoot: "",
@@ -740,4 +741,3 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
     } catch (e) {}
   });
 })();
-
