@@ -1,4 +1,4 @@
-/* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
+* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
 const SCRIPT_VIDEOS = {
   fishing: "",
   wayscoot: "",
@@ -9,7 +9,8 @@ const SCRIPT_VIDEOS = {
   carlodz_character: "",
   carlodzclothing: "",
   carlodzbanking: "",
-  cardealer: ""
+  cardealer: "",
+  carlodj: ""
 };
 
 /* ========== i18n (EN / AR) — Cairo font for Arabic ========== */
@@ -310,7 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
     {key:'pets', eyebrow:'PREMIUM • QBCORE • PETS', subtitle:'YOUR PETS. YOUR CITY. YOUR STORY.', desc:'A modern pets system with adoption, care, interaction and animal features designed for immersive FiveM servers.', label:'CARLODZ PETS', meta:'PETS • NUI • IMMERSION'},
     {key:'fishing', eyebrow:'FREE • QBCORE • FISHING', subtitle:'FISH. CATCH. REWARD.', desc:'A clean fishing experience with fishing spots, catches, rewards and simple QBCore integration.', label:'FISHING', meta:'FREE • FISHING • REWARDS'},
     {key:'hunting', eyebrow:'FREE • QBCORE • HUNTING', subtitle:'ENTER THE HUNTING ZONE', desc:'A lightweight hunting zone system built for simple configuration, hunting gameplay and a clean server experience.', label:'HUNTING ZONE', meta:'FREE • HUNTING • ZONE'},
-    {key:'catcoffee', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'RUN YOUR OWN CAT COFFEE', desc:'A complete cat coffee job with orders, crafting, cat interactions and a polished QBCore workflow.', label:'CAT COFFEE', meta:'JOB • CAFE • CATS'}
+    {key:'catcoffee', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'RUN YOUR OWN CAT COFFEE', desc:'A complete cat coffee job with orders, crafting, cat interactions and a polished QBCore workflow.', label:'CAT COFFEE', meta:'JOB • CAFE • CATS'},
+    {key:'carlodj', eyebrow:'PREMIUM • QBCORE • CLUB & DJ', subtitle:'CUSTOMIZE YOUR CLUB WITH CARLODJ', desc:'Search YouTube, sample any track, play with DJ animations and control volume for every song. The ultimate nightclub experience for QBCore servers.', label:'CARLODJ', meta:'CLUB • DJ • MUSIC • YOUTUBE'}
   ];
   if(!photo || !logo) return;
   const heroStrip=document.getElementById('heroScriptStrip');
@@ -425,7 +427,8 @@ const SCRIPT_DETAILS={
   carlodzclothing:{title:'Carlodz Clothing',category:'PAID SCRIPT',description:'Premium QBCore clothing and character ecosystem designed to work with Carlodz Character. Includes clothing shops, tattoo shops, female-only beauty surgery, advanced character creator and creator tools.',logo:'assets/carlodz-clothing-logo.png',photo:'assets/design-reference 6.png',tags:['QBCore','Carlodz Character','Creator','Clothing','Tattoos','Beauty'],video:SCRIPT_VIDEOS.carlodzclothing,features:['Clothing system','Character creator','Tattoos','Beauty & surgery','QBCore integration']},
   carlodz_character:{title:'Carlodz Character',category:'PAID SCRIPT',description:'A complete QBCore character creator system designed for modern FiveM servers, built to work with Carlodz Clothing for character creation and customization.',logo:'assets/carlodz_character-LOGO.png',photo:'assets/design-reference 7.png',tags:['QBCore','Character Creator','Customization','Carlodz Clothing','NUI'],video:SCRIPT_VIDEOS.carlodz_character,features:['Character creation','Character customization','Carlodz Clothing sync','Modern creator NUI','QBCore integration']},
   cardealer:{title:'Carlodz Car Dealer',category:'PAID SCRIPT',description:'A premium QBCore car dealership: browse the showroom, preview each vehicle, choose your color and take a test drive before buying.',logo:'assets/carlodzcardiler-logo.png',photo:'assets/design-reference 9.png',tags:['QBCore','Car Dealer','Showroom','Preview','Colors','Test Drive'],video:SCRIPT_VIDEOS.cardealer,features:['Showroom','Vehicle preview','Choose your color','Test drive','QBCore integration']},
-  carlodzbanking:{title:'Carlodz Banking',category:'PAID SCRIPT',description:'The best banking system for QBCore servers: card and code, share your code with friends, and a loan system.',logo:'assets/carlodz_banking_logo.png',photo:'assets/design-reference 8.png',tags:['QBCore','Banking','Card & Code','Share Code','Loans'],video:SCRIPT_VIDEOS.carlodzbanking,features:['Best banking system','QBCore integration','Share code with friends','Card & code system','Loan system']}
+  carlodzbanking:{title:'Carlodz Banking',category:'PAID SCRIPT',description:'The best banking system for QBCore servers: card and code, share your code with friends, and a loan system.',logo:'assets/carlodz_banking_logo.png',photo:'assets/design-reference 8.png',tags:['QBCore','Banking','Card & Code','Share Code','Loans'],video:SCRIPT_VIDEOS.carlodzbanking,features:['Best banking system','QBCore integration','Share code with friends','Card & code system','Loan system']},
+  carlodj:{title:'CarloDJ',category:'PAID SCRIPT',description:'Premium QBCore club & DJ system: customize your club, search YouTube for any track, music sampler, live DJ animations and full volume control for every song. Turn any venue into a real nightclub experience.',logo:'assets/carlodj-logo.png',photo:'assets/design-reference 10.png',tags:['QBCore','Club','DJ','YouTube','Music Sampler','Animations','Volume'],video:SCRIPT_VIDEOS.carlodj,features:['Customize your club','YouTube music search','Music sampler','DJ animations','Volume control per song','QBCore integration']}
 };
 const detailsModal=document.getElementById('detailsModal');
 const detailsVideo=document.getElementById('detailsVideo');
@@ -614,7 +617,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
 (() => {
   const RATING_NS = 'carlodz-gthyrtj-ratings';
   const ABACUS='https://abacus.jasoncameron.dev';
-  const scripts = ['carlodz_character','carlodzclothing','cardealer','hunting','wayscoot','burgershot','fishing','pets','catcoffee'];
+  const scripts = ['carlodz_character','carlodzclothing','cardealer','hunting','wayscoot','burgershot','fishing','pets','catcoffee','carlodzbanking','carlodj'];
   const votedKey = key => `carlodz-rated-${key}`;
 
   function setVisual(root, value){
@@ -737,3 +740,4 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
     } catch (e) {}
   });
 })();
+
