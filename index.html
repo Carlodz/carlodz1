@@ -1,0 +1,768 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=yes">
+<meta name="theme-color" content="#07080c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Carlodz Clothing — Premium QBCore clothing, character creator, tattoos, beauty and customization system.">
+<meta name="keywords" content="FiveM, QBCore, CARLODZ Clothing, Character Creator, Clothing, Tattoos, Beauty, Shops, Creator System">
+<meta property="og:title" content="CARLODZ — FiveM Scripts & More">
+<meta property="og:description" content="Carlodz Clothing is a premium QBCore character system with clothing shops, tattoo shops, female-only beauty surgery and a complete creator system, built to work with Carlodz Character.">
+<meta property="og:type" content="website">
+<link rel="manifest" href="manifest.json">
+<title>CARLODZ Clothing — Premium QBCore Character System</title>
+<link rel="stylesheet" href="style.css?v=20261001-paid-v8">
+<link rel="icon" type="image/svg+xml" href="assets/carlodz.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <img src="assets/carlodz-logo.png" alt="CARLODZ">
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<div id="ytMusicWrap" aria-hidden="true"><div id="ytMusic"></div></div>
+<header class="topbar" id="topbar">
+  <a class="brand" href="#home">
+    <img src="assets/carlodz-logo.png" alt="CARLODZ">
+    <span><b>CARLODZ</b><small data-i18n="brand_tag">FIVEM SCRIPTS & MORE</small></span>
+  </a>
+  <nav id="nav">
+    <a class="active" href="#home" data-nav data-i18n="nav_home">Home</a>
+    <a href="#scripts" data-nav data-i18n="nav_scripts">Scripts</a>
+    <a href="#about" data-nav data-i18n="nav_about">About</a>
+    <a href="#contact" data-nav data-i18n="nav_contact">Contact</a>
+  </nav>
+  <div class="top-actions">
+    <div class="search">
+      <img class="ui-icon" src="assets/icons/search.svg" alt="">
+      <input id="search" type="search" placeholder="Search scripts..." autocomplete="off" data-i18n-placeholder="search_placeholder">
+    </div>
+    <div class="lang-switch" id="langSwitch">
+      <button class="lang-btn active" data-lang="en" type="button" aria-label="English" title="English"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><defs><clipPath id="flEn"><rect width="30" height="20" rx="2.5"/></clipPath></defs><g clip-path="url(#flEn)"><rect width="30" height="20" fill="#fff"/><rect x="12.5" width="5" height="20" fill="#cf142b"/><rect y="7.5" width="30" height="5" fill="#cf142b"/></g><rect x=".5" y=".5" width="29" height="19" rx="2.2" fill="none" stroke="rgba(128,128,128,.45)"/></svg><span>EN</span></button>
+      <button class="lang-btn" data-lang="ar" type="button" aria-label="العربية" title="العربية"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><defs><clipPath id="flDz"><rect width="30" height="20" rx="2.5"/></clipPath><mask id="flDzM"><rect width="30" height="20" fill="#fff"/><circle cx="16.6" cy="10" r="3.9" fill="#000"/></mask></defs><g clip-path="url(#flDz)"><rect width="15" height="20" fill="#006233"/><rect x="15" width="15" height="20" fill="#fff"/><circle cx="15.3" cy="10" r="5" fill="#d21034" mask="url(#flDzM)"/><polygon points="16.47,7.43 17.62,9.00 19.48,8.41 18.35,10.00 19.48,11.59 17.62,11.00 16.47,12.57 16.45,10.62 14.60,10.00 16.45,9.38" fill="#d21034"/></g><rect x=".5" y=".5" width="29" height="19" rx="2.2" fill="none" stroke="rgba(128,128,128,.45)"/></svg><span>عربي</span></button>
+    </div>
+    <button class="music-btn off" id="musicBtn" type="button" aria-label="Toggle background music" aria-pressed="false" title="Play music">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>
+        <g class="mu-on"><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></g>
+        <g class="mu-off"><path d="m16 9 6 6"/><path d="m22 9-6 6"/></g>
+      </svg>
+    </button>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+      <img class="ui-icon" src="assets/icons/moon.svg" alt="">
+    </button>
+    <a class="discord-top" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">
+      <img class="mini-icon" src="assets/icons/discord.svg" alt=""> <span data-i18n="discord">Discord</span>
+    </a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <img class="ui-icon" src="assets/icons/menu.svg" alt="">
+  </button>
+</header>
+
+<div class="visitor-strip" aria-label="Website statistics">
+  <div class="visitor-item">
+    <span class="visitor-dot"></span>
+    <span class="visitor-label" data-i18n="live_visitors">LIVE VISITORS</span>
+    <strong id="visitorCount">0</strong>
+  </div>
+  <div class="visitor-divider"></div>
+  <div class="visitor-item">
+    <span class="visitor-label">CARLODZ</span>
+    <span class="visitor-sub" data-i18n="brand_tag">FIVEM SCRIPTS & MORE</span>
+  </div>
+  <div class="visitor-divider"></div>
+  <div class="visitor-item">
+    <span class="visitor-label" data-i18n="status">STATUS</span>
+    <strong class="online-text" data-i18n="online">ONLINE</strong>
+  </div>
+</div>
+
+<main id="home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-copy">
+      <div class="eyebrow" id="heroEyebrow">PREMIUM • QBCORE • CARLODZ CHARACTER</div>
+      <img class="hero-brand-logo" id="heroBrandLogo" src="assets/carlodz-clothing-logo.png" alt="Carlodz Clothing">
+      <h2 id="heroSubtitle">THE COMPLETE CHARACTER STYLE SYSTEM</h2>
+      <p id="heroDescription">Upgrade your FiveM server with a premium clothing and character experience: clothing shops, tattoo shops, female-only beauty & plastic surgery, and a powerful character creator — fully designed to work with Carlodz Character.</p>
+      <div class="hero-buttons">
+        <a class="btn-primary" href="#scripts"><span>Discover The System</span> <span>→</span></a>
+        <button class="btn-ghost" id="trailerBtn">
+          <i><img src="assets/icons/play.svg" alt=""></i>
+          <span>See Features</span>
+        </button>
+      </div>
+      <div class="hero-script-strip" id="heroScriptStrip" aria-label="CARLODZ scripts"></div>
+
+      <div class="hero-stats">
+        <div><strong>QB</strong><span>QBCore Ready</span></div>
+        <div><strong>04</strong><span>Core Systems</span></div>
+        <div><strong>PRO</strong><span>Carlodz Character</span></div>
+      </div>
+    </div>
+    <div class="hero-character clothing-hero-character" id="heroCharacter">
+      <div class="character-glow"></div>
+      <img class="hero-reference clothing-hero-photo" src="assets/design-reference 6.png" alt="Carlodz Clothing character showcase">
+      <img class="hero-logo-overlay clothing-hero-logo" src="assets/carlodz-clothing-logo.png" alt="Carlodz Clothing">
+      <div class="character-label clothing-hero-label">CARLODZ CLOTHING<br><em>CHARACTER • BEAUTY • STYLE</em></div>
+    </div>
+  </section>
+
+  <!-- TOP FEATURES: 4 ONLY (Discord community is below) -->
+  <section class="features">
+    <div class="feature-item">
+      <b><img src="assets/icons/bolt.svg" alt=""></b>
+      <strong data-i18n="feat1_title">Premium Quality</strong>
+      <span data-i18n="feat1_desc">Well tested & optimized</span>
+    </div>
+    <div class="feature-item">
+      <b><img src="assets/icons/shield.svg" alt=""></b>
+      <strong data-i18n="feat2_title">100% Secure</strong>
+      <span data-i18n="feat2_desc">No bugs · No risk</span>
+    </div>
+    <div class="feature-item">
+      <b><img src="assets/icons/support.svg" alt=""></b>
+      <strong data-i18n="feat3_title">Fast Support</strong>
+      <span data-i18n="feat3_desc">Always here for you</span>
+    </div>
+    <div class="feature-item">
+      <b><img src="assets/icons/refresh.svg" alt=""></b>
+      <strong data-i18n="feat4_title">Regular Updates</strong>
+      <span data-i18n="feat4_desc">New features & fixes</span>
+    </div>
+  </section>
+
+  <section class="discord-section" id="discord">
+    <div class="discord-card unified-discord" id="discordCard">
+      <div class="discord-card-glow"></div>
+      <div class="discord-main">
+        <img class="discord-server-icon" id="discordServerIcon" src="assets/carlodz-logo.png" alt="CARLODZ Community">
+        <div class="discord-server-info">
+          <span class="discord-kicker"><span class="discord-community-dot"></span> LIVE COMMUNITY</span>
+          <h2 id="discordServerName">CARLODZ COMMUNITY</h2>
+          <p>Updates, support, previews and community chat — everything in one place.</p>
+          <div class="discord-stats">
+            <span><i class="discord-status-dot"></i> <b id="discordOnline">LIVE</b> Online</span>
+            <span><b id="discordMembers">COMMUNITY</b> Members</span>
+          </div>
+        </div>
+        <a class="discord-join" id="discordJoin" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">
+          <img src="assets/icons/discord.svg" alt=""> Join Discord <span>→</span>
+        </a>
+      </div>
+      <div class="discord-bottom">
+        <div>
+          <small>CONNECT WITH CARLODZ</small>
+          <strong>FOLLOW THE PROJECT</strong>
+        </div>
+        <div class="socials">
+          <a href="https://www.youtube.com/@carlodzgame" target="_blank" rel="noopener noreferrer"><img src="assets/icons/youtube.svg" alt="YouTube"><span>YouTube</span></a>
+          <a href="https://www.tiktok.com/@me.carlodz" target="_blank" rel="noopener noreferrer"><img src="assets/icons/tiktok.svg" alt="TikTok"><span>TikTok</span></a>
+          <a href="https://www.twitch.tv/carlodz21" target="_blank" rel="noopener noreferrer"><img src="assets/icons/twitch.svg" alt="Twitch"><span>Twitch</span></a>
+          <a href="https://kick.com/carlodz" target="_blank" rel="noopener noreferrer"><img src="assets/icons/kick.svg" alt="Kick"><span>Kick</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="scripts">
+    <div class="section-title">
+      <div>
+        <small data-i18n="scripts_small">FEATURED SCRIPTS</small>
+        <h2 data-i18n="scripts_title">OUR <em>SCRIPTS</em></h2>
+        <p data-i18n="scripts_desc">Discover our most popular and high-quality scripts for your FiveM server.</p>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+        <button class="filter-btn" data-filter="free" data-i18n="filter_free">Free</button>
+        <button class="filter-btn" data-filter="paid" data-i18n="filter_paid">Paid</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="cards" id="cards">
+        <div class="clothing-feature-banner">
+          <span class="clothing-banner-kicker">NEW PREMIUM RELEASE</span>
+          <strong>CARLODZ CLOTHING</strong>
+          <span>QBCore • Carlodz Character • Creator System</span>
+        </div>
+        <article class="script-card carlodz-clothing-card" data-name="carlodz clothing character creator beauty tattoos shops" data-category="paid">
+          <div class="cover carlodz-clothing-cover">
+            <img class="cover-logo carlodz-clothing-card-logo" src="assets/carlodz-clothing-logo.png" alt="Carlodz Clothing">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Carlodz Clothing</h3>
+              <p>Premium Character & Clothing System</p>
+            </div>
+            <div class="desc">A premium QBCore clothing ecosystem built to work with Carlodz Character, including character creator, female-only beauty surgery, clothing shops, tattoo shops and advanced creator tools.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Carlodz Character</span><span>Creator</span><span>Clothing</span><span>Tattoos</span><span>Beauty</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Clothing Shops</span></div>
+              <div><b>02</b><span>Tattoo Shops</span></div>
+              <div><b>03</b><span>Female Beauty Surgery</span></div>
+              <div><b>04</b><span>Character Creator</span></div>
+              <div><b>05</b><span>Carlodz Character Sync</span></div>
+              <div><b>06</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="carlodzclothing">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card cphone-card" data-name="cphone s26 phone telephone samsung yasir taxi maps bank messages youtube camera gallery qbcore" data-category="paid">
+          <div class="cover cphone-cover">
+            <img class="cover-logo cphone-card-logo" src="assets/cphone-logo.svg" alt="Cphone S26">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Cphone S26</h3>
+              <p>Complete Phone System</p>
+            </div>
+            <div class="desc">A complete Samsung-style phone for QBCore: messages, calls, contacts, bank, garage, maps, YouTube, gallery, camera, social apps, AI assistant and the Yasir taxi app. Try the real phone right here before you buy.</div>
+            <div class="tags">
+              <span>QBCore</span><span>NUI</span><span>Phone</span><span>Maps</span><span>Taxi</span><span>Bank</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Messages &amp; Calls</span></div>
+              <div><b>02</b><span>Bank &amp; Garage</span></div>
+              <div><b>03</b><span>Maps &amp; GPS</span></div>
+              <div><b>04</b><span>Yasir Taxi App</span></div>
+              <div><b>05</b><span>Camera &amp; Gallery</span></div>
+              <div><b>06</b><span>YouTube &amp; Social</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="cphone">Details <span>→</span></button>
+              <button class="phone-preview-btn" type="button" data-open-preview>📱 <span data-i18n="phone_preview">Phone Preview</span></button>
+            </div>
+            <div class="card-actions clothing-card-actions" style="margin-top:8px">
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener" style="flex:1;justify-content:center">Contact / Purchase</a>
+            </div>
+            <div class="script-rating" data-rating="cphone" aria-label="Rate Cphone S26">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card carlodj-card" data-name="carlodj carlo dj club music youtube sampler animation volume" data-category="paid">
+          <div class="cover carlodj-cover">
+            <img class="cover-logo carlodj-card-logo" src="assets/carlodj-logo.png" alt="CarloDJ">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>CarloDJ</h3>
+              <p>Club & DJ System</p>
+            </div>
+            <div class="desc">Customize your club with CarloDJ. Search any track on YouTube, sample music, play DJ animations and control the volume of every song. Premium QBCore nightclub experience.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Club</span><span>DJ</span><span>YouTube</span><span>Sampler</span><span>Volume</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Customize Your Club</span></div>
+              <div><b>02</b><span>YouTube Music Search</span></div>
+              <div><b>03</b><span>Music Sampler</span></div>
+              <div><b>04</b><span>DJ Animations</span></div>
+              <div><b>05</b><span>Volume Control</span></div>
+              <div><b>06</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="carlodj">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+            <div class="script-rating" data-rating="carlodj" aria-label="Rate CarloDJ">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card carlodz-character-card" data-name="carlodz character character creator customization qbcore clothing" data-category="paid">
+          <div class="cover carlodz-character-cover">
+            <img class="cover-logo carlodz-character-card-logo" src="assets/carlodz_character-LOGO.png" alt="Carlodz Character">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Carlodz Character</h3>
+              <p>Complete Character Creator System</p>
+            </div>
+            <div class="desc">A complete QBCore character creator designed to work with Carlodz Clothing, with a modern customization experience for creating and editing player characters.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Character Creator</span><span>Customization</span><span>Carlodz Clothing</span><span>NUI</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Character Creation</span></div>
+              <div><b>02</b><span>Character Customization</span></div>
+              <div><b>03</b><span>Carlodz Clothing Sync</span></div>
+              <div><b>04</b><span>QBCore Integration</span></div>
+              <div><b>05</b><span>Modern Creator UI</span></div>
+              <div><b>06</b><span>Ready for FiveM</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="carlodz_character">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card carlodz-banking-card" data-name="carlodz banking bank loan card code share qbcore money" data-category="paid">
+          <div class="cover carlodz-banking-cover">
+            <img class="cover-logo carlodz-banking-card-logo" src="assets/carlodz_banking_logo.png" alt="Carlodz Banking">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Carlodz Banking</h3>
+              <p>Complete Banking System</p>
+            </div>
+            <div class="desc">The best banking system for your QBCore server: card and code, share your code with friends, and a loan system.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Banking</span><span>Card &amp; Code</span><span>Loans</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Best Banking System</span></div>
+              <div><b>02</b><span>QBCore Integration</span></div>
+              <div><b>03</b><span>Share Code With Friends</span></div>
+              <div><b>04</b><span>Card &amp; Code System</span></div>
+              <div><b>05</b><span>Loan System</span></div>
+              <div><b>06</b><span>Ready for FiveM</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="carlodzbanking">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card" data-name="hunting zone hunting" data-category="free">
+          <div class="cover hunting-cover">
+            <img class="cover-logo" src="assets/Hunting Zone-logo.png" alt="Hunting Zone">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge free">FREE</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Hunting Zone</h3>
+              <p>Free Hunting Script</p>
+            </div>
+            <div class="desc">Hunting Zone with weapon purchase, animal selling and off-road vehicle rental — built for a complete hunting loop.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Free</span><span>Hunting</span><span>Zone</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Weapon Purchase</span></div>
+              <div><b>02</b><span>Animal Selling</span></div>
+              <div><b>03</b><span>Off-road Rental</span></div>
+              <div><b>04</b><span>Dedicated Hunting Zone</span></div>
+              <div><b>05</b><span>Easy Configuration</span></div>
+              <div><b>06</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="script-rating" data-rating="hunting" aria-label="Rate Hunting Zone">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+                <button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+                <button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+                <button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <a class="download-btn" href="assets/downloads/hunting/script.zip" download="Hunting-Zone.zip">
+                <img src="assets/icons/download.svg" alt=""> Download
+              </a>
+              <button class="details-btn" data-script="hunting">Details <span>→</span></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card" data-name="wayscoot scooter rental" data-category="paid">
+          <div class="cover wayscoot-cover">
+            <img class="wayscoot-logo cover-logo" src="assets/wayscoot-logo.png" alt="WayScoot">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>WayScoot</h3>
+              <p>Scooter Rental Script</p>
+            </div>
+            <div class="desc">Rent scooters with a modern NUI and flexible rental times: 15 minutes or 1 hour 30 minutes, with station return and payment flow.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Target</span><span>NUI</span><span>Rental</span>
+              
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>15 Minute Rental</span></div>
+              <div><b>02</b><span>1H 30 Minute Rental</span></div>
+              <div><b>03</b><span>Payment System</span></div>
+              <div><b>04</b><span>Multiple Stations</span></div>
+              <div><b>05</b><span>Return System</span></div>
+              <div><b>06</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="wayscoot">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+            <div class="script-rating" data-rating="wayscoot" aria-label="Rate WayScoot">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card" data-name="carlodz car dealer cardealer showroom test drive" data-category="paid">
+          <div class="cover cardealer-cover">
+            <img class="cover-logo" src="assets/carlodzcardiler-logo.png" alt="Carlodz Car Dealer">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Carlodz Car Dealer</h3>
+              <p>Car Dealer Script</p>
+            </div>
+            <div class="desc">Premium car dealership with a showroom, live vehicle preview, color selection and test drive — built for QBCore.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Showroom</span><span>Preview</span><span>Test Drive</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Showroom</span></div>
+              <div><b>02</b><span>Vehicle Preview</span></div>
+              <div><b>03</b><span>Choose Your Color</span></div>
+              <div><b>04</b><span>Test Drive</span></div>
+              <div><b>05</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="cardealer">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+            <div class="script-rating" data-rating="cardealer" aria-label="Rate Carlodz Car Dealer">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card" data-name="burger shot restaurant job" data-category="paid">
+          <div class="cover burger-cover">
+            <img class="cover-logo" src="assets/burgershot-logo.png" alt="Burger Shot">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Burger Shot</h3>
+              <p>Restaurant Job Script</p>
+            </div>
+            <div class="desc">Ingredient delivery with boxes, custom boxes, duty system, custom NUI, advanced order system and more.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Job</span><span>NUI</span><span>Delivery</span>
+              
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Ingredient Delivery</span></div>
+              <div><b>02</b><span>Custom Box System</span></div>
+              <div><b>03</b><span>Duty System</span></div>
+              <div><b>04</b><span>Custom NUI</span></div>
+              <div><b>05</b><span>Advanced Orders</span></div>
+              <div><b>06</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="burgershot">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+            <div class="script-rating" data-rating="burgershot" aria-label="Rate Burger Shot">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card" data-name="fishing fishing script" data-category="free">
+          <div class="cover fishing-cover">
+            <img class="fishing-logo cover-logo" src="assets/fishing-logo.png" alt="Fishing Script">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge free">FREE</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Fishing</h3>
+              <p>Fishing Script</p>
+            </div>
+            <div class="desc">Fish in any weather with a clean QBCore fishing system, catches, rewards and an easy setup.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Fishing</span><span>Rewards</span><span>Free</span>
+              
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Fishing In Any Weather</span></div>
+              <div><b>02</b><span>Catches &amp; Rewards</span></div>
+              <div><b>03</b><span>Custom Fishing UI</span></div>
+              <div><b>04</b><span>Easy Configuration</span></div>
+              <div><b>05</b><span>QBCore Ready</span></div>
+              <div><b>06</b><span>Ready for FiveM</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <a class="download-btn" href="assets/downloads/fishing/script.zip" download="Fishing.zip">
+                <img src="assets/icons/download.svg" alt=""> Download
+              </a>
+              <button class="details-btn" data-script="fishing">Details <span>→</span></button>
+            </div>
+            <div class="script-rating" data-rating="fishing" aria-label="Rate Fishing">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card" data-name="carlodz pets animal system" data-category="paid">
+          <div class="cover pets-cover">
+            <img class="pets-logo cover-logo" src="assets/waypets-logo.png" alt="WayPets">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Carlodz Pets</h3>
+              <p>Pets System Script</p>
+            </div>
+            <div class="desc">Customize your pet with a dedicated NUI, veterinary system, pet care and interactive play features.</div>
+            <div class="tags">
+              <span>QBCore</span><span>NUI</span><span>Animals</span><span>System</span>
+              
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Pet Customization</span></div>
+              <div><b>02</b><span>Custom NUI</span></div>
+              <div><b>03</b><span>Veterinary System</span></div>
+              <div><b>04</b><span>Play With Your Pet</span></div>
+              <div><b>05</b><span>Pet Care</span></div>
+              <div><b>06</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="pets">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+            <div class="script-rating" data-rating="pets" aria-label="Rate Carlodz Pets">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="script-card" data-name="cat coffee catcoffee cafe job" data-category="paid">
+          <div class="cover catcoffee-cover">
+            <img class="cover-logo" src="assets/CATCOFFE - LOGO.png" alt="Cat Coffee">
+            <span class="qbcore-badge"><img src="assets/qbcore-logo.png" alt="QBCore"> <span>QBCore</span></span>
+            <span class="badge new">NEW</span>
+            <span class="badge paid">PAID</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <h3>Cat Coffee</h3>
+              <p>Cat Cafe Job Script</p>
+            </div>
+            <div class="desc">Custom NUI, advanced order menu, cat interactions and a complete Cat Coffee job experience.</div>
+            <div class="tags">
+              <span>QBCore</span><span>Job</span><span>NUI</span><span>Cafe</span>
+            </div>
+            <div class="clothing-feature-grid">
+              <div><b>01</b><span>Custom NUI</span></div>
+              <div><b>02</b><span>Advanced Order Menu</span></div>
+              <div><b>03</b><span>Play With Cats</span></div>
+              <div><b>04</b><span>Cat Coffee Job</span></div>
+              <div><b>05</b><span>Cafe Workflow</span></div>
+              <div><b>06</b><span>QBCore Integration</span></div>
+            </div>
+            <div class="card-actions clothing-card-actions">
+              <button class="details-btn" data-script="catcoffee">Details <span>→</span></button>
+              <a class="discord-top clothing-contact" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener">Contact / Purchase</a>
+            </div>
+            <div class="script-rating" data-rating="catcoffee" aria-label="Rate Cat Coffee">
+              <div class="heart-row" role="group" aria-label="Rating from 1 to 4 hearts">
+                <button type="button" class="heart-btn" data-heart="1" aria-label="1 heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="2" aria-label="2 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="3" aria-label="3 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button><button type="button" class="heart-btn" data-heart="4" aria-label="4 hearts"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"></path></svg></button>
+              </div><span class="rating-value">—</span><small>Rate this script</small>
+            </div>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <small data-i18n="about_small">ABOUT CARLODZ</small>
+        <h2 data-i18n="about_title">BUILT FOR <em>FIVEM</em></h2>
+        <p data-i18n="about_desc">CARLODZ creates custom FiveM resources with polished NUI, gameplay systems, optimized performance and a focus on clean server integration. Every script is built with quality, security and player experience in mind.</p>
+        <ul class="about-list">
+          <li data-i18n="about_li1">Optimized performance for large servers</li>
+          <li data-i18n="about_li2">Modern & responsive NUI interfaces</li>
+          <li data-i18n="about_li3">Easy installation & configuration</li>
+          <li data-i18n="about_li4">Continuous updates & dedicated support</li>
+        </ul>
+      </div>
+      <div class="about-highlight">
+        <div class="highlight-box">
+          <strong data-i18n="about_h1">Quality First</strong>
+          <span data-i18n="about_h1d">Every resource is tested thoroughly before release.</span>
+        </div>
+        <div class="highlight-box">
+          <strong data-i18n="about_h2">Player Focused</strong>
+          <span data-i18n="about_h2d">Gameplay systems designed for fun and immersion.</span>
+        </div>
+        <div class="highlight-box">
+          <strong data-i18n="about_h3">Always Improving</strong>
+          <span data-i18n="about_h3d">Regular updates based on community feedback.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <small data-i18n="contact_small">NEED HELP?</small>
+      <h2 data-i18n="contact_title">LET'S BUILD<br><em>SOMETHING</em></h2>
+      <p data-i18n="contact_desc">Have a custom request or need support? Reach out via Discord, WhatsApp or Email — we're ready to help.</p>
+      <div class="contact-icons">
+        <a class="contact-icon-btn discord-icon" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener" title="Discord" aria-label="Discord">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        </a>
+        <a class="contact-icon-btn whatsapp-icon" href="https://wa.me/213669967596" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+        <a class="contact-icon-btn email-icon" href="mailto:benrabahazzedine@gmail.com" title="Email" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="assets/carlodz-logo.png" alt="CARLODZ">
+      <span>CARLODZ<small data-i18n="brand_tag">FIVEM SCRIPTS & MORE</small></span>
+    </div>
+    <div class="footer-links">
+      <a href="#home" data-i18n="nav_home">Home</a>
+      <a href="#scripts" data-i18n="nav_scripts">Scripts</a>
+      <a href="#about" data-i18n="nav_about">About</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+      <a href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener" data-i18n="discord">Discord</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p data-i18n="footer_rights">© 2026 CARLODZ. All rights reserved. · FiveM Scripts & Custom Solutions.</p>
+    <b data-i18n="footer_thanks">THANK YOU FOR YOUR SUPPORT!</b>
+  </div>
+</footer>
+
+
+<div class="pv-modal" id="phonePreviewModal" aria-hidden="true">
+  <div class="pv-backdrop" data-close-preview></div>
+  <section class="pv-panel" role="dialog" aria-modal="true" aria-label="Cphone S26 preview">
+    <button class="pv-close" id="pvClose" aria-label="Close preview">×</button>
+    <div class="pv-side">
+      <span class="details-kicker">LIVE PREVIEW</span>
+      <h2>Cphone S26</h2>
+      <p class="pv-lead" data-i18n="pv_lead">This is the real phone interface running with demo data. Swipe up to unlock, then tap any app.</p>
+      <div class="pv-chips" id="pvChips">
+        <button type="button" data-app="home">Home</button>
+        <button type="button" data-app="messages">Messages</button>
+        <button type="button" data-app="phone">Phone</button>
+        <button type="button" data-app="maps">Maps</button>
+        <button type="button" data-app="yasir">Yasir Taxi</button>
+        <button type="button" data-app="bank">Bank</button>
+        <button type="button" data-app="garage">Garage</button>
+        <button type="button" data-app="youtube">YouTube</button>
+        <button type="button" data-app="photos">Gallery</button>
+        <button type="button" data-app="settings">Settings</button>
+      </div>
+      <p class="pv-tip" data-i18n="pv_tip">Tip: open <b>Yasir Taxi</b>, pick a place, press “Call taxi” and watch the full ride.</p>
+      <a class="purchase-details-btn" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener" style="display:inline-flex">Contact / Purchase <span>→</span></a>
+    </div>
+    <div class="pv-stage" id="pvStage">
+      <div class="pv-scale" id="pvScale"><iframe id="pvFrame" title="Cphone S26 preview" data-src="assets/cphone/index.html" loading="lazy" allow="autoplay"></iframe></div>
+    </div>
+  </section>
+</div>
+
+<script src="app.js" defer></script>
+
+
+<div class="details-modal" id="detailsModal" aria-hidden="true">
+  <div class="details-backdrop" data-close-details></div>
+  <section class="details-panel" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+    <div class="details-bg" id="detailsBg"></div>
+    <button class="details-close" id="detailsClose" aria-label="Close details">×</button>
+    <div class="details-video-wrap" id="detailsVideoWrap">
+      <div class="details-video-placeholder" id="detailsVideoPlaceholder">
+        <img id="detailsLogo" src="assets/carlodz-logo.png" alt="">
+        <span data-i18n="script_preview">SCRIPT PREVIEW</span>
+      </div>
+      <video id="detailsLocalVideo" class="details-local-video" controls playsinline preload="metadata"></video>
+      <iframe id="detailsVideo" title="Script video" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="details-content">
+      <div>
+        <span class="details-kicker" id="detailsCategory">SCRIPT DETAILS</span>
+        <h2 id="detailsTitle">CARLODZ SCRIPT</h2>
+        <p id="detailsDescription"></p>
+        <div class="details-tags" id="detailsTags"></div>
+      </div>
+      <div class="details-actions">
+        <a class="btn-primary download-details-btn" id="detailsDownload" href="#" download style="display:none">
+          <img src="assets/icons/download.svg" alt=""> <span data-i18n="download_script">Download Script</span>
+        </a>
+        <a class="purchase-details-btn" id="detailsPurchase" href="https://discord.gg/Q4Z2M2veAD" target="_blank" rel="noopener" style="display:none">Contact / Purchase <span>→</span></a>
+        <button class="phone-preview-btn" id="detailsPreview" type="button" data-open-preview style="display:none">📱 <span data-i18n="phone_preview">Phone Preview</span></button>
+        <button class="btn-primary" id="detailsPlay"><img src="assets/icons/play.svg" alt=""> <span data-i18n="play_video">Play Video</span></button>
+        <button class="details-back" data-close-details data-i18n="back_scripts">← Back to Scripts</button>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
+
