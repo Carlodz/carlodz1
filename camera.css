@@ -1,0 +1,131 @@
+/* ===== Samsung-style camera (fullscreen overlay, design grid 720x1600 scaled to screen height) ===== */
+#camfs{position:fixed;inset:0;z-index:99999;pointer-events:none;color:#fff;direction:ltr;user-select:none;
+  font-family:'Samsung Sans','Roboto','Noto Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+#camfs.hidden{display:none!important}
+#camfs.cur{pointer-events:auto}
+#camfs.shot #cw{visibility:hidden}
+#cw{position:absolute;top:0;left:0;width:720px;height:1600px;transform-origin:0 0}
+#cw button{font-family:inherit;outline:0}
+
+/* viewfinder = transparent hole where the game is visible; everything outside is dimmed */
+#cvf{position:absolute;left:0;top:120px;width:720px;height:960px;box-shadow:0 0 0 4000px rgba(0,0,0,.55)}
+#cvt{position:absolute;inset:0;pointer-events:none}
+#cgr{position:absolute;inset:0;pointer-events:none;display:none;
+  background:
+    linear-gradient(#fff,#fff) 33.333% 0/2px 100% no-repeat,
+    linear-gradient(#fff,#fff) 66.666% 0/2px 100% no-repeat,
+    linear-gradient(#fff,#fff) 0 33.333%/100% 2px no-repeat,
+    linear-gradient(#fff,#fff) 0 66.666%/100% 2px no-repeat;opacity:.45}
+#cgr.on{display:block}
+#czf{position:absolute;left:25%;top:25%;width:50%;height:50%;border:2px solid rgba(255,255,255,.8);display:none;
+  box-shadow:0 0 0 4000px rgba(0,0,0,.4);pointer-events:none}
+#czf.on{display:block}
+#cpill{position:absolute;left:50%;top:53px;transform:translate(-50%,-50%);height:48px;padding:0 22px;border-radius:24px;
+  background:rgba(34,34,34,.78);font-size:26px;line-height:48px;white-space:nowrap;display:none}
+#cpill.on{display:block}
+#cpill.ready{color:#f6c615}
+#ccd{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:220px;font-weight:300;text-shadow:0 0 30px rgba(0,0,0,.55);display:none;text-align:center}
+#ccd small{display:block;font-size:34px;font-weight:500;color:#fff;margin-top:-10px}
+#ccd.on{display:block}
+#cfl{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#cfl.go{animation:cflash .28s ease-out}
+@keyframes cflash{0%{opacity:.9}100%{opacity:0}}
+
+#ctopbg,#cbotbg{position:absolute;left:0;width:720px;background:#000}
+#ctopbg{top:0;height:120px}
+#cbotbg{top:1080px;height:520px}
+
+/* top bar */
+.ctt{position:absolute;top:83px;transform:translate(-50%,-50%);background:none;border:0;color:#fff;padding:0;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;pointer-events:auto}
+.ctt svg{width:40px;height:40px;display:block}
+.ctt.tx{font-size:28px;font-weight:700;letter-spacing:.3px}
+.ctt.tx2{font-size:21px;font-weight:700;line-height:1.1;flex-direction:column;text-align:center}
+.rtime{position:absolute;left:360px;top:83px;transform:translate(-50%,-50%);font-size:34px;font-weight:500;display:flex;align-items:center;gap:12px;
+  font-variant-numeric:tabular-nums}
+.rtime i{width:16px;height:16px;border-radius:50%;background:#f2503a;animation:cblink 1s infinite}
+@keyframes cblink{50%{opacity:.25}}
+
+/* round buttons */
+.cb{position:absolute;transform:translate(-50%,-50%);border:0;border-radius:50%;background:rgba(48,48,48,.72);color:#fff;padding:0;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;pointer-events:auto}
+.cb:active{filter:brightness(1.5)}
+.cb svg{display:block}
+.gb{width:64px;height:64px;background:rgba(38,38,38,.88)}
+.gb i{display:grid;grid-template-columns:repeat(2,8px);gap:7px}
+.gb i b{width:8px;height:8px;border-radius:50%;background:#fff;display:block}
+.fb{width:92px;height:92px}
+.flb{width:96px;height:96px}
+.sh{width:126px;height:126px;background:#fff}
+.sh:active{transform:translate(-50%,-50%) scale(.92);filter:none}
+.sh.rd::after{content:'';width:52px;height:52px;border-radius:50%;background:#f2503a;transition:all .15s}
+.sh.rec::after{width:42px;height:42px;border-radius:10px}
+.pb{width:64px;height:64px;background:radial-gradient(circle,#0c0c0c 0,#2a2a2a 100%);border:2px solid #c9c9c9}
+.pb i{width:22px;height:22px;border-radius:50%;background:#fff;display:block}
+.wb{width:64px;height:64px;background:#3e3e3e;font-size:28px;font-weight:700}
+.zp{position:absolute;left:360px;top:1160px;transform:translate(-50%,-50%);width:127px;height:64px;border-radius:32px;background:rgba(40,40,40,.68);
+  display:flex;align-items:center;pointer-events:auto}
+.zp button{border:0;background:none;color:#fff;height:64px;width:63px;border-radius:32px;font-size:28px;font-weight:500;cursor:pointer;padding:0}
+.zp button.on{background:rgba(0,0,0,.5);font-weight:700}
+.hp{position:absolute;left:360px;top:1160px;transform:translate(-50%,-50%);height:64px;padding:0 30px;border-radius:32px;background:rgba(40,40,40,.68);
+  color:#fff;border:0;font-size:28px;font-weight:700;cursor:pointer;pointer-events:auto}
+
+/* options bar (grid button) */
+.cbar{position:absolute;left:24px;top:1114px;width:672px;height:92px;border-radius:46px;background:#2a2a2a;display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;pointer-events:auto}
+.cbar button{border:0;background:none;color:#fff;width:84px;height:84px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;position:relative;font-size:30px;font-weight:500}
+.cbar button svg{width:40px;height:40px}
+.cbar button.x{width:46px;height:46px;border-radius:50%;background:#444;margin-right:-2px}
+.cbar button.x svg{width:24px;height:24px}
+.cbar button em{position:absolute;right:8px;top:8px;font-style:normal;font-size:20px;background:#f6c615;color:#000;border-radius:10px;padding:0 6px;font-weight:700}
+.cbar button.act{color:#f6c615}
+
+/* effects (flower) strip */
+.cfx{position:absolute;left:0;top:1100px;width:720px;height:120px;display:flex;gap:16px;overflow-x:auto;padding:0 24px;align-items:center;pointer-events:auto;scrollbar-width:none}
+.cfx::-webkit-scrollbar{display:none}
+.cfx button{flex:none;height:72px;padding:0 30px;border-radius:36px;border:0;background:rgba(48,48,48,.82);color:#fff;font-size:26px;cursor:pointer}
+.cfx button.on{background:#fff;color:#000;font-weight:700}
+
+/* pro mode */
+.cpro{position:absolute;left:58px;top:990px;width:602px;height:60px;border-radius:30px;background:rgba(28,28,28,.66);display:flex;align-items:center;justify-content:space-around;
+  pointer-events:auto;font-size:23px;color:#bdbdbd}
+.cpro button{border:0;background:none;color:#bdbdbd;font-size:23px;padding:6px 8px;border-radius:20px;cursor:pointer;white-space:nowrap}
+.cpro button b{color:#fff;font-weight:700;margin-left:4px}
+.cpro button.on{background:rgba(255,255,255,.18)}
+
+/* settings sheet */
+.csheet{position:absolute;left:60px;top:560px;width:600px;border-radius:40px;background:rgba(36,36,36,.96);padding:26px 34px;pointer-events:auto}
+.csheet h4{font-size:32px;font-weight:600;margin:0 0 14px}
+.csheet .rw{display:flex;align-items:center;justify-content:space-between;height:84px;font-size:29px}
+.csheet .sw{width:92px;height:50px;border-radius:25px;background:#555;position:relative;cursor:pointer;border:0;padding:0}
+.csheet .sw::after{content:'';position:absolute;left:5px;top:5px;width:40px;height:40px;border-radius:50%;background:#fff;transition:left .15s}
+.csheet .sw.on{background:#3e91ff}.csheet .sw.on::after{left:47px}
+.csheet .cl{margin-top:8px;width:100%;height:74px;border-radius:37px;border:0;background:#3a3a3a;color:#fff;font-size:28px;cursor:pointer}
+
+/* MORE panel */
+.cedit{position:absolute;transform:translate(-50%,-50%);height:62px;padding:0 34px;border-radius:31px;border:0;background:rgba(52,42,42,.85);color:#fff;font-size:28px;font-weight:700;cursor:pointer;pointer-events:auto}
+#cmore{position:absolute;left:22px;top:973px;width:676px;height:405px;border-radius:44px;background:rgba(58,46,46,.8);pointer-events:auto}
+.mi{position:absolute;width:150px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:none;color:#fff;cursor:pointer;padding:0}
+.mi svg{width:76px;height:76px;display:block}
+.mi span{font-size:25px;line-height:30px;text-align:center;font-weight:400;max-width:130px}
+
+/* mode labels */
+#clab{position:absolute;left:0;top:1440px;height:40px;display:flex;gap:45px;white-space:nowrap;align-items:center;transition:transform .22s ease;pointer-events:auto}
+.lb{font-size:26px;font-weight:500;letter-spacing:.7px;color:#8d8d8d;cursor:pointer;line-height:40px}
+.lb.on{color:#fff;font-weight:700}
+.lbsub{position:absolute;left:0;width:720px;top:1440px;height:40px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:26px;font-weight:700;letter-spacing:.7px;pointer-events:none}
+.lbsub b{pointer-events:auto;cursor:pointer;font-size:38px;font-weight:400;line-height:40px;padding:0 10px}
+
+/* Android-like nav bar */
+#cnav{position:absolute;left:0;top:1520px;width:720px;height:76px;pointer-events:auto}
+#cnav button{position:absolute;top:0;transform:translateX(-50%);width:140px;height:76px;border:0;background:none;color:#e0e0e0;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+#cnav svg{width:34px;height:34px}
+
+#chint{position:fixed;left:14px;top:14px;max-width:340px;padding:10px 14px;border-radius:12px;background:rgba(0,0,0,.62);color:#fff;font-size:13px;line-height:1.55;transition:opacity .6s}
+#chint kbd{background:#3a3a3c;color:#fff;border-radius:5px;padding:1px 6px;font-size:12px;font-family:inherit}
+#chint.off{opacity:0}
+
+/* gallery: video badge + player */
+.pt{position:relative}
+.pt .pvb{position:absolute;right:4px;bottom:4px;font-style:normal;font-size:10px;font-weight:600;color:#fff;background:rgba(0,0,0,.55);border-radius:9px;padding:1px 6px}
+.cam-vid{width:100%;max-height:100%;border-radius:10px;display:block;background:#000}
