@@ -1,5 +1,5 @@
 /* =====================================================================
-   Samsung-style camera for ios-phone
+   CPhone-style camera for ios-phone
    Photo / Portrait / Video / More (Pro, Night, Food, Slow motion, Hyperlapse)
    - UI is drawn in NUI (design grid 720x1600, scaled to the screen height)
    - the viewfinder is a transparent window: the GAME is visible through it
@@ -388,10 +388,14 @@
     const mime = ['video/webm;codecs=vp8', 'video/webm;codecs=vp9', 'video/webm'].find(x => MediaRecorder.isTypeSupported(x));
     if (!mime) return msg(L('failed'));
     const br = cam.res === 'FHD' ? cam.cfg.bitrate : Math.round(cam.cfg.bitrate * .7);
-    let mr; try { mr = new MediaRecorder(cv.captureStream(), { mimeType: mime, videoBitsPerSecond: br }) } catch (e) { return msg(L('failed')) }
+    let mr, stream; try { stream = cv.captureStream(0); mr = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: br }) } catch (e) { return msg(L('failed')) }
+    const track = stream.getVideoTracks()[0], manual = !!(track && track.requestFrame);
+    if (!manual) { try { stream = cv.captureStream(); mr = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: br }) } catch (e) { return msg(L('failed')) } }
+    const mk = () => { const c = document.createElement('canvas'); c.width = wpx; c.height = hpx; return c };
     const R = {
       cv, ctx, mr, chunks: [], bytes: 0, t0: performance.now(), rect, zoom: m === 'hyper' ? 1 : cam.zoom, fx: cam.fx, mode: m,
       speed: m === 'slow' ? .5 : m === 'hyper' ? cam.hz : 1, thumb: null, frames: 0,
+      a: mk(), b: mk(), tb: 0, dt: 160, track: manual ? track : null, blend: m !== 'hyper',
       limit: m === 'hyper' ? cam.cfg.maxSec * 4 : m === 'slow' ? Math.max(4, Math.round(cam.cfg.maxSec / 2)) : cam.cfg.maxSec,
     };
     mr.ondataavailable = e => {
@@ -405,6 +409,14 @@
     const fps = m === 'slow' ? Math.min(10, cam.cfg.fps + 3) : m === 'hyper' ? 1.5 : cam.cfg.fps;
     post('camVidStart', { fps, q: .4 });
     if (cam.snd) post('camSound', {});
+    // constant 15 fps output: cross-fade previous -> newest game frame so low capture rates still look fluid
+    R.draw = setInterval(() => {
+      if (!R.tb) return;
+      const k = R.blend ? Math.min(1, (performance.now() - R.tb) / R.dt) : 1;
+      if (k < 1) { R.ctx.globalAlpha = 1; R.ctx.drawImage(R.a, 0, 0); R.ctx.globalAlpha = k; R.ctx.drawImage(R.b, 0, 0); R.ctx.globalAlpha = 1 }
+      else R.ctx.drawImage(R.b, 0, 0);
+      if (R.track) R.track.requestFrame();
+    }, 66);
     R.tick = setInterval(() => {
       const s = (performance.now() - R.t0) / 1000, e = document.getElementById('crt');
       if (e) e.textContent = fmtT(s);
@@ -415,23 +427,30 @@
   function onVidFrame(d) {
     const R = cam.rec; if (!R || cam.dec || !d.data) return;
     cam.dec = true;
-    const im = new Image();
-    im.onload = () => {
+    const put = im => {
       try {
-        const c = crop(im, R);
-        R.ctx.filter = filterStr({ fx: R.fx, mode: '' });
-        R.ctx.drawImage(im, c.sx, c.sy, c.sw, c.sh, 0, 0, R.cv.width, R.cv.height);
-        R.ctx.filter = 'none';
-        if (!R.thumb) R.thumb = thumbOf(R.cv, 180, .65);
+        if (!cam.rec || cam.rec !== R) return;
+        const c = crop(im, R), now = performance.now();
+        const t = R.a; R.a = R.b; R.b = t;                       // b = newest frame
+        const x = R.b.getContext('2d');
+        x.filter = filterStr({ fx: R.fx, mode: '' });
+        x.drawImage(im, c.sx, c.sy, c.sw, c.sh, 0, 0, R.b.width, R.b.height);
+        x.filter = 'none';
+        if (!R.frames) R.a.getContext('2d').drawImage(R.b, 0, 0);  // first frame: nothing to blend from
+        if (R.tb) R.dt = Math.max(60, Math.min(700, R.dt * .6 + (now - R.tb) * .4));
+        R.tb = now;
+        if (!R.thumb) R.thumb = thumbOf(R.b, 180, .65);
         R.frames++;
-      } finally { cam.dec = false }
+      } finally { cam.dec = false; if (im.close) im.close() }
     };
-    im.onerror = () => { cam.dec = false };
-    im.src = d.data;
+    const fallback = () => { const im = new Image(); im.onload = () => put(im); im.onerror = () => { cam.dec = false }; im.src = d.data };
+    if (window.createImageBitmap && window.fetch) {
+      fetch(d.data).then(r => r.blob()).then(b => createImageBitmap(b)).then(put, fallback);
+    } else fallback();
   }
   function stopRec(discard) {
     const R = cam.rec; if (!R) return;
-    R.discard = !!discard; clearInterval(R.tick);
+    R.discard = !!discard; clearInterval(R.tick); clearInterval(R.draw);
     post('camVidStop');
     cam.rec = null; R.dur = Math.max(1, Math.round((performance.now() - R.t0) / 1000));
     try { R.mr.state !== 'inactive' ? R.mr.stop() : finishRec(R) } catch (e) { finishRec(R) }

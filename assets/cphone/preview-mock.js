@@ -81,7 +81,7 @@
   /* ---------- callbacks ---------- */
   const store = { msgs: JSON.parse(JSON.stringify(convs)), contacts, calls, photos, rd: { on: false, f: 91.1 } };
   const H = {
-    init: () => ({ ...ME, settings: { language: 'en' }, wallpapers: WALLS, ringtones: TONES }),
+    init: () => ({ ...ME, settings: { language: 'en' }, wallpapers: WALLS, ringtones: TONES, storySec: 30 }),
     getLocation: () => ({ ...ME_POS, z: 30, street: 'Strawberry Ave', cross: 'Alta St', zone: 'Strawberry' }),
     getConversations: () => ({ list: Object.keys(store.msgs).map(n => { const l = store.msgs[n]; const m = l[l.length - 1]; const c = store.contacts.find(x => x.number === n); return { number: n, name: c ? c.name : n, text: m.text, ts: m.ts, unread: false }; }) }),
     getMessages: d => ({ list: store.msgs[d.number] || [] }),
@@ -132,6 +132,51 @@
     yasirEnter: () => { if (Y.s === 'waiting' && Y.waitStart) Y.waitStart(); return { ok: true }; },
     yasirStop: () => { if (Y.s === 'riding') { clear(); Y.s = 'arrived'; Y.eta = 0; send(snap()); at(3000, () => { Y.s = 'idle'; Y.dest = null; send(snap()); }); } return { ok: true }; },
   };
+
+  /* ---------- v2 apps (Health, Discord, Dark Chat, CStore, Stories, Services staff, CTube region) ---------- */
+  const day = n => new Date(Date.now() - n * 86400000).toISOString().slice(0, 10);
+  const HEALTH = { ok: true, mode: 'walk', goal: 6000, goals: { min: 30, kcal: 400 }, profile: { weight: 74, height: 178, goal: 6000 },
+    today: { steps: 4280, walk_m: 3100, run_m: 900, bike_m: 1800, swim_m: 0, walk_s: 2400, run_s: 420, bike_s: 600, swim_s: 0, kcal: 265, min: 24, dist: 5800 },
+    week: [5200, 7400, 3100, 8800, 6100, 2500, 4280].map((s, i) => ({ d: day(6 - i), steps: s, min: Math.round(s / 190), kcal: Math.round(s / 16), dist: s * 0.75 })) };
+  const DC = {
+    channels: [{ id: 'general', name: 'general', type: 'text', topic: 'City chat' }, { id: 'photos', name: 'photos', type: 'photo', topic: 'Share your shots' },
+      { id: 'jobs', name: 'jobs', type: 'text', topic: 'Work offers' }, { id: 'lounge', name: 'Lounge', type: 'voice' }],
+    msgs: { general: [{ name: 'Lina', time: '20:41', text: 'Anyone up for a night drive?' }, { name: 'Amine', time: '20:43', text: 'I am in, meet at Legion Square 🚗' }], photos: [], jobs: [{ name: 'Mechanic Joe', time: '19:10', text: 'Need a part-time helper at the garage.' }] },
+    voice: false,
+  };
+  const dark = { registered: false, unlocked: false, alias: 'Anon', number: '', posts: [{ id: 1, alias: 'Ghost', number: '555-0666', text: 'Preview only: Dark Chat is live in-game.', ts: now() - 900, mine: false }] };
+  const stories = [{ id: 'u1', name: 'Lina', username: 'lina', avatar: '', mine: false, items: [{ id: 's1', kind: 'photo', ts: now() - 3600 }] },
+    { id: 'u2', name: 'Amine', username: 'amine', avatar: '', mine: false, items: [{ id: 's2', kind: 'photo', ts: now() - 7200 }] }];
+  let ytRegion = 'US';
+  Object.assign(H, {
+    getStories: () => ({ ok: true, list: stories }),
+    getStoryMedia: d => ({ media: svg(palette[(String(d.id).length + 3) % 8][0], palette[(String(d.id).length + 3) % 8][1], '★') }),
+    addStory: () => ({ ok: true }), deleteStory: () => ({ ok: true }),
+    getServiceStaff: () => ({ ok: true, canTime: false, list: [
+      { name: 'Carlos Mendez', grade: 'Boss', boss: true, onduty: true, me: true, phone: ME.number }, { name: 'Amine B.', grade: 'Officer', onduty: true, phone: '555-0111' }, { name: 'Lina K.', grade: 'Recruit', onduty: false, phone: '555-0178' } ] }),
+    getYtRegion: () => ({ ok: true, code: ytRegion, auto: false }), setYtRegion: d => { ytRegion = d.code || ytRegion; return { ok: true, code: ytRegion }; },
+    carPhotos: () => ({ ok: true, map: {} }),
+    healthGet: () => HEALTH,
+    healthProfile: d => { if (d.goal > 0 && d.weight > 0 && d.height > 0) { HEALTH.goal = d.goal; HEALTH.profile = { goal: d.goal, weight: d.weight, height: d.height }; return HEALTH; } return { ok: false }; },
+    healthTop: () => ({ ok: true, list: [{ rank: 1, name: 'Lina', steps: 9120 }, { rank: 2, name: ME.name, steps: HEALTH.today.steps, me: true }, { rank: 3, name: 'Amine', steps: 3300 }] }),
+    discordProfile: () => ({ ok: true, profile: { name: ME.name, username: 'carlos', job: 'Unemployed' } }),
+    discordChannels: () => ({ ok: true, channels: DC.channels }),
+    discordMembers: () => ({ ok: true, members: [{ name: 'Lina', role: 'Citizen' }, { name: 'Amine', role: 'Police' }, { name: 'Mechanic Joe', role: 'Mechanic' }] }),
+    discordMessages: d => ({ ok: true, messages: DC.msgs[d.channel] || [] }),
+    discordSend: d => { (DC.msgs[d.channel] = DC.msgs[d.channel] || []).push({ name: ME.name, time: new Date().toTimeString().slice(0, 5), text: d.text }); return { ok: true }; },
+    discordSendPhoto: d => { (DC.msgs[d.channel] = DC.msgs[d.channel] || []).push({ name: ME.name, time: new Date().toTimeString().slice(0, 5), kind: 'photo', media: d.media }); return { ok: true }; },
+    discordVoiceJoin: () => { DC.voice = true; return { ok: true, count: 1 }; }, discordVoiceLeave: () => { DC.voice = false; return { ok: true }; },
+    discordVoiceState: () => ({ ok: true, name: 'Lounge', count: 1, members: [{ name: ME.name }] }),
+    darkChatOpen: () => dark.registered ? (dark.unlocked ? { ok: true, state: 'home', alias: dark.alias, number: dark.number } : { ok: true, state: 'unlock' }) : { ok: true, state: 'register' },
+    darkChatRegister: d => { dark.registered = dark.unlocked = true; dark.alias = d.alias || 'Anon'; dark.number = d.number || '555-0999'; return { ok: true }; },
+    darkChatUnlock: () => { dark.unlocked = true; return { ok: true }; }, darkChatLock: () => { dark.unlocked = false; return { ok: true }; },
+    darkChatFeed: () => ({ ok: true, now: now(), list: dark.posts }),
+    darkChatPost: d => { dark.posts.unshift({ id: Date.now(), alias: dark.alias, number: dark.number, text: d.text || '', ts: now(), mine: true }); return { ok: true }; },
+    darkChatDelete: d => { dark.posts = dark.posts.filter(p => p.id !== d.id); return { ok: true }; }, darkChatMedia: () => ({ ok: false }),
+    storeInstall: () => ({ ok: true }), storeRemove: () => ({ ok: true }),
+    brCfg: () => ({ ok: true }), brClose: () => ({ ok: true }), brMouse: () => ({ ok: true }), brNav: () => ({ ok: true }), brRect: () => ({ ok: true }), brScroll: () => ({ ok: true }), brType: () => ({ ok: true }),
+    phoneTyping: () => ({ ok: true }), mirror: () => ({ ok: true }), tvCast: () => ({ ok: true }), tvCtl: () => ({ ok: true }),
+  });
 
   const realFetch = window.fetch.bind(window);
   window.fetch = (url, opt) => {

@@ -1,0 +1,52 @@
+/* ===== Health app (CPhone-Health look) ===== */
+#app.hlth{background:linear-gradient(180deg,#0e1c40 0%,#12254d 30%,#1b1a19 100%);color:#fff;padding-top:30px;padding-bottom:36px}
+#app.hlth .body{padding:0;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.hl-scroll{flex:1;min-height:0;overflow-y:auto;padding:6px 12px 120px;scrollbar-width:none}.hl-scroll::-webkit-scrollbar{display:none}
+.hl-top{display:flex;align-items:center;gap:10px;padding:8px 6px 12px}.hl-top h1{flex:1;font-size:23px;font-weight:600;letter-spacing:-.2px}
+.hl-av{width:34px;height:34px;border-radius:50%;background:#6fc3a0;display:grid;place-items:center;border:0;color:#fff;cursor:pointer}
+.hl-kb{position:relative;background:none;border:0;color:#fff;padding:4px;cursor:pointer}.hl-kb::after{content:"";position:absolute;right:2px;top:2px;width:7px;height:7px;border-radius:50%;background:#ff6a13}
+.hl-pills{display:flex;border:1px solid rgba(255,255,255,.16);border-radius:30px;padding:3px;margin:0 0 12px}
+.hl-pills button{flex:1;height:38px;border:0;border-radius:26px;background:none;color:#cdd6ee;display:grid;place-items:center;cursor:pointer}
+.hl-pills button.on{background:rgba(255,255,255,.17);color:#fff}
+.hl-h{padding:2px 8px 12px}.hl-h b{display:block;font-size:20px;font-weight:600;color:#dfe5f5}.hl-h p{margin-top:6px;font-size:13.5px;line-height:1.35;color:#d3daee}
+.hl-card{position:relative;border-radius:20px;padding:15px 16px;margin-bottom:10px;overflow:hidden;background:#1a1c29}
+.hl-card h3{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
+.hl-glass{background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14)}
+.hl-hero b{display:block;font-size:19px;font-weight:600;line-height:1.25}.hl-hero p{font-size:13px;line-height:1.4;color:#d6dcef;margin:8px 0 12px}
+.hl-btn{display:inline-block;background:rgba(255,255,255,.18);border:0;color:#fff;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.hl-dots{display:flex;gap:6px;justify-content:center;margin-top:12px}.hl-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3)}.hl-dots i:first-child{width:22px;border-radius:5px;background:#fff}
+.hl-big{font-size:34px;font-weight:600;line-height:1.1;margin-top:20px}.hl-big small{font-size:14px;font-weight:400;color:#c9d1e8;margin-left:5px}
+.hl-sub{font-size:12px;color:#c9d1e8;margin-top:4px}
+.hl-days{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:#aab3cc}.hl-days span.now{color:#ff5b4a;font-weight:700}
+.hl-prog{height:5px;border-radius:5px;background:rgba(255,255,255,.14);margin-top:10px;overflow:hidden}.hl-prog i{display:block;height:100%;border-radius:5px;background:#7ed321}
+.hl-g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hl-g2 .hl-card{margin-bottom:0}
+.hl-col{min-height:132px;display:flex;flex-direction:column;justify-content:flex-end}
+.hl-col .hl-big{margin-top:auto;font-size:25px}.hl-col .hl-sub{margin-top:3px}
+.c-or{background:#d1622a}.c-bl{background:#0a98d8}.c-gr{background:#16876d}.c-pk{background:#cf5f95}.c-pu{background:#7a58c4}.c-ye{background:#c98a24}.c-rd{background:#d45a6b}.c-nv{background:#1c66c9}
+.hl-col .art{position:absolute;right:-18px;top:-18px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.55),rgba(255,255,255,.08) 62%,transparent 70%)}
+.hl-col .ic{position:absolute;right:12px;top:12px;opacity:.9}
+.hl-rings{display:flex;align-items:center;justify-content:space-between}
+.hl-st{display:flex;flex-direction:column;gap:12px}.hl-st div{display:flex;align-items:center;gap:10px;font-size:13px;color:#d3daee}.hl-st b{font-size:24px;font-weight:600;color:#fff;margin-right:4px}
+.hl-st i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.hl-ex{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;text-align:center}
+.hl-ex div{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;color:#c9d1e8}.hl-ex i{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:#fff}.hl-ex b{color:#fff;font-size:13px}
+.hl-bars{display:flex;align-items:flex-end;gap:8px;height:104px;margin-top:12px}
+.hl-bars div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;font-size:10px;color:#aab3cc}
+.hl-bars i{display:block;width:100%;border-radius:6px;background:rgba(255,255,255,.35);min-height:3px}.hl-bars .now i{background:#7ed321}.hl-bars .now{color:#fff}
+.hl-row{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid rgba(255,255,255,.07)}.hl-row:last-child{border:0}
+.hl-row em{font-style:normal;width:24px;text-align:center;color:#9aa4c0;font-size:14px}.hl-row b{flex:1;font-weight:500;font-size:15px}.hl-row span{font-size:14px;color:#d3daee}
+.hl-row.me{background:rgba(29,92,255,.45);border-radius:14px;padding-left:10px;padding-right:10px;margin:2px -6px;border:0}
+.hl-live{display:flex;align-items:center;gap:10px;font-size:14px}.hl-live i{width:10px;height:10px;border-radius:50%;background:#7ed321;box-shadow:0 0 0 0 rgba(126,211,33,.6);animation:hlp 1.4s infinite}.hl-live.idle i{background:#6b7390;animation:none}
+@keyframes hlp{70%{box-shadow:0 0 0 9px rgba(126,211,33,0)}100%{box-shadow:0 0 0 0 rgba(126,211,33,0)}}
+.hl-brk div{display:flex;align-items:center;gap:10px;margin-top:11px;font-size:13px;color:#d3daee}.hl-brk em{font-style:normal;width:62px}.hl-brk .hl-prog{flex:1;margin:0}.hl-brk b{width:58px;text-align:right;color:#fff;font-weight:600}
+.hl-nav{position:absolute;left:0;right:0;bottom:44px;display:flex;justify-content:center;gap:10px;pointer-events:none;z-index:5}
+.hl-pill{pointer-events:auto;display:flex;background:rgba(36,36,40,.94);border-radius:34px;padding:5px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.hl-pill button{background:none;border:0;border-radius:28px;color:#d5d9e6;padding:7px 14px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;cursor:pointer;font-family:inherit}
+.hl-pill button.on{background:rgba(255,255,255,.14);color:#fff}
+.hl-fab{pointer-events:auto;width:56px;height:56px;border-radius:50%;border:0;background:rgba(36,36,40,.94);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.hl-sheet{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:20;display:flex;align-items:flex-end}
+.hl-sh{width:100%;background:#1d1f2b;border-radius:26px 26px 0 0;padding:18px 18px 46px;display:flex;flex-direction:column;gap:12px}.hl-sh b{font-size:18px}
+.hl-sh label{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#d3daee}
+.hl-sh input{width:110px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:#12141d;color:#fff;text-align:center;font-size:15px;font-family:inherit;outline:0}
+.hl-sh .hl-btn{background:#2f6bff;padding:12px;text-align:center}.hl-sh .hl-btn.g{background:rgba(255,255,255,.12)}
+.hl-empty{text-align:center;color:#aab3cc;padding:30px 10px;font-size:14px}

@@ -1,4 +1,4 @@
-/* ===== Samsung Clock app: Alarm / World clock / Stopwatch / Timer ===== */
+/* ===== CPhone Clock app: Alarm / World clock / Stopwatch / Timer ===== */
 const CKL = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch (e) { return d } };
 const CKS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } };
 const CK = {

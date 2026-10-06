@@ -1,10 +1,10 @@
-/* ===== Samsung-style camera (fullscreen overlay, design grid 720x1600 scaled to screen height) ===== */
+/* ===== CPhone-style camera (fullscreen overlay, design grid 720x1600 scaled to screen height) ===== */
 #camfs{position:fixed;inset:0;z-index:99999;pointer-events:none;color:#fff;direction:ltr;user-select:none;
-  font-family:'Samsung Sans','Roboto','Noto Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  font-family:'CPhone Sans','Roboto','Segoe UI','Noto Sans Arabic','Tahoma',Arial,sans-serif;-webkit-font-smoothing:antialiased}
 #camfs.hidden{display:none!important}
 #camfs.cur{pointer-events:auto}
 #camfs.shot #cw{visibility:hidden}
-#cw{position:absolute;top:0;left:0;width:720px;height:1600px;transform-origin:0 0}
+#cw{position:absolute;top:0;left:0;width:720px;height:1600px;transform-origin:0 0;will-change:transform;backface-visibility:hidden}
 #cw button{font-family:inherit;outline:0}
 
 /* viewfinder = transparent hole where the game is visible; everything outside is dimmed */
@@ -27,7 +27,7 @@
 #ccd{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:220px;font-weight:300;text-shadow:0 0 30px rgba(0,0,0,.55);display:none;text-align:center}
 #ccd small{display:block;font-size:34px;font-weight:500;color:#fff;margin-top:-10px}
 #ccd.on{display:block}
-#cfl{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#cfl{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;will-change:opacity}
 #cfl.go{animation:cflash .28s ease-out}
 @keyframes cflash{0%{opacity:.9}100%{opacity:0}}
 

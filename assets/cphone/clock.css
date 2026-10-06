@@ -1,4 +1,4 @@
-/* ===== Samsung Clock (One UI) ===== */
+/* ===== CPhone Clock (One UI) ===== */
 #app.clk{background:#000;color:#fff;padding-top:30px;padding-bottom:36px}
 #app.clk .body{padding:0;display:flex;flex-direction:column;overflow:hidden}
 .ck-page{flex:1;min-height:0;display:flex;flex-direction:column;position:relative;overflow-y:auto;scrollbar-width:none}

@@ -1,9 +1,9 @@
-/* ---------- Yasir (taxi app) ----------
+/* ---------- CDrive (taxi app) ----------
    Map (same atlas as Maps) -> tap to drop a pin / pick a place / use the GPS waypoint -> "Call taxi".
    The taxi is driven by client/yasir.lua, which pushes its state here with the 'yasirState' message. */
 
 Object.assign(TR.ar, {
-  'Yasir': 'ياسر', 'Where to?': 'وين رايح؟', 'GPS waypoint': 'نقطة GPS', 'Dropped pin': 'دبوس على الخريطة',
+  'CDrive': 'ياسر', 'Where to?': 'وين رايح؟', 'GPS waypoint': 'نقطة GPS', 'Dropped pin': 'دبوس على الخريطة',
   'Call taxi': 'اطلب طاكسي', 'Get in': 'اركب', 'Stop here': 'وقّف هنا', 'Finding you a driver…': 'نقلّبو لك على سائق…',
   'Your driver is on the way': 'السائق جاي في الطريق', 'Meet at your pickup spot': 'استناه في مكانك',
   'Your taxi has arrived': 'الطاكسي وصل', 'The door is open, get in': 'الباب مفتوح، اركب',
@@ -14,7 +14,7 @@ Object.assign(TR.ar, {
   'Taxi': 'طاكسي', 'Change': 'تغيير', 'Paid': 'مدفوع',
 });
 Object.assign(TR.fr, {
-  'Yasir': 'Yasir', 'Where to?': 'Où allez-vous ?', 'GPS waypoint': 'Point GPS', 'Dropped pin': 'Repère posé',
+  'CDrive': 'CDrive', 'Where to?': 'Où allez-vous ?', 'GPS waypoint': 'Point GPS', 'Dropped pin': 'Repère posé',
   'Call taxi': 'Appeler un taxi', 'Get in': 'Monter', 'Stop here': 'Arrêtez-vous ici', 'Finding you a driver…': 'Recherche d’un chauffeur…',
   'Your driver is on the way': 'Votre chauffeur arrive', 'Meet at your pickup spot': 'Rendez-vous à votre point de départ',
   'Your taxi has arrived': 'Votre taxi est arrivé', 'The door is open, get in': 'La porte est ouverte, montez',
@@ -38,11 +38,11 @@ async function yasirApp() {
   st.ys.loc = loc || {};
   st.ys.d = (cur && cur.s) ? cur : { s: 'idle' };
   st.ys.key = '';
-  view('Yasir', `
+  view('CDrive', `
     <div class="mp-map ys-map">
       <div class="mp-map-bg" id="ysmap"></div>
       <button type="button" class="ys-back" id="ysback">${I(MP.back, 20)}</button>
-      <div class="ys-brand"><b>Yasir</b></div>
+      <div class="ys-brand"><b>CDrive</b></div>
       <button type="button" class="ys-locate" id="ysloc">${I(MP.nav, 18)}</button>
       <div class="ys-sheet" id="yssheet"></div>
     </div>`, { dark: false, app: 'ys', nohdr: true, cls: 'full mp-body' });

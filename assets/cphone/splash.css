@@ -1,0 +1,24 @@
+/* ---------- App opening splash ---------- */
+.spl{position:absolute;inset:0;z-index:25;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;overflow:hidden;cursor:pointer;
+  background:radial-gradient(120% 90% at 50% 18%,var(--c2) 0%,var(--c1) 70%);color:#fff;animation:spl-bg .22s ease-out both;direction:ltr}
+.spl.out{animation:spl-out .28s ease-in forwards;pointer-events:none}
+.spl-glow{position:absolute;left:50%;top:38%;width:260px;height:260px;margin:-130px 0 0 -130px;border-radius:50%;
+  background:radial-gradient(circle,var(--ac) 0%,transparent 66%);opacity:.0;filter:blur(18px);animation:spl-glow 1.4s ease-out .05s both}
+.spl-ico{position:relative;width:84px;height:84px;border-radius:24px;margin-bottom:22px;box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.12);
+  background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;animation:spl-pop .5s cubic-bezier(.2,1.3,.4,1) both}
+.spl-ico img{width:100%;height:100%;border-radius:24px;display:block}
+.spl-ico::after{content:'';position:absolute;inset:-6px;border-radius:30px;border:2px solid var(--ac);opacity:0;animation:spl-ring .9s ease-out .15s both}
+.spl-name{display:flex;justify-content:center;font-size:var(--fs);font-weight:800;letter-spacing:.12em;line-height:1.1;text-shadow:0 2px 18px rgba(0,0,0,.35);padding-left:.12em;white-space:nowrap}
+.spl-name span{display:inline-block;opacity:0;animation:spl-l .34s cubic-bezier(.2,.9,.3,1) both}
+.spl-tag{margin-top:12px;font-size:12.5px;letter-spacing:.04em;color:var(--ac);opacity:0;animation:spl-fade .4s ease-out both;text-align:center;padding:0 24px}
+.spl-line{position:absolute;left:50%;bottom:74px;width:84px;height:3px;margin-left:-42px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden}
+.spl-line i{display:block;height:100%;width:100%;background:var(--ac);border-radius:2px;transform:translateX(-100%);animation:spl-sweep var(--tot) linear both}
+@keyframes spl-bg{from{opacity:0}to{opacity:1}}
+@keyframes spl-out{to{opacity:0;transform:scale(1.04)}}
+@keyframes spl-pop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:none}}
+@keyframes spl-ring{0%{opacity:.9;transform:scale(.92)}100%{opacity:0;transform:scale(1.35)}}
+@keyframes spl-glow{0%{opacity:0;transform:scale(.6)}40%{opacity:.35}100%{opacity:.18;transform:scale(1.1)}}
+@keyframes spl-l{from{opacity:0;transform:translateY(14px) scale(.9);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes spl-fade{from{opacity:0;transform:translateY(6px)}to{opacity:.95;transform:none}}
+@keyframes spl-sweep{to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){.spl-name span,.spl-ico,.spl-tag,.spl-glow,.spl-ico::after{animation-duration:.01s!important;animation-delay:0s!important}}

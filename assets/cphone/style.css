@@ -1,11 +1,11 @@
-/* Samsung Sans (Latin). Arabic etc. fall back to Noto/Roboto/Arial */
-@font-face{font-family:'Samsung Sans';font-weight:100;font-style:normal;src:url('fonts/SamsungSans-Thin.ttf') format('truetype');font-display:block}
-@font-face{font-family:'Samsung Sans';font-weight:300;font-style:normal;src:url('fonts/SamsungSans-Light.ttf') format('truetype');font-display:block}
-@font-face{font-family:'Samsung Sans';font-weight:400;font-style:normal;src:url('fonts/SamsungSans-Regular.ttf') format('truetype');font-display:block}
-@font-face{font-family:'Samsung Sans';font-weight:500;font-style:normal;src:url('fonts/SamsungSans-Medium.ttf') format('truetype');font-display:block}
-@font-face{font-family:'Samsung Sans';font-weight:600 900;font-style:normal;src:url('fonts/SamsungSans-Bold.ttf') format('truetype');font-display:block}
+/* CPhone Sans (Latin). Arabic etc. fall back to Noto/Roboto/Arial */
+@font-face{font-family:'CPhone Sans';font-weight:100;font-style:normal;src:url('fonts/CPhoneSans-Thin.ttf') format('truetype');font-display:block}
+@font-face{font-family:'CPhone Sans';font-weight:300;font-style:normal;src:url('fonts/CPhoneSans-Light.ttf') format('truetype');font-display:block}
+@font-face{font-family:'CPhone Sans';font-weight:400;font-style:normal;src:url('fonts/CPhoneSans-Regular.ttf') format('truetype');font-display:block}
+@font-face{font-family:'CPhone Sans';font-weight:500;font-style:normal;src:url('fonts/CPhoneSans-Medium.ttf') format('truetype');font-display:block}
+@font-face{font-family:'CPhone Sans';font-weight:600 900;font-style:normal;src:url('fonts/CPhoneSans-Bold.ttf') format('truetype');font-display:block}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:transparent;overflow:hidden;font-family:'Samsung Sans','Roboto','Noto Sans','Noto Sans Arabic',Arial,sans-serif;user-select:none}
+html,body{height:100%;background:transparent;overflow:hidden;font-family:'CPhone Sans','Roboto','Segoe UI','Noto Sans Arabic','Tahoma',Arial,sans-serif;user-select:none}
 input,textarea,select,button{font-family:inherit}
 /* Hide all scrollbars inside phone NUI */
 #phone,#phone *{scrollbar-width:none!important;-ms-overflow-style:none!important}
@@ -14,7 +14,7 @@ input,textarea,select,button{font-family:inherit}
 button{font-family:inherit}
 small{font-size:12px;color:#8e8e93}
 
-/* Samsung A-series frame */
+/* CPhone A-series frame */
 #phone{position:fixed;right:3vw;bottom:1.5vh;width:308px;height:668px;border-radius:28px;border:7px solid #1a1a1a;background:#0d0d0d;box-shadow:0 0 0 1px #333,0 18px 50px rgba(0,0,0,.55)}
 #phone.sam{border-radius:26px}
 #screen{position:relative;width:100%;height:100%;border-radius:20px;overflow:hidden;background:#1c1c1c center/cover no-repeat;color:#fff}
@@ -28,14 +28,14 @@ small{font-size:12px;color:#8e8e93}
 #sicons{display:flex;gap:6px;align-items:center}
 .st-ico{display:block;flex:none;opacity:.95}
 .st-ico.hide{display:none!important}
-/* Samsung-style battery pill with % */
+/* CPhone-style battery pill with % */
 .batt-pill{position:relative;min-width:28px;height:14px;padding:0 5px;border-radius:8px;border:1.5px solid currentColor;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;box-sizing:border-box}
 .batt-fill{position:absolute;left:0;top:0;bottom:0;width:100%;background:currentColor;opacity:.22;border-radius:6px;z-index:0}
 .batt-pct{position:relative;z-index:1;font-size:9px;font-weight:700;line-height:1;letter-spacing:-.2px}
 #screen.light #status{color:#111}
 #sam-search .mic,#sam-search .lens{opacity:.8;flex:none;color:#ccc}
 .lk-q svg{display:block}
-/* Samsung 3-button nav */
+/* CPhone 3-button nav */
 #bar.sam-nav,#bar{position:absolute;bottom:0;left:0;right:0;width:100%;height:36px;transform:none;border-radius:0;background:rgba(0,0,0,.55);z-index:40;display:flex;align-items:center;justify-content:space-around;padding:0 28px;backdrop-filter:blur(8px);cursor:default}
 #bar button{background:none;border:0;color:rgba(255,255,255,.92);font-size:16px;line-height:1;padding:8px 16px;cursor:pointer;opacity:.92;display:flex;align-items:center;justify-content:center}
 #bar button svg{display:block}
@@ -53,7 +53,7 @@ small{font-size:12px;color:#8e8e93}
 .lk-q{width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);font-size:20px;cursor:pointer;color:#fff}
 .lk-q:active{transform:scale(.92);background:rgba(255,255,255,.28)}
 
-/* ===== Samsung Home ===== */
+/* ===== CPhone Home ===== */
 #home{position:absolute;inset:0;padding:32px 14px 40px;display:flex;flex-direction:column;z-index:5}
 #home.hidden{display:none!important}
 #wx-widget{display:flex;align-items:center;justify-content:space-between;margin:8px 4px 0;padding:12px 16px;border-radius:22px;background:linear-gradient(90deg,#4a90d9 0%,#6eb5f0 55%,#8ec8f5 100%);box-shadow:0 4px 14px rgba(0,0,0,.25);flex:none;cursor:pointer}
@@ -206,7 +206,7 @@ input[type=range]{padding:0;border:0;background:transparent;height:28px;accent-c
 .sw{direction:ltr}
 #status,.kp,.ck,.cd,.dn,.kact{direction:ltr}
 
-@keyframes shake{0%,100%{transform:translate(0,0)}15%{transform:translate(-3px,1px) rotate(-.6deg)}30%{transform:translate(3px,-1px) rotate(.6deg)}45%{transform:translate(-3px,0)}60%{transform:translate(3px,1px)}75%{transform:translate(-2px,0)}}
+@keyframes shake{0%,100%{transform:scale(var(--ps,1)) translate(0,0)}15%{transform:scale(var(--ps,1)) translate(-3px,1px) rotate(-.6deg)}30%{transform:scale(var(--ps,1)) translate(3px,-1px) rotate(.6deg)}45%{transform:scale(var(--ps,1)) translate(-3px,0)}60%{transform:scale(var(--ps,1)) translate(3px,1px)}75%{transform:scale(var(--ps,1)) translate(-2px,0)}}
 #phone.vib{animation:shake .45s linear infinite}
 
 [dir=rtl] .bk{transform:scaleX(-1)}
@@ -241,7 +241,7 @@ input[type=range]{padding:0;border:0;background:transparent;height:28px;accent-c
 .eq.on i{animation:eq .8s ease-in-out infinite}.eq.on i:nth-child(2){animation-delay:.2s}.eq.on i:nth-child(3){animation-delay:.4s}
 @keyframes eq{0%,100%{height:3px}50%{height:14px}}
 
-/* ===== shared YouTube player ===== */
+/* ===== shared CTube player ===== */
 #ytbox{position:fixed;z-index:5;border-radius:10px;overflow:hidden;background:#000}
 #ytbox iframe{width:100%;height:100%;border:0;display:block}
 .scr{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}.scr::-webkit-scrollbar{display:none}
@@ -260,7 +260,7 @@ input[type=range]{padding:0;border:0;background:transparent;height:28px;accent-c
 .ctl{display:flex;align-items:center;gap:26px;margin-top:6px}.ctl button{font-size:26px}
 .ctl .big{width:58px;height:58px;border-radius:50%;background:#ff375f;color:#fff;font-size:24px}
 
-/* ===== YouTube ===== */
+/* ===== CTube ===== */
 .vc{margin-bottom:12px;cursor:pointer}
 .vt{aspect-ratio:16/9;background:#222;border-radius:10px;overflow:hidden}.vt img{width:100%;height:100%;object-fit:cover;display:block}
 .vm{padding:6px 2px;display:flex;flex-direction:column;gap:2px;font-size:13px}
@@ -312,7 +312,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 [dir=rtl] .bnum{direction:ltr}
 .dk .mini2{background:#1c1c1e}
 
-/* ================= Music (Samsung-style dark player) ================= */
+/* ================= Music (CPhone-style dark player) ================= */
 #app.mus{background:linear-gradient(180deg,#050505 0%,#0a090c 45%,#1a1424 80%,#26333a 100%);color:#fff}
 .mus small{color:#9a9aa2}
 .mus .body{padding:4px 14px 18px}
@@ -412,14 +412,13 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 .cdl div{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:.5px solid #2a2a2c;font-size:14px}
 .cdl div:last-child{border-bottom:0}.cdl small{color:#8b8b90}.cdl b{font-weight:600;direction:ltr}
 
-/* ================= YouTube (dark app style) ================= */
+/* ================= CTube (dark app style) ================= */
 #app.yt{background:#0f0f0f;color:#fff}
 .yt small{color:#aaa}
 .ytb{background:#0f0f0f}
 .yh{display:flex;justify-content:space-between;align-items:center;padding:4px 12px 8px;flex:none}
 .ylg{display:flex;align-items:center;gap:4px}.ylg b{font-size:19px;letter-spacing:-1px;font-weight:700}
 .yhi{display:flex;gap:12px;align-items:center}.yhi>span,.yhi button{position:relative;display:flex;background:none;border:0;color:#fff;cursor:pointer;padding:0}
-.yreg-btn{font-size:11px;font-weight:700;padding:4px 8px!important;border-radius:10px;background:rgba(255,255,255,.12)!important;letter-spacing:.5px}
 .yhi>span::after{content:'9+';position:absolute;top:-7px;left:11px;background:#e11;color:#fff;font-size:8px;font-weight:700;border-radius:8px;padding:1px 4px}
 .yc{cursor:pointer;margin-bottom:14px}
 .yth{aspect-ratio:16/9;background:#222;overflow:hidden}.yth img{width:100%;height:100%;object-fit:cover;display:block}
@@ -500,7 +499,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 .ph .pf{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
 .ph .pf img{width:100%;max-height:100%;object-fit:contain;border-radius:0}
 
-/* ================= Phone (Samsung dialer style) ================= */
+/* ================= Phone (CPhone dialer style) ================= */
 #app.pho{background:#000;color:#fff}
 .pho small{color:#9a9aa0}
 .pth{--k:0;flex:none;position:relative;height:calc(128px - 78px*var(--k));display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding:0 14px}
@@ -726,7 +725,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 #phone.dk #app.tt .ttsrh input{background:#f1f1f2;color:#161823;border:0}
 #phone.dk #app.tt.tt-edit:not(.dark){background:#f1f1f2}
 
-/* ===== Weather (Samsung style) ===== */
+/* ===== Weather (CPhone style) ===== */
 #app.wxa{padding-top:0;color:#fff;background:linear-gradient(180deg,#2f86ee 0%,#6db7f2 34%,#5fb3a8 60%,#3a86e6 100%)}
 #app.wxa[data-sky=night]{background:linear-gradient(180deg,#0a1130 0%,#1b2352 38%,#2b3a67 62%,#16204a 100%)}
 #app.wxa[data-sky=grey]{background:linear-gradient(180deg,#4b5668 0%,#8794a4 38%,#6d8690 62%,#475872 100%)}
@@ -1050,7 +1049,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 .ig-url-toggle{margin-top:4px}
 .ig-new input.hidden{display:none}
 
-/* ===== Samsung Recents (task switcher) ===== */
+/* ===== CPhone Recents (task switcher) ===== */
 #recents{position:absolute;inset:0;z-index:32;display:flex;flex-direction:column;align-items:center;
   background:rgba(0,0,0,.45);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
   padding:36px 16px 48px;opacity:0;pointer-events:none;transition:opacity .25s ease}
@@ -1088,7 +1087,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 .wx-ico{display:flex;align-items:center;font-size:0}
 .wx-ico .wx-svg{width:26px;height:26px;display:block}
 
-/* ===== Samsung Quick Settings ===== */
+/* ===== CPhone Quick Settings ===== */
 #qspanel{position:absolute;inset:0;z-index:35;display:flex;flex-direction:column;padding:28px 12px 40px;
   background:rgba(30,30,32,.55);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
   color:#fff;transform:translateY(-105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);overflow-y:auto;scrollbar-width:none!important}
@@ -1139,7 +1138,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 .qs-bottom .qs-ico{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex:none}
 .qs-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.35);margin:14px auto 0;flex:none}
 
-/* ===== Samsung Settings ===== */
+/* ===== CPhone Settings ===== */
 #app.ssam,#app.ssam .body{background:#000!important;color:#fff}
 .ss-wrap{padding:8px 12px 28px;overflow-y:auto;height:100%;scrollbar-width:none!important;-ms-overflow-style:none}
 .ss-wrap::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
@@ -1166,7 +1165,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 #app,#app .body,.ss-wrap,#qspanel,#drawer,#dr-grid{scrollbar-width:none!important;-ms-overflow-style:none}
 #app::-webkit-scrollbar,#app .body::-webkit-scrollbar,.ss-wrap::-webkit-scrollbar,#qspanel::-webkit-scrollbar,#drawer::-webkit-scrollbar,#dr-grid::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
 
-/* Samsung settings subpages */
+/* CPhone settings subpages */
 .ss-subhead{display:flex;align-items:center;gap:8px;padding:8px 0 14px;position:sticky;top:0;background:#000;z-index:2}
 .ss-subhead h2{flex:1;font-size:20px;font-weight:600;margin:0}
 .ss-back{background:none;border:0;color:#fff;font-size:28px;line-height:1;padding:4px 8px 4px 0;cursor:pointer}
@@ -1218,7 +1217,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 .ic.gic{width:34px;height:34px;border-radius:9px;background:linear-gradient(#ffb340,#ff7a00)}
 .ic.gic svg{display:block}
 
-/* ===== Samsung Galaxy S21 Ultra look ===== */
+/* ===== CPhone Galaxy S21 Ultra look ===== */
 #phone,#phone.sam{width:310px;height:676px;border-radius:40px;border:4px solid #0b0b0c;background:#000;
   box-shadow:0 0 0 1.5px #7a7a80,0 0 0 3px #26262a,0 0 0 4px #5b5b61,0 22px 60px rgba(0,0,0,.6)}
 #phone::before,#phone::after{content:'';position:absolute;right:-8px;width:4px;border-radius:0 3px 3px 0;background:linear-gradient(90deg,#4a4a50,#8a8a90);pointer-events:none}
@@ -1265,7 +1264,7 @@ kbd{background:#2c2c2e;color:#fff;border-radius:5px;padding:2px 6px;font-size:11
 .ig-new-preview .ig-play{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;padding-left:3px}
 @keyframes cblink{50%{opacity:.25}}
 
-/* ================= YouTube: avatars, Shorts viewer, channel profile ================= */
+/* ================= CTube: avatars, Shorts viewer, channel profile ================= */
 .yav{overflow:hidden}.yav img{width:100%;height:100%;object-fit:cover;display:block}
 .ynav button.so{opacity:.7}.ynav button.yplus{opacity:1}
 button.ysub{height:28px;border-radius:14px;padding:0 12px;border:0;background:#fff;color:#000;font-size:12px;font-weight:600;cursor:pointer;flex:none}
@@ -1401,7 +1400,7 @@ button.ysub.big{width:100%;height:34px;border-radius:17px;font-size:13px}
 
 /* ===== Dynamic Island removed: punch-hole only ===== */
 #notch,#notch.mini,#notch.big{width:14px!important;height:14px!important;border-radius:50%!important;top:10px!important;padding:0!important}
-/* ===== Samsung media card ===== */
+/* ===== CPhone media card ===== */
 #qs-mcard{margin-bottom:8px;flex:none}
 .mcard{position:relative;border-radius:30px;overflow:hidden;color:#fff;background:#2b1a36;min-height:150px;cursor:pointer}
 .mcard.empty{min-height:0;background:transparent;display:flex;gap:8px;cursor:default}
@@ -1465,7 +1464,7 @@ button.ysub.big{width:100%;height:34px;border-radius:17px;font-size:13px}
 .qs-carrier{display:none}
 .qs-act{width:40px;height:40px;font-size:19px}
 
-/* ===== Gemini look ===== */
+/* ===== Cminai look ===== */
 #app.gpt,.gptb{background:#131314}
 .gptitle{display:flex;align-items:center;gap:4px;font-size:19px;font-weight:500;color:#e3e3e3;padding-left:4px}
 .gptitle b{font-weight:500}
@@ -1505,7 +1504,7 @@ button.ysub.big{width:100%;height:34px;border-radius:17px;font-size:13px}
 /* back chevron / header buttons: neutral like One UI, not iOS blue */
 #app:not(.dark) .hdr button{color:#222}
 #app.dark .hdr button,.dk #app .hdr button{color:#fff}
-/* Samsung Calculator: text keys on a dark panel, blue operators, filled equals */
+/* CPhone Calculator: text keys on a dark panel, blue operators, filled equals */
 .cd{font-weight:300;font-size:56px;padding:34px 16px 14px}
 .ck{background:#1b1b1d;border-radius:26px 26px 0 0;padding:14px 8px 10px;margin:0 -12px;gap:4px}
 .ck button,.ck .fn,.ck .op{background:transparent!important;color:#fff;height:56px;border-radius:50%;font-size:25px;font-weight:300}
@@ -1693,6 +1692,511 @@ button.ysub.big{width:100%;height:34px;border-radius:17px;font-size:13px}
 #screen:not(.wp-light) #page-dots i{background:rgba(255,255,255,.4)}
 #screen:not(.wp-light) #page-dots i.on{background:#fff}
 
-/* YouTube expand button */
+/* CTube expand button */
 #ytfs{position:fixed;z-index:9998;width:30px;height:30px;border-radius:15px;border:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;cursor:pointer;padding:0}
 #ytfs:active{background:rgba(0,0,0,.8)}
+
+/* ---- CTube "You" tab ---- */
+.yuh .yacc{display:flex;align-items:center;gap:6px;height:34px;padding:0 14px;border:1px solid #3f3f3f;border-radius:18px;background:none;color:#fff;font-size:13px;font-weight:500;cursor:pointer}
+.yyou{padding-bottom:12px}
+.yprof{display:flex;align-items:center;gap:14px;padding:14px 14px 4px}
+.yprav{width:72px;height:72px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600;color:#fff}
+.yprn{display:flex;flex-direction:column;gap:3px;min-width:0}.yprn b{font-size:24px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.yprn small{font-size:14px}
+.yprb{display:flex;gap:10px;padding:14px 14px 4px}
+.yprb button{flex:1;height:38px;border-radius:19px;font-size:13.5px;font-weight:500;cursor:pointer}
+.yb1{background:#f1f1f1;color:#0f0f0f;border:0}.yb2{background:none;color:#fff;border:1px solid #3f3f3f}
+.ysec{display:flex;align-items:center;gap:6px;padding:18px 14px 10px}.ysec b{font-size:19px;font-weight:700}.ysec span{display:flex;transform:rotate(-90deg);color:#fff}
+.yhrow{display:flex;gap:10px;overflow-x:auto;padding:0 14px;scrollbar-width:none}.yhrow::-webkit-scrollbar{display:none}
+.yhc2{flex:none;width:150px;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.yhc2t{aspect-ratio:16/9;border-radius:10px;background:#222 center/cover;position:relative;overflow:hidden}
+.yshb{position:absolute;right:6px;bottom:6px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;color:#fff}
+.yhc2 b{font-size:13px;font-weight:500;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+.yhc2 small{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ychips{display:flex;gap:8px;padding:0 14px 12px}
+.ych{display:flex;align-items:center;gap:6px;height:32px;padding:0 14px;border:0;border-radius:9px;background:#272727;color:#fff;font-size:13px;font-weight:500;cursor:pointer}
+.ypl{display:flex;align-items:center;gap:14px;padding:8px 14px;cursor:pointer}
+.ypt{width:120px;aspect-ratio:16/9;border-radius:10px;background:#222 center/cover;position:relative;flex:none;display:flex;align-items:flex-end;justify-content:flex-end}
+.ypi{margin:6px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;color:#fff}
+.ypm{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.ypm b{font-size:17px;font-weight:600}.ypm small{font-size:13px}
+.ypd{display:flex;color:#fff}
+
+/* ---- InPic stories ---- */
+.ig-av.ring.seen{background:#4a4a4a}
+.ig-sv,.ig-sa{background:#0a0d12!important}
+.sv{display:flex;flex-direction:column;height:100%;min-height:0}
+.sv-stage{position:relative;flex:1;min-height:0;margin:6px 0 0;border-radius:14px;overflow:hidden;background:#111}
+.sv-media,.sv-media img{width:100%;height:100%;object-fit:cover;display:block}
+.sv-top{position:absolute;left:0;right:0;top:0;padding:8px 10px 24px;background:linear-gradient(rgba(0,0,0,.55),transparent);z-index:3}
+.sv-bars{display:flex;gap:3px;margin-bottom:10px}
+.sv-bars i{flex:1;height:2px;background:rgba(255,255,255,.35);border-radius:2px;overflow:hidden;display:block}
+.sv-bars b{display:block;height:100%;background:#fff}
+.sv-hd{display:flex;align-items:center;gap:9px}
+.sv-who{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 7px}
+.sv-who b{font-size:14px;font-weight:600;color:#fff}.sv-who small{font-size:12px;color:#d0d0d0}
+.sv-mus{flex-basis:100%;display:flex;align-items:center;gap:4px;font-size:12px;color:#fff;font-weight:500}
+.sv-hd button{background:none;border:0;color:#fff;padding:4px;cursor:pointer;display:flex}
+.sv-z{position:absolute;top:70px;bottom:0;z-index:2;cursor:pointer}.sv-z.l{left:0;width:30%}.sv-z.r{right:0;width:70%}
+.sv-cap{position:absolute;left:12px;right:12px;bottom:18px;z-index:3;text-align:center;color:#fff;font-size:15px;font-weight:500;padding:8px 12px;background:rgba(0,0,0,.45);border-radius:10px}
+.sv-bar{display:flex;align-items:center;gap:12px;padding:10px 12px 16px;flex:none}
+.sv-bar input{flex:1;min-width:0;height:44px;border-radius:22px;border:1px solid #5a5a5a;background:none;color:#fff;padding:0 16px;font-size:14px;outline:0}
+.sv-bar button{background:none;border:0;color:#fff;display:flex;cursor:pointer;padding:2px}
+.sv-bar #svlk.on{color:#ff3040}.sv-bar #svlk.on svg{fill:#ff3040}
+.sv-me{display:flex;align-items:center;gap:8px;color:#a8a8a8;font-size:13px}
+.sc-bar .sc-go{background:#0095f6;color:#fff;border-radius:22px;height:44px;padding:0 18px;font-size:14px;font-weight:600;white-space:nowrap}
+.sa{display:flex;flex-direction:column;height:100%;overflow-y:auto;scrollbar-width:none}.sa::-webkit-scrollbar{display:none}
+.sa-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 14px;flex:none}
+.sa-hd b{font-size:19px;font-weight:600}.sa-hd button{background:none;border:0;color:#fff;display:flex;cursor:pointer}
+.sa-tiles{display:flex;gap:8px;padding:0 12px 14px}
+.sa-t{flex:1;height:84px;border-radius:12px;border:1px solid #23262b;background:#0f1216;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:13px;cursor:pointer}
+.sa-t.on{border-color:#0095f6}
+.sa-music{padding:0 12px 10px}.sa-music input{width:100%;height:40px;border-radius:10px;border:1px solid #2a2e35;background:#0f1216;color:#fff;padding:0 12px;font-size:14px;box-sizing:border-box}
+.sa-rh{display:flex;align-items:center;justify-content:space-between;padding:6px 14px 12px}
+.sa-rh b{display:flex;align-items:center;gap:6px;font-size:20px;font-weight:600}
+.sa-rh button{display:flex;align-items:center;gap:7px;height:38px;padding:0 16px;border:0;border-radius:19px;background:#1d2127;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.sa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;flex:none}
+.sa-cam,.sa-ph{aspect-ratio:3/4;border:0;background:#181b1f center/cover;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:0}
+.sa-cam small{font-size:12px}
+.sa-gw{position:relative;flex:1;min-height:380px}
+.sa-empty{position:absolute;left:0;right:0;top:40%;text-align:center;color:#fff;font-size:15px;margin:0;pointer-events:none}
+
+.sa-t .sa-th{width:34px;height:34px;border-radius:8px;object-fit:cover}
+.sa-t span{max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msheet{position:absolute;left:0;right:0;bottom:0;top:84px;background:#1a1d21;border-radius:24px 24px 0 0;z-index:30;display:flex;flex-direction:column;box-shadow:0 -10px 30px rgba(0,0,0,.5)}
+.ms-grip{display:flex;justify-content:center;padding:12px 0 10px;cursor:pointer;flex:none}.ms-grip i{width:44px;height:4px;border-radius:2px;background:#8a8d91;display:block}
+.ms-s{display:flex;align-items:center;gap:10px;margin:6px 14px 12px;height:44px;padding:0 14px;border-radius:12px;background:#2a2e33;color:#9aa0a6;flex:none}
+.ms-s input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font-size:16px}
+.ms-ch{display:flex;gap:8px;padding:0 14px 12px;flex:none;overflow-x:auto;scrollbar-width:none}.ms-ch::-webkit-scrollbar{display:none}
+.ms-ch button{flex:none;height:36px;padding:0 18px;border:0;border-radius:18px;background:#2a2e33;color:#fff;font-size:15px;font-weight:500;cursor:pointer}
+.ms-ch button.on{background:#fff;color:#111}
+.ms-list{flex:1;min-height:0;overflow-y:auto;padding:0 14px 14px;scrollbar-width:none}.ms-list::-webkit-scrollbar{display:none}
+.ms-r{display:flex;align-items:center;gap:14px;padding:7px 0;cursor:pointer}
+.ms-r img{width:54px;height:54px;border-radius:8px;object-fit:cover;flex:none;background:#2a2e33}
+.ms-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ms-m b{font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-m small{font-size:14px;color:#a8adb3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-bm{background:none;border:0;color:#fff;display:flex;padding:4px;cursor:pointer}
+.ms-e{text-align:center;color:#a8adb3;font-size:14px;margin:30px 0}
+
+
+/* ===================================================================
+   CPhone Galaxy S26 Ultra  (v16)
+   Body 78.1 x 163.6 mm, display 6.9" flat Dynamic AMOLED 2X, 1440x3120, 19.5:9
+   Screen = 302 x 654 css px  (ratio 2.166)   Body = 320 x 672 css px (bezel 9px)
+   The whole phone is scaled to the game window with --ps (set from app.js)
+   =================================================================== */
+:root{--ps:1}
+#phone,#phone.sam{
+  width:320px;height:672px;border-radius:46px;border:9px solid #070708;background:#000;
+  right:3vw;bottom:2vh;
+  transform:scale(var(--ps));transform-origin:100% 100%;
+  box-shadow:0 0 0 1px #9a9ca2,0 0 0 2.5px #2c2d31,0 0 0 3.5px #6b6d73,0 26px 70px rgba(0,0,0,.65);
+  contain:layout style;
+}
+#phone::before,#phone::after{right:-14px;width:4px;border-radius:0 3px 3px 0;background:linear-gradient(90deg,#3d3f44,#8e9096)}
+#phone::before{top:176px;height:84px}   /* volume rocker */
+#phone::after{top:286px;height:44px}    /* power key */
+#screen{border-radius:37px}
+/* S26 Ultra display is flat: no curved-edge glow */
+#screen::after{box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+#notch,#notch.mini,#notch.big{width:12px!important;height:12px!important;top:11px!important;border-radius:50%!important}
+
+/* ===== v16: apps must never be wider than the screen ===== */
+#app,#app>.body,#app>.view,#app .body.full{min-width:0;max-width:100%}
+.mp-body,#app.mp .body.mp-body{min-width:0!important;width:100%!important;max-width:100%!important}
+.mp-chips{min-width:0;max-width:100%;overflow-x:auto;flex-wrap:nowrap}
+
+/* Maps reuses the class name "mp" of the music player: neutralise the player's layout rules on the Maps app */
+#app.mp{padding:0 0 36px!important;align-items:stretch!important;text-align:start!important;height:auto!important}
+#app.mp .mp-search-bar{margin:36px 10px 0!important}
+/* FlecaBank bottom bar must sit above the CPhone navigation bar (36px) */
+.bnav{bottom:44px!important}
+
+/* Quick Settings bottom row: two equal columns, two-line label like One UI */
+.qs-bottom{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.qs-bottom button{min-width:0;overflow:hidden}
+.qs-bottom .qs-bt{display:flex;flex-direction:column;min-width:0;line-height:1.25}
+.qs-bottom .qs-bt b{font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qs-bottom .qs-bt small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ===================================================================
+   Garage + Services redesign (matches FlecaBank dark style)
+   =================================================================== */
+#app.grg,#app.svc{background:radial-gradient(120% 60% at 50% -10%,#241406 0,#000 55%);color:#fff}
+#app.svc{background:radial-gradient(120% 60% at 50% -10%,#07182e 0,#000 55%)}
+#app.grg .hdr b,#app.svc .hdr b{font-size:18px;font-weight:700;letter-spacing:.2px}
+#app.grg .body,#app.svc .body{padding:6px 14px 30px}
+.grgw,.svw{display:flex;flex-direction:column;gap:12px}
+.grg-h{font-size:15px;font-weight:600;margin:6px 2px 0}
+.empty{color:#8b8b90}
+
+/* hero tiles */
+.grg-hero,.svc-hero{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-radius:22px;border:1px solid rgba(255,255,255,.08)}
+.grg-hero{background:linear-gradient(135deg,#ff9f0a 0,#ff6a00 100%);box-shadow:0 10px 26px rgba(255,122,0,.28)}
+.svc-hero{background:linear-gradient(135deg,#3a9bff 0,#1c4fd8 100%);box-shadow:0 10px 26px rgba(10,100,255,.28)}
+.grg-hero small,.svc-hero small{display:block;font-size:12px;opacity:.85;color:#fff}
+.grg-hero b,.svc-hero b{display:block;font-size:38px;font-weight:800;line-height:1.1;margin-top:2px}
+.grg-hi,.svc-hi{opacity:.92;color:#fff;display:flex}
+.grg-hi svg{filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+.grg-hero::after,.svc-hero::after{content:'';position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.12);inset-inline-end:-30px;top:-40px}
+
+/* filter chips */
+.grg-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.grg-chips::-webkit-scrollbar{display:none}
+.grg-chips button{flex:none;display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:16px;border:1px solid #2c2c2e;background:#1d1d1f;color:#d8d8dc;font-size:13px;cursor:pointer;white-space:nowrap}
+.grg-chips button em{font-style:normal;font-size:11px;background:rgba(255,255,255,.1);border-radius:9px;padding:1px 6px}
+.grg-chips button.on{background:#fff;color:#000;border-color:#fff;font-weight:600}
+.grg-chips button.on em{background:rgba(0,0,0,.12)}
+
+/* vehicle cards */
+.grg-list,.svc-list{display:flex;flex-direction:column;gap:10px}
+.gcar{background:#1d1d1f;border:1px solid #2a2a2c;border-radius:20px;padding:12px;cursor:pointer;transition:transform .15s,background .15s}
+.gcar:active{transform:scale(.975);background:#242427}
+.gc-top{display:flex;align-items:center;gap:10px}
+.gc-ic{width:46px;height:46px;flex:none;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(145deg,#ffb340,#ff7a00);box-shadow:0 4px 12px rgba(255,122,0,.35)}
+.gc-ic svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
+.gc-nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.gc-nm b{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-nm small{display:flex;align-items:center;gap:4px;color:#8b8b90;font-size:12px;min-width:0}
+.gc-nm small span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-nm small svg{flex:none}
+.gst{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:12px;white-space:nowrap}
+.gst i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.gst.s1{background:rgba(48,209,88,.16);color:#4cdb7a}
+.gst.s0{background:rgba(255,179,64,.16);color:#ffb340}
+.gst.s2{background:rgba(255,69,58,.16);color:#ff6a60}
+.gc-bt{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.gc-mini{display:flex;gap:8px;flex:1;max-width:150px}
+.gc-mini>div{flex:1;display:flex;flex-direction:column;gap:3px;align-items:stretch}
+.gc-mini i{display:block;height:4px;border-radius:2px;background:#333;overflow:hidden}
+.gc-mini u{display:block;height:100%;border-radius:2px}
+.gc-mini small{font-size:9px;color:#8b8b90;text-align:center}
+
+/* license plate */
+.plate{display:inline-block;direction:ltr;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:12px;letter-spacing:1.5px;color:#111;background:linear-gradient(#fffbea,#f3e7b0);border:1.5px solid #1b1b1b;border-radius:6px;padding:3px 9px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.plate.big{font-size:17px;padding:5px 16px;border-radius:8px;align-self:center}
+
+/* vehicle detail */
+.grg-card{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 14px 16px;background:linear-gradient(160deg,#2a1b0c,#161617 60%);border:1px solid #2f2f32;border-radius:26px}
+.grg-glow{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,26,.45),transparent 65%);top:-60px;left:50%;transform:translateX(-50%);pointer-events:none}
+.grg-car{position:relative;color:#fff;display:flex;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+.grg-t{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
+.grg-t b{font-size:19px;font-weight:700;text-align:center}
+.grg-info{background:#1d1d1f;border-radius:16px;padding:12px 14px;border:1px solid #2a2a2c}
+.grg-info>div{display:flex;align-items:center;gap:8px;color:#ff9f0a}
+.grg-info small{color:#8b8b90;font-size:12px;flex:1}
+.grg-info b{color:#fff;font-size:14px;font-weight:600}
+.grg-rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.grg-ring{display:flex;flex-direction:column;align-items:center;gap:7px;background:#1d1d1f;border:1px solid #2a2a2c;border-radius:18px;padding:14px 4px 10px}
+.grg-ring>div{position:relative;width:62px;height:62px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),#333 0);display:flex;align-items:center;justify-content:center}
+.grg-ring>div::before{content:'';position:absolute;inset:6px;border-radius:50%;background:#1d1d1f}
+.grg-ring b{position:relative;font-size:15px;font-weight:700}
+.grg-ring b small{font-size:9px;color:#8b8b90;margin-inline-start:1px}
+.grg-ring span{font-size:12px;color:#c7c7cc}
+.grg-acts{display:flex;flex-direction:column;gap:9px;margin-top:2px}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border:0;border-radius:23px;background:#fff;color:#000;font-size:15px;font-weight:600;cursor:pointer}
+.gbtn.green{background:linear-gradient(135deg,#34d36a,#1fa84a);color:#fff}
+.gbtn:active{transform:scale(.97)}
+.grg-note{text-align:center;color:#8b8b90;font-size:13px;line-height:1.5;padding:4px 8px}
+.grg-note.red{color:#ff8a82;background:rgba(255,69,58,.1);border-radius:14px;padding:12px}
+
+/* services */
+.svc-search{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:20px;background:#1d1d1f;border:1px solid #2a2a2c;color:#8b8b90}
+.svc-search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font-size:14px;height:auto;padding:0}
+.svc-search input::placeholder{color:#6e6e73}
+.svi{display:flex;align-items:center;gap:11px;background:#1d1d1f;border:1px solid #2a2a2c;border-radius:20px;padding:11px 12px}
+.svi-ic{width:46px;height:46px;flex:none;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+.svi .rc b{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.svi .rc small{display:flex;align-items:center;gap:6px;font-size:12px;color:#8b8b90;margin-top:3px}
+.svi .rc small i{width:7px;height:7px;border-radius:50%;background:#555;flex:none}
+.svi .rc small.up{color:#4cdb7a}.svi .rc small.up i{background:#30d158;box-shadow:0 0 6px #30d158}
+.sbtn{flex:none;height:32px;padding:0 16px;border:0;border-radius:16px;background:#0a84ff;color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.sbtn:active{transform:scale(.94)}
+.sbtn.dim{background:#2c2c2e;color:#c7c7cc}
+.sbtn.ok{background:#30d158;color:#fff}
+.sbtn:disabled{opacity:.8}
+
+/* ---- Services: staff list / employee ---- */
+.svi[data-s],.svi.stf{cursor:pointer}.svi[data-s]:active,.svi.stf:active{background:#242427}
+.svi-ch{color:#6e6e73;display:flex;flex:none}[dir=rtl] .svi-ch svg{transform:scaleX(-1)}
+.svc-chips{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.svc-chips span{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:11px;background:rgba(255,255,255,.22);color:#fff}
+.stf-av{position:relative;width:44px;height:44px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;background:linear-gradient(145deg,#4a4a52,#2c2c30)}
+.stf-av::after{content:'';position:absolute;bottom:0;inset-inline-end:0;width:11px;height:11px;border-radius:50%;border:2px solid #1d1d1f;background:#6e6e73}
+.stf-av.s1::after{background:#30d158}.stf-av.s0::after{background:#ffb340}
+.stf-av em{position:absolute;top:-4px;inset-inline-start:-3px;width:18px;height:18px;border-radius:50%;background:#ffb340;color:#4a2b00;display:flex;align-items:center;justify-content:center;font-style:normal}
+.stf-av.big{width:84px;height:84px;font-size:34px;z-index:1}.stf-av.big::after{width:18px;height:18px;border-color:#1b1b1d}
+.stf-av.big em{width:28px;height:28px;top:-6px}
+.gtag{display:inline-block;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:9px;background:rgba(255,255,255,.1);color:#d8d8dc;white-space:nowrap}
+.gtag.boss{background:rgba(255,179,64,.18);color:#ffb340}
+.svi .rc small{gap:8px}.stf-ph{direction:ltr;unicode-bidi:plaintext;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stf-t{display:flex;flex-direction:column;align-items:flex-end;flex:none}.stf-t b{font-size:13px;font-weight:700;color:#fff}.stf-t small{font-size:9.5px;color:#8b8b90}
+.gst.sx{background:rgba(142,142,147,.18);color:#a1a1a6}
+.stfi{display:flex;flex-direction:column;gap:10px}.stfi>div{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.stfi small{color:#8b8b90;font-size:12px}.stfi b{font-size:14px;font-weight:600;text-align:end}
+.stm{display:flex;flex-direction:column;align-items:center;gap:5px;background:#1d1d1f;border:1px solid #2a2a2c;border-radius:18px;padding:14px 4px}
+.stm b{font-size:17px;font-weight:700}.stm span{font-size:11px;color:#8b8b90}
+.grg-note svg{vertical-align:-2px}
+
+/* ---- Service welcome screen (Cat Coffee / Burger Shot) ---- */
+.wel{position:absolute;inset:0;z-index:3;overflow:hidden;background:linear-gradient(180deg,var(--b1),var(--b2));animation:welIn .35s ease-out}
+.wel-img{position:absolute;top:30px;left:0;width:100%;height:calc(100% - 30px);object-fit:contain;object-position:center top;animation:welImg .5s ease-out}
+.wel-bk{position:absolute;top:38px;inset-inline-start:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(20,20,22,.55);backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2}
+[dir=rtl] .wel-bk svg{transform:scaleX(-1)}
+.wel-br{position:absolute;top:44px;inset-inline-end:14px;font-size:11px;font-weight:700;color:#2b2b2e;background:rgba(255,255,255,.75);padding:4px 11px;border-radius:12px;z-index:2;direction:ltr}
+.wel-pn{position:absolute;left:10px;right:10px;bottom:46px;padding:16px 16px 14px;border-radius:26px;background:rgba(18,18,20,.88);backdrop-filter:blur(14px);color:#fff;text-align:center;z-index:2;box-shadow:0 14px 34px rgba(0,0,0,.35);animation:welUp .5s .1s ease-out both}
+.wel-pn small{display:block;font-size:12px;color:rgba(255,255,255,.7)}
+.wel-pn h2{margin:2px 0 0;font-size:24px;font-weight:800;letter-spacing:.2px}
+.wel-pn p{margin:4px 0 0;font-size:13px;color:var(--ac);font-weight:600}
+.wel-st{display:flex;gap:8px;margin:12px 0}
+.wel-st span{flex:1;background:rgba(255,255,255,.1);border-radius:14px;padding:8px 4px;font-size:11px;color:rgba(255,255,255,.75)}
+.wel-st b{display:block;font-size:19px;color:#fff;font-weight:800}
+.wel-go{width:100%;height:44px;border:0;border-radius:22px;background:var(--ac);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.wel-go:active{transform:scale(.97)}
+@keyframes welIn{from{opacity:0}to{opacity:1}}
+@keyframes welImg{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes welUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+.wel-img.mul{mix-blend-mode:multiply}
+/* Services home: character as background */
+.svc-bg{position:absolute;z-index:-1;top:34px;inset-inline-end:-26px;height:340px;width:auto;opacity:.6;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 45%,transparent 100%);mask-image:linear-gradient(180deg,#000 45%,transparent 100%)}
+.svc-hero.ov{background:linear-gradient(135deg,rgba(58,155,255,.86),rgba(28,79,216,.78));backdrop-filter:blur(3px);min-height:96px}
+.svc-hero.ov::after{display:none}
+.svc-search{background:rgba(29,29,31,.82);backdrop-filter:blur(8px)}
+
+/* ---- Service logos (replace html/img/logos/<service>.png with your own) ---- */
+.svi-ic.logo{width:52px;height:52px;background:#fff;padding:5px;box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.svi-ic.logo img{width:100%;height:100%;object-fit:contain;display:block}
+.svc-hlogo{display:flex;width:70px;height:70px;background:#fff;border-radius:20px;padding:7px;box-shadow:0 6px 16px rgba(0,0,0,.3);z-index:1}
+.svc-hlogo img{width:100%;height:100%;object-fit:contain}
+.wel-pn{padding-top:34px}
+.wel-logo{position:absolute;top:-34px;left:50%;margin-left:-34px;width:68px;height:68px;border-radius:22px;background:#fff;padding:6px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.wel-logo img{width:100%;height:100%;object-fit:contain;display:block}
+
+/* ===== Dark Chat ===== */
+.dc-root{padding:14px 14px 28px}
+.dc-hero{text-align:center;padding:10px 6px 16px;color:#7dffb3}
+.dc-hero b{display:block;margin-top:8px;font-size:17px;color:#fff}
+.dc-hero p{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:#fff;opacity:.6}
+.dc-lb{display:block;font-size:13px;opacity:.7;margin:12px 0 6px}
+.dc-in{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:12px;border:none;background:rgba(255,255,255,.08);color:#fff;font-size:15px}
+.dc-code{text-align:center;letter-spacing:8px;font-size:22px;margin-bottom:6px}
+.dc-go{width:100%;margin-top:18px}
+.dc-me{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.dc-mi{flex:1;min-width:0}.dc-mi b{display:block;font-size:15px}.dc-mi small{font-family:monospace;color:#7dffb3;opacity:.9}
+.dc-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid rgba(125,255,179,.35);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#7dffb3;flex:none}
+.dc-av.sm{width:38px;height:38px;font-size:15px}
+.dc-ic{background:none;border:none;color:#fff;opacity:.8;padding:6px;cursor:pointer;display:flex}
+.dc-comp{background:rgba(255,255,255,.06);border-radius:16px;padding:12px}
+.dc-comp textarea{width:100%;box-sizing:border-box;min-height:64px;resize:none;border:none;background:transparent;color:#fff;font-size:14.5px;outline:none;font-family:inherit}
+.dc-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.dc-ph{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:20px;padding:8px 14px;font-size:13px;cursor:pointer}
+.dc-post{padding:9px 24px!important;width:auto!important}
+.dc-prev{position:relative;margin:6px 0}.dc-prev img{width:100%;max-height:200px;object-fit:cover;border-radius:12px;display:block}
+.dc-prev button{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.dc-gal{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:10px;max-height:190px;overflow:auto}
+.dc-gal .empty{grid-column:1/-1}
+.dc-gp{aspect-ratio:1;border:none;border-radius:8px;background:#222 center/cover no-repeat;cursor:pointer}
+.dc-note{display:block;text-align:center;opacity:.45;font-size:11.5px;margin:12px 0}
+.dc-pst{background:rgba(255,255,255,.05);border-radius:16px;padding:12px;margin-bottom:10px}
+.dc-ph2{display:flex;align-items:center;gap:10px}
+.dc-who{flex:1;min-width:0}.dc-who b{display:block;font-size:14px}.dc-who small{opacity:.55;font-size:11.5px}
+.dc-call{width:38px;height:38px;border-radius:50%;border:none;background:#1faa59;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.dc-tx{margin:10px 0 0;font-size:14.5px;line-height:1.45;word-break:break-word}
+.dc-img{margin-top:10px;min-height:40px}.dc-img img{width:100%;border-radius:12px;display:block}
+
+/* ================= BaridiMob-style bank ================= */
+#app.bmob{background:#eef0f3;color:#0b3a7a;padding-top:34px;font-family:inherit}
+.bmbody{padding:0!important}
+.bm{min-height:100%;display:flex;flex-direction:column}
+.bm-hd{background:#0a3f86;color:#fff;display:flex;align-items:center;gap:14px;padding:14px 14px;font-size:14px;letter-spacing:.5px}
+.bm-hd button{background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:0}
+.bm-sub{background:#0a3f86;color:#fff;padding:6px 14px 26px;font-size:15px}
+.bm-c{padding:14px;flex:1;padding-bottom:60px}
+.bm-logo{text-align:center;margin:10px 0 22px;color:#f2b705;font-size:30px;font-weight:700}
+.bm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 10px}
+.bm-t{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:6px;color:#0a3f86;cursor:pointer}
+.bm-t span{width:70px;height:70px;border-radius:10px;background:linear-gradient(#0f4fa3,#0a3270);color:#fff;display:flex;align-items:center;justify-content:center}
+.bm-t small{font-size:12px}
+.bm-acc{background:#0a3f86;color:#fff;margin:-14px -14px 14px;padding:14px}
+.bm-ah{display:flex;align-items:center;gap:10px;font-size:13px}
+.bm-cur{border:1px solid #fff;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:10px}
+.bm-bal{font-size:28px;margin-top:10px}.bm-bal small{font-size:24px}
+.bm-st{font-size:13px;margin-top:2px}
+.bm-tx{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #d5d9df;padding:10px;margin-bottom:8px}
+.bm-tx b{font-size:15px;font-weight:500}.bm-tx p{margin:2px 0;font-size:13px;color:#333}.bm-tx small{color:#888;font-size:11px}
+.bm-ar{width:34px;height:34px;border-radius:50%;background:#4fb4ee;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.bm-ar.in{background:#3cc47c}
+.bm-f{background:#fff;border:1px solid #d5d9df;padding:10px 12px;margin-bottom:14px}
+.bm-f label{display:block;font-size:14px;color:#0a5aa8;margin-bottom:8px}
+.bm-in{font-size:12px;color:#555}
+.bm-f input,.bm-am input{width:100%;border:0!important;border-bottom:2px solid #4fb4ee!important;background:transparent!important;color:#222!important;font-size:15px;outline:0;padding:4px 0;border-radius:0!important}
+.bm-am{display:flex;align-items:flex-end;gap:8px}.bm-am input{border-bottom-color:#555!important}.bm-am span{color:#0a3f86}
+.bm-btn{display:block;margin:6px 0 0 auto;background:#0a2f6b;color:#fff;border:0;border-radius:3px;padding:10px 16px;font-size:14px;cursor:pointer}
+.bm-h2{font-size:14px;color:#1b3f8a;margin:14px 0 8px}
+.bm-box{background:#fff;border:1px solid #d5d9df;margin-bottom:10px}
+.bm-box>div,.bm-r{display:flex;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #d5d9df;font-size:14px;color:#222}
+.bm-box>div:last-child,.bm-r:last-child{border-bottom:0}
+.bm-r{justify-content:flex-start;gap:10px;align-items:center}
+.bm-r i{width:16px;height:16px;border:2px solid #666;border-radius:50%;display:inline-block}
+.bm-r i.on{border-color:#4fb4ee;background:radial-gradient(#4fb4ee 45%,transparent 50%)}
+.bm-seg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.bm-seg span{border:1px solid #0a3f86;padding:8px;text-align:center;font-size:14px;color:#0a3f86}.bm-seg .on{background:#fff}
+.bm-map{position:relative;height:300px;border-radius:6px;background:#cfe3c0;overflow:hidden}
+.bm-map i{position:absolute;width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#2f7ad6}
+.bm-em{text-align:center;color:#777;font-size:13px;margin-top:20px}
+
+/* ===== My profile (CPhone Contacts) ===== */
+.mpf{position:absolute;inset:0;top:34px;display:flex;flex-direction:column;background:#000;color:#fff;overflow:hidden}
+.mpf-top{display:flex;align-items:center;gap:14px;padding:10px 14px;flex:none}.mpf-top button{background:none;border:0;color:#fff;display:flex;cursor:pointer}.mpf-top b{font-size:18px}
+.mpf-body{flex:1;overflow-y:auto;padding:6px 10px 80px;scrollbar-width:none}.mpf-body::-webkit-scrollbar{display:none}
+.mpf-name{display:flex;justify-content:space-between;align-items:center;background:#18181a;border-radius:26px;padding:20px 22px;margin:8px 0 10px}.mpf-name b{font-size:24px}
+.mpf-av{width:56px;height:56px;border-radius:50%;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600;flex:none}
+.mpf-av.xl{width:96px;height:96px;font-size:40px}.mpf-name .mpf-av{width:56px;height:56px}
+.mpf-card{background:#18181a;border-radius:26px;margin-bottom:10px;overflow:hidden}.mpf-card>b{display:block;padding:16px 22px 0;font-size:17px;font-weight:400}.mpf-card>small{display:block;padding:2px 22px 16px;color:#a0a0a8}
+.mpf-r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 22px;border-bottom:.5px solid #333;color:#fff}.mpf-r:last-child{border-bottom:0}
+.mpf-r small{display:block;color:#a0a0a8;font-size:13px}.mpf-r b{font-weight:400;font-size:17px;word-break:break-all}.mpf-r>svg{color:#a0a0a8;flex:none}
+.mpf-ac{display:flex;gap:16px;align-items:center}.mpf-ac i{display:flex;cursor:pointer}.mpf-ac .c1{color:#1fa65a}.mpf-ac .c2{color:#2f9bf0}
+.mpf-ac .c3{background:#fff;border-radius:50%;width:42px;height:42px;align-items:center;justify-content:center;color:#f5a623}
+.mpf-bar{position:absolute;left:0;right:0;bottom:0;height:64px;background:#000;display:flex;justify-content:space-around;align-items:center;padding-bottom:36px;box-sizing:content-box}
+.mpf-bar button{background:none;border:0;color:#d0d0d6;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;cursor:pointer;flex:1}
+.mpf-bar.two button{font-size:17px;font-weight:600;color:#fff}
+.mpf-body.ed{padding-top:0}.mpf-ph{display:flex;justify-content:center;padding:20px 0 14px}.mpf-pic{position:relative;cursor:pointer}
+.mpf-pic em{position:absolute;right:-6px;bottom:0;width:34px;height:34px;border-radius:50%;background:#3a3a3e;display:flex;align-items:center;justify-content:center;font-style:normal}
+.mpf-r.ep{align-items:flex-end}.mpf-r.ep>div{flex:1}.bl{color:#6f9bff!important;font-size:15px!important}
+.mpf-r input{width:100%;background:none!important;border:0!important;color:#fff!important;font-size:18px;padding:4px 0;outline:0}
+.mpf-r u{width:18px;border-top:2px solid #e5484d;margin-bottom:14px;cursor:pointer;padding:10px 0;background-clip:content-box}
+.mpf-r.add{justify-content:flex-start;color:#a0a0a8;cursor:pointer}.mpf-card.ro .mpf-r{justify-content:flex-start;gap:16px;color:#6f9bff}.mpf-card.ro b{color:#fff;font-size:18px}
+.mpf.qr{align-items:center}.mpf.qr .mpf-top{align-self:stretch}
+.mpf-qn{margin-top:70px;font-size:28px}
+.mpf-qr{position:relative;margin-top:26px;width:260px;height:260px;background:#fff;border-radius:34px;padding:16px}.mpf-qr svg{width:100%;height:100%}
+.mpf-av.qrav{position:absolute;left:50%;top:50%;width:54px;height:54px;transform:translate(-50%,-50%);border:4px solid #fff}
+.mpf-hint{color:#a0a0a8;margin-top:22px;font-size:15px}
+
+/* ===== Contacts app ===== */
+.phdd.ctm{top:48px;right:10px;min-width:230px;background:#3a3a3d;border-radius:26px;padding:10px 6px}
+.phdd.ctm .ctmi{padding:14px 20px;font-size:16px}.phdd.ctm hr{border:0;border-top:1px dotted #666;margin:6px 16px}
+.ctf{padding-top:0}.ctf-acc{display:flex;align-items:center;gap:14px;padding:12px 14px;font-size:18px}.ctf-g{width:34px;height:34px;border-radius:50%;background:#fff;color:#4285f4;display:flex;align-items:center;justify-content:center}
+.ctf-ph{display:flex;justify-content:center;align-items:flex-end;gap:70px;padding:20px 0 26px}
+.ctf-card{position:relative;width:106px;height:150px;border:1px solid #444;border-radius:20px;background:#18181a;color:#aaa;display:flex;align-items:center;justify-content:center}
+.ctf-circ{position:relative;width:94px;height:94px;border:2px solid #444;border-radius:50%;background:#18181a;color:#aaa;display:flex;align-items:center;justify-content:center}
+.ctf-card em,.ctf-circ em{position:absolute;right:-8px;bottom:-4px;width:30px;height:30px;border-radius:50%;background:#3a3a3e;color:#fff;font-style:normal;font-size:22px;display:flex;align-items:center;justify-content:center}
+.ctf-in{display:flex;align-items:center;gap:18px;background:#18181a;border-radius:30px;padding:0 22px;height:56px;margin-bottom:8px;color:#6f9bff}
+.ctf-in input{flex:1;background:none!important;border:0!important;color:#fff!important;font-size:18px;outline:0;min-width:0}.ctf-in input::placeholder,.ctf-in span{color:#9a9aa2}.ctf-in span{font-size:18px}
+.ctf-more{text-align:center;color:#fff;padding:18px;font-size:16px;cursor:pointer}
+
+/* ===== One UI home: matches reference (briefing card, weather pill, Start pill, white search, Finder, dock) ===== */
+#home{padding:40px 14px 44px}
+#hw-card{height:auto;min-height:150px;margin-top:14px;padding:58px 16px 14px;justify-content:flex-start;background:rgba(255,255,255,.34);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);color:#1d1a33;border-radius:28px}
+#hw-card .hw-cake{left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:none;box-shadow:none}
+#hw-title{font-size:19px;font-weight:700;color:#1b1840;text-shadow:none;margin-top:0}
+#hw-sub{font-size:12px;color:#5b5878;opacity:1;margin-top:4px;max-width:78%}
+#hw-brief{align-self:flex-start;margin-top:10px;border:0;border-radius:14px;padding:5px 12px;font-size:11.5px;font-weight:600;color:#3a3856;background:rgba(120,115,150,.28);cursor:pointer}
+#hw-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+#wx-widget{height:62px;border-radius:31px;padding:0 18px!important;gap:10px!important;background:linear-gradient(135deg,#1e3566,#2a4a8c)!important;color:#fff;box-shadow:none!important}
+#wx-widget .wx-ico svg{width:30px;height:30px}
+#wx-widget .wx-mid{margin-left:0;align-items:flex-start}
+#wx-widget .wx-temp{font-size:20px;font-weight:700}
+#wx-widget .wx-loc{font-size:11px;max-width:90px}
+#hw-start{height:62px;border-radius:31px;background:rgba(255,255,255,.92);color:#1b1840;box-shadow:none;font-size:16px;font-weight:700;padding-left:22px;backdrop-filter:none}
+#hw-start svg{right:6px;width:50px;height:50px}
+#sam-search{display:flex!important;margin:22px 2px 0;padding:0 16px;height:50px;border-radius:25px;background:rgba(255,255,255,.95);color:#5f6368;box-shadow:0 1px 4px rgba(60,50,120,.12);backdrop-filter:none}
+#sam-search .ph{color:#9aa0a6}
+#sam-search .mic,#sam-search .lens{color:#4a4a52;opacity:1}
+#home-icons{margin-top:auto;padding:0 2px 0;gap:10px 6px}
+#home-icons .ap{color:#2b2750;text-shadow:none;font-size:11px;gap:5px}
+#home-icons .ap span,#dr-grid .ap span{display:block}
+#home-icons .ap img{width:54px;height:54px;border-radius:17px;box-shadow:0 2px 8px rgba(60,50,120,.18)!important}
+#finder{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0 14px;color:#4a4670;font-size:11px;flex:none}
+#finder span{display:flex;align-items:center;gap:5px;padding:3px 12px;border-radius:12px;background:rgba(255,255,255,.45)}
+#finder i{font-style:normal;opacity:.6;font-size:13px}
+#dock{margin-top:0;padding:4px 10px 2px}
+#dock .ap img{width:56px;height:56px;border-radius:18px;box-shadow:none!important}
+
+/* less rounded corners (closer to reference) */
+#hw-card{border-radius:18px}
+#wx-widget,#hw-start{border-radius:18px;height:58px}
+#sam-search{border-radius:16px;height:46px}
+#home-icons .ap img{border-radius:12px;width:52px;height:52px}
+#dock .ap img{border-radius:14px;width:54px;height:54px}
+#hw-brief{border-radius:8px}
+#finder span{border-radius:8px}
+.hw-glass2{border-radius:18px}
+
+/* order like reference: widgets > search > icons > Finder > dock */
+#home-clock{order:0}#hw-card{order:1}#hw-row{order:2}#sam-search{order:3;margin-top:16px}
+#home-icons{order:4;margin-top:auto;padding-top:14px}#finder{order:5}#dock{order:6}
+#page-dots{display:none!important}#swipe-up-hint{order:7}
+
+/* Contacts app header: title left, icons right on one row (One UI) */
+.ctapp .pth{height:76px;flex-direction:row;align-items:flex-end;justify-content:flex-start;padding:0 16px 8px}
+.ctapp .ptt{align-items:flex-start;margin-top:0}
+.ctapp .ptt h1{font-size:26px;font-weight:700}
+.ctapp .pti{bottom:12px}
+
+/* ===== Phone frame like reference: thin metallic lavender edge, thin black bezel, small corner radius ===== */
+#phone,#phone.sam{
+  width:320px;height:672px;border-radius:30px;border:5px solid #08080a;background:#000;
+  box-shadow:0 0 0 2px #d3d6f2,0 0 0 3.5px #8d92bd,0 0 0 4.5px #4b4f73,0 24px 60px rgba(40,30,90,.45);
+}
+#screen{border-radius:25px}
+#phone::before,#phone::after{right:-9px;width:3px;border-radius:0 2px 2px 0;background:linear-gradient(90deg,#8d92bd,#d3d6f2)}
+#phone::before{top:170px;height:70px}
+#phone::after{top:262px;height:34px}
+#notch,#notch.mini,#notch.big{width:11px!important;height:11px!important;top:10px!important}
+#phone,#phone.sam{border-width:3px;border-radius:30px}
+#screen{border-radius:27px}
+
+/* ===== Garage: real car picture instead of the empty icon ===== */
+.cimg{display:block;max-width:100%;height:auto;user-select:none;-webkit-user-drag:none;pointer-events:none;filter:drop-shadow(0 10px 12px rgba(0,0,0,.55))}
+.grg-hero{min-height:96px;padding-inline-end:6px}
+.grg-hi{position:relative;z-index:1;margin-inline-end:-6px}
+.cimg.hero{width:150px;filter:drop-shadow(0 8px 10px rgba(120,40,0,.55))}
+.gcar{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.gc-pic{position:relative;height:138px;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(70% 80% at 50% 62%,rgba(255,138,26,.38),transparent 70%),linear-gradient(160deg,#2b1c0d,#18181a 70%)}
+.gc-pic::after{content:'';position:absolute;left:14%;right:14%;bottom:16px;height:14px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.65),transparent 70%)}
+.cimg.list{position:relative;z-index:1;width:78%;max-height:116px;object-fit:contain;margin-top:6px}
+.gc-pic .gst{position:absolute;top:10px;inset-inline-start:10px;z-index:2;backdrop-filter:blur(6px)}
+.gcar .gc-top{padding:12px 14px 0;gap:10px;justify-content:space-between}
+.gcar .gc-mini{max-width:none;padding:12px 14px 14px;gap:12px}
+.gcar .gc-mini i{height:5px}
+.gcar .gc-mini small{font-size:10.5px}
+.grg-card{padding-top:26px}
+.grg-car{position:relative;width:100%;display:flex;justify-content:center}
+.cimg.big{position:relative;z-index:1;width:92%;max-width:300px}
+.grg-floor{position:absolute;left:16%;right:16%;bottom:-4px;height:16px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.7),transparent 70%)}
+
+/* ===== Garage: real photos from carapi ===== */
+.gc-pic.has{background:#111}
+.gc-pic.has::after{left:0;right:0;bottom:0;height:62%;border-radius:0;background:linear-gradient(transparent,rgba(29,29,31,.96))}
+.gc-pic.has .cimg.list{position:absolute;inset:0;z-index:0;width:100%;height:100%;max-height:none;margin:0;object-fit:cover;filter:none}
+.cimg.photo.big{width:100%;max-width:none;aspect-ratio:16/10;object-fit:cover;border-radius:18px;filter:none;box-shadow:0 8px 22px rgba(0,0,0,.45)}
+.grg-car.has{padding:0 2px}
+.grg-cr{position:relative;display:block;max-width:100%;text-align:center;color:#7f7f85;font-size:10px;line-height:1.35;padding:0 6px}
+.grg-spec{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px}
+.grg-spec .sp{display:flex;flex-direction:column;gap:2px;min-width:0}
+.grg-spec .sp small{flex:none;color:#8b8b90;font-size:11.5px}
+.grg-spec .sp b{color:#fff;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ===================================================================
+   CPhone Galaxy S26 (v17) - exact proportions
+   Real device: 149.6 x 71.7 x 7.2 mm, 6.3" Dynamic AMOLED 2X, 1080x2340 (19.5:9, CSS viewport 360x780)
+   Screen = 300 x 650 css px (exactly 360:780), body incl. metal edge = 321 x 669 css px (71.7:149.6)
+   The phone is scaled to the game window with --ps (see fitPhone in app.js)
+   =================================================================== */
+#phone,#phone.sam{
+  width:312px;height:660px;                 /* screen 300x650 + black bezel 6px (sides) / 5px (top-bottom) */
+  border-style:solid;border-color:#08080a;border-width:5px 6px;
+  border-radius:34px;
+  box-shadow:0 0 0 2px #d3d6f2,0 0 0 3.5px #8d92bd,0 0 0 4.5px #4b4f73,0 22px 56px rgba(40,30,90,.45);
+}
+#screen{border-radius:28px}
+#phone::before{right:-10px;top:160px;height:64px}
+#phone::after{right:-10px;top:240px;height:34px}
+
+/* TV remote (shown at the bottom of the phone while a video is cast to a TV) */
+#tvremote{position:absolute;left:8px;right:8px;bottom:44px;z-index:120;display:flex;align-items:center;gap:4px;padding:6px;border-radius:20px;background:rgba(24,24,26,.94);backdrop-filter:blur(10px);box-shadow:0 4px 16px rgba(0,0,0,.5)}
+#tvremote .tvl{font-size:11px;font-weight:800;color:#ff375f;padding:0 4px}
+#tvremote button{flex:1;min-width:0;height:34px;border:0;border-radius:17px;background:#2c2c2e;color:#fff;font-size:12px;font-weight:600;cursor:pointer;padding:0}
+#tvremote button:active{transform:scale(.93);background:#3a3a3c}
+#tvremote button.x{background:#ff375f}

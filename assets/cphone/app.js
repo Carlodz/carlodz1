@@ -1,11 +1,21 @@
 const RN = typeof GetParentResourceName === 'function' ? GetParentResourceName() : 'ios-phone';
 const post = (n, d = {}) => fetch(`https://${RN}/${n}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) }).then(r => r.json()).catch(() => ({}));
 const $ = s => document.querySelector(s);
+/* ---------- fit the phone to the game window (Galaxy S26 body = 321x669 css px, 71.7x149.6 mm) ---------- */
+window.__ps = 1;
+function fitPhone() {
+  const H = 669, W = 321 + 14;
+  const s = Math.max(.7, Math.min(innerHeight * (window.__psMul || .8) / H, innerWidth * .45 / W));
+  window.__ps = s;
+  document.documentElement.style.setProperty('--ps', s.toFixed(4));
+}
+fitPhone(); addEventListener('resize', fitPhone);
+
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fmt = n => Number(n || 0).toLocaleString('en-US');
 const ago = ts => { const s = Math.floor(Date.now() / 1000 - ts); if (s < 60) return t('now'); if (s < 3600) return Math.floor(s / 60) + t('m'); if (s < 86400) return Math.floor(s / 3600) + t('h'); return Math.floor(s / 86400) + t('d') };
 
-const DEF = { wallpaper: 'wallpapers/w8.svg', bluetooth: false, wifi: true, airplane: false, flashlight: false, mobiledata: true, nfc: false, location: true, autorotate: true, ringtone: 'samsung', vibration: true, theme: 'light', brightness: 100, volume: 70, soundMode: 'sound', language: 'en', ytRegion: 'US' };
+const DEF = { wallpaper: 'wallpapers/oneui.svg', bluetooth: false, wifi: true, airplane: false, flashlight: false, mobiledata: true, nfc: false, location: true, autorotate: true, ringtone: 'samsung', vibration: true, theme: 'light', brightness: 100, volume: 70, soundMode: 'sound', language: 'en' };
 const st = { me: {}, settings: { ...DEF }, walls: [], tones: ['samsung'], thread: null, msgs: [], redraw: null, io: null, ct: null, audio: null,
   mus: { list: [], idx: -1, cur: null, playing: false }, inCall: false, isBig: false, wi: null };
 
@@ -16,6 +26,9 @@ const LANGS = [
 ];
 const TR = {
   ar: {
+    'Welcome to': 'مرحباً بك في', 'View staff': 'عرض الموظفين',
+    'Employees': 'الموظفون', 'Staff': 'الطاقم', 'Grade': 'الرتبة', 'Boss': 'مدير', 'Off duty': 'خارج الخدمة', 'Offline': 'غير متصل', 'Work time': 'وقت العمل', 'Today': 'اليوم', 'This week': 'هذا الأسبوع', 'Call': 'اتصال', 'Phone number': 'رقم الهاتف', 'Service': 'الخدمة', 'Status': 'الحالة', 'No employees.': 'لا يوجد موظفون.', 'h': 'س', 'm': 'د', 'Visible to this service staff only': 'يظهر لموظفي هذه الخدمة فقط',
+    'Total': 'الإجمالي', 'Vehicles': 'المركبات', 'Plate': 'اللوحة', 'Status': 'الحالة', 'Location': 'الموقع', 'Sent': 'تم الإرسال', 'Available now': 'متاح الآن', 'Nobody on duty': 'لا أحد في الخدمة', 'Vehicle condition': 'حالة المركبة', 'No results': 'لا نتائج', 'Services on duty': 'خدمات في الخدمة', 'Available services': 'الخدمات المتاحة', 'My vehicles': 'مركباتي',
     'Messages': 'الرسائل', 'Maps': 'الخرائط', 'Explore': 'استكشاف', 'You': 'أنت', 'Contribute': 'مساهمة', 'Business': 'نشاطي', 'Search here': 'ابحث هنا', 'Directions': 'الاتجاهات', 'GPS set': 'تم تعيين GPS', 'Your location': 'موقعك', 'Recent': 'الأخيرة', 'Saved': 'محفوظ', 'Home': 'المنزل', 'Work': 'العمل', 'Set as Home': 'تعيين كمنزل', 'Set as Work': 'تعيين كعمل', 'Clear GPS': 'مسح GPS', 'Nearby': 'قريب', 'Categories': 'الفئات', 'Gas stations': 'محطات وقود', 'Restaurants': 'مطاعم', 'Hotels': 'فنادق', 'Hospitals': 'مستشفيات', 'Police': 'شرطة', 'Airports': 'مطارات', 'See all': 'عرض الكل', 'Your recent places': 'أماكنك الأخيرة', 'No places yet.': 'لا أماكن بعد.', 'Local vibe': 'أجواء محلية', 'WhatsNow': 'واتس ناو', 'Chats': 'المحادثات', 'Updates': 'التحديثات', 'Communities': 'المجتمعات', 'Calls': 'المكالمات', 'Recent': 'الأخيرة', 'Start chat': 'بدء محادثة', 'Type a message': 'اكتب رسالة', 'Online': 'متصل', 'Ask Meta AI or Search': 'ابحث…', 'Start your community': 'ابدأ مجتمعك', 'Stay connected with a community': 'ابقَ على اتصال بالمجتمع', 'No chats yet.': 'لا محادثات بعد.', 'New chat': 'محادثة جديدة', 'Phone': 'الهاتف', 'Bank': 'البنك', 'Garage': 'المرآب', 'Trendy': 'ترندي', 'Inpic': 'إنبيك',
     'Calculator': 'الآلة الحاسبة', 'Services': 'الخدمات', 'Settings': 'الإعدادات',
     'No conversations yet.': 'لا توجد محادثات بعد.', 'New message': 'رسالة جديدة', 'Phone number': 'رقم الهاتف', 'Next': 'التالي',
@@ -111,23 +124,23 @@ const TR = {
     'rt_opening': 'Açılış', 'rt_chimes': 'Çanlar', 'rt_radar': 'Radar', 'rt_beacon': 'Fener', 'rt_bell': 'Zil', 'rt_pulse': 'Nabız',
   },
 };
-const RT_EN = { rt_samsung: 'Samsung', rt_remix: 'Remix', rt_galaxy_bells: 'Galaxy Bells', rt_horizon: 'Over the Horizon', rt_s15: 'Galaxy S15', rt_spaceline: 'Spaceline', rt_tune: 'Samsung Tune', rt_wave: 'Wave', rt_opening: 'Opening', rt_chimes: 'Chimes', rt_radar: 'Radar', rt_beacon: 'Beacon', rt_bell: 'Bell', rt_pulse: 'Pulse' };
+const RT_EN = { rt_samsung: 'CPhone', rt_remix: 'Remix', rt_galaxy_bells: 'Galaxy Bells', rt_horizon: 'Over the Horizon', rt_s15: 'Galaxy S15', rt_spaceline: 'Spaceline', rt_tune: 'CPhone Tune', rt_wave: 'Wave', rt_opening: 'Opening', rt_chimes: 'Chimes', rt_radar: 'Radar', rt_beacon: 'Beacon', rt_bell: 'Bell', rt_pulse: 'Pulse' };
 const t = k => (TR[st.settings.language] && TR[st.settings.language][k]) || RT_EN[k] || k;
 
 const TR_ADD = {
-  ar: { 'Music': 'الموسيقى', 'YouTube': 'يوتيوب', 'Camera': 'الكاميرا', 'Photos': 'الصور', 'Weather': 'الطقس', 'Search': 'بحث', 'Now Playing': 'قيد التشغيل', 'No results': 'لا توجد نتائج', 'Loading…': 'جارٍ التحميل…', 'Search failed': 'فشل البحث', 'YouTube API key is not set': 'مفتاح YouTube API غير مضبوط', 'Take photo': 'التقاط صورة', 'Switch camera': 'تبديل الكاميرا', 'Exit': 'خروج', 'No photos yet.': 'لا توجد صور بعد.', 'Now': 'الآن', 'Wind': 'الرياح', 'Rain': 'المطر', 'Cardholder': 'صاحب البطاقة',
+  ar: { 'Music': 'الموسيقى', 'CTube': 'يوتيوب', 'Camera': 'الكاميرا', 'Photos': 'الصور', 'Weather': 'الطقس', 'Search': 'بحث', 'Now Playing': 'قيد التشغيل', 'No results': 'لا توجد نتائج', 'Loading…': 'جارٍ التحميل…', 'Search failed': 'فشل البحث', 'CTube API key is not set': 'مفتاح CTube API غير مضبوط', 'Take photo': 'التقاط صورة', 'Switch camera': 'تبديل الكاميرا', 'Exit': 'خروج', 'No photos yet.': 'لا توجد صور بعد.', 'Now': 'الآن', 'Wind': 'الرياح', 'Rain': 'المطر', 'Cardholder': 'صاحب البطاقة',
     wx_EXTRASUNNY: 'مشمس', wx_CLEAR: 'صافٍ', wx_CLOUDS: 'غائم جزئياً', wx_SMOG: 'ضباب دخاني', wx_FOGGY: 'ضبابي', wx_OVERCAST: 'غائم', wx_RAIN: 'ماطر', wx_THUNDER: 'عاصفة رعدية', wx_CLEARING: 'يتحسن', wx_SNOW: 'ثلوج', wx_BLIZZARD: 'عاصفة ثلجية', wx_SNOWLIGHT: 'ثلوج خفيفة' },
-  fr: { 'Music': 'Musique', 'Camera': 'Appareil photo', 'Photos': 'Photos', 'Weather': 'Météo', 'Search': 'Rechercher', 'Now Playing': 'Lecture en cours', 'No results': 'Aucun résultat', 'Loading…': 'Chargement…', 'Search failed': 'Échec de la recherche', 'YouTube API key is not set': "La clé API YouTube n'est pas définie", 'Take photo': 'Prendre une photo', 'Photo saved': 'Photo enregistrée', 'Photo': 'Photo', 'Switch camera': "Changer d'appareil", 'Exit': 'Quitter', 'No photos yet.': 'Aucune photo.', 'Now': 'Maint.', 'Wind': 'Vent', 'Rain': 'Pluie', 'Cardholder': 'Titulaire',
+  fr: { 'Music': 'Musique', 'Camera': 'Appareil photo', 'Photos': 'Photos', 'Weather': 'Météo', 'Search': 'Rechercher', 'Now Playing': 'Lecture en cours', 'No results': 'Aucun résultat', 'Loading…': 'Chargement…', 'Search failed': 'Échec de la recherche', 'CTube API key is not set': "La clé API CTube n'est pas définie", 'Take photo': 'Prendre une photo', 'Photo saved': 'Photo enregistrée', 'Photo': 'Photo', 'Switch camera': "Changer d'appareil", 'Exit': 'Quitter', 'No photos yet.': 'Aucune photo.', 'Now': 'Maint.', 'Wind': 'Vent', 'Rain': 'Pluie', 'Cardholder': 'Titulaire',
     wx_EXTRASUNNY: 'Ensoleillé', wx_CLEAR: 'Dégagé', wx_CLOUDS: 'Nuageux', wx_SMOG: 'Smog', wx_FOGGY: 'Brouillard', wx_OVERCAST: 'Couvert', wx_RAIN: 'Pluie', wx_THUNDER: 'Orage', wx_CLEARING: 'Éclaircies', wx_SNOW: 'Neige', wx_BLIZZARD: 'Blizzard', wx_SNOWLIGHT: 'Neige légère' },
-  es: { 'Music': 'Música', 'Camera': 'Cámara', 'Photos': 'Fotos', 'Weather': 'Clima', 'Search': 'Buscar', 'Now Playing': 'Reproduciendo', 'No results': 'Sin resultados', 'Loading…': 'Cargando…', 'Search failed': 'Falló la búsqueda', 'YouTube API key is not set': 'Falta la clave de la API de YouTube', 'Take photo': 'Tomar foto', 'Photo saved': 'Foto guardada', 'Photo': 'Foto', 'Switch camera': 'Cambiar cámara', 'Exit': 'Salir', 'No photos yet.': 'Aún no hay fotos.', 'Now': 'Ahora', 'Wind': 'Viento', 'Rain': 'Lluvia', 'Cardholder': 'Titular',
+  es: { 'Music': 'Música', 'Camera': 'Cámara', 'Photos': 'Fotos', 'Weather': 'Clima', 'Search': 'Buscar', 'Now Playing': 'Reproduciendo', 'No results': 'Sin resultados', 'Loading…': 'Cargando…', 'Search failed': 'Falló la búsqueda', 'CTube API key is not set': 'Falta la clave de la API de CTube', 'Take photo': 'Tomar foto', 'Photo saved': 'Foto guardada', 'Photo': 'Foto', 'Switch camera': 'Cambiar cámara', 'Exit': 'Salir', 'No photos yet.': 'Aún no hay fotos.', 'Now': 'Ahora', 'Wind': 'Viento', 'Rain': 'Lluvia', 'Cardholder': 'Titular',
     wx_EXTRASUNNY: 'Soleado', wx_CLEAR: 'Despejado', wx_CLOUDS: 'Nublado', wx_SMOG: 'Smog', wx_FOGGY: 'Niebla', wx_OVERCAST: 'Cubierto', wx_RAIN: 'Lluvia', wx_THUNDER: 'Tormenta', wx_CLEARING: 'Mejorando', wx_SNOW: 'Nieve', wx_BLIZZARD: 'Ventisca', wx_SNOWLIGHT: 'Nieve ligera' },
-  tr: { 'Music': 'Müzik', 'Camera': 'Kamera', 'Photos': 'Fotoğraflar', 'Weather': 'Hava Durumu', 'Search': 'Ara', 'Now Playing': 'Çalıyor', 'No results': 'Sonuç yok', 'Loading…': 'Yükleniyor…', 'Search failed': 'Arama başarısız', 'YouTube API key is not set': 'YouTube API anahtarı ayarlı değil', 'Take photo': 'Fotoğraf çek', 'Photo saved': 'Fotoğraf kaydedildi', 'Photo': 'Fotoğraf', 'Switch camera': 'Kamerayı değiştir', 'Exit': 'Çıkış', 'No photos yet.': 'Henüz fotoğraf yok.', 'Now': 'Şimdi', 'Wind': 'Rüzgar', 'Rain': 'Yağmur', 'Cardholder': 'Kart sahibi',
+  tr: { 'Music': 'Müzik', 'Camera': 'Kamera', 'Photos': 'Fotoğraflar', 'Weather': 'Hava Durumu', 'Search': 'Ara', 'Now Playing': 'Çalıyor', 'No results': 'Sonuç yok', 'Loading…': 'Yükleniyor…', 'Search failed': 'Arama başarısız', 'CTube API key is not set': 'CTube API anahtarı ayarlı değil', 'Take photo': 'Fotoğraf çek', 'Photo saved': 'Fotoğraf kaydedildi', 'Photo': 'Fotoğraf', 'Switch camera': 'Kamerayı değiştir', 'Exit': 'Çıkış', 'No photos yet.': 'Henüz fotoğraf yok.', 'Now': 'Şimdi', 'Wind': 'Rüzgar', 'Rain': 'Yağmur', 'Cardholder': 'Kart sahibi',
     wx_EXTRASUNNY: 'Güneşli', wx_CLEAR: 'Açık', wx_CLOUDS: 'Bulutlu', wx_SMOG: 'Smog', wx_FOGGY: 'Sisli', wx_OVERCAST: 'Kapalı', wx_RAIN: 'Yağmurlu', wx_THUNDER: 'Gök gürültülü', wx_CLEARING: 'Açılıyor', wx_SNOW: 'Karlı', wx_BLIZZARD: 'Kar fırtınası', wx_SNOWLIGHT: 'Hafif kar' },
 };
 Object.keys(TR_ADD).forEach(l => Object.assign(TR[l], TR_ADD[l]));
 Object.assign(RT_EN, { wx_EXTRASUNNY: 'Sunny', wx_CLEAR: 'Clear', wx_CLOUDS: 'Cloudy', wx_SMOG: 'Smog', wx_FOGGY: 'Foggy', wx_OVERCAST: 'Overcast', wx_RAIN: 'Rain', wx_THUNDER: 'Thunderstorm', wx_CLEARING: 'Clearing', wx_SNOW: 'Snow', wx_BLIZZARD: 'Blizzard', wx_SNOWLIGHT: 'Light snow' });
 
-Object.assign(TR.ar, { 'Deposit': 'إيداع', 'Swap': 'تبديل', 'More': 'المزيد', 'Send money, receive cash': 'أرسل أموالاً واستلم نقداً', '0 fees on your first transfer': '0 رسوم على أول تحويل', 'Credit': 'الائتمان', 'Available credit': 'الائتمان المتاح', 'Outstanding balance': 'الرصيد المستحق', 'Risk score': 'درجة المخاطر', 'Safe': 'آمن', 'Home': 'الرئيسية', 'Card': 'البطاقة', 'Send': 'إرسال', 'Assets': 'الأصول', 'Coming soon': 'قريباً', 'Search YouTube': 'ابحث في يوتيوب', 'Choose YouTube region': 'اختر بلد يوتيوب', 'Contact saved': 'تم حفظ جهة الاتصال', 'Region': 'البلد', 'contacts': 'جهة اتصال', 'My profile': 'ملفي الشخصي', 'Groups': 'المجموعات', 'Call': 'اتصال', 'Message': 'رسالة', 'Clear call log': 'مسح سجل المكالمات', 'Recents': 'الأخيرة', 'Settings': 'الإعدادات', 'Today': 'اليوم', 'Yesterday': 'أمس', 'Pictures': 'الصور', 'Albums': 'الألبومات', 'Stories': 'القصص', 'Menu': 'القائمة', 'Essential albums': 'الألبومات الأساسية', 'View all': 'عرض الكل', 'Recent': 'الأحدث', 'Favourites': 'المفضلة', 'Camera': 'الكاميرا', 'Customise the Albums tab': 'تخصيص تبويب الألبومات', 'Select a few essential albums to show, show them all, or something in between. It\'s up to you.': 'اختر بعض الألبومات الأساسية لعرضها، أو اعرضها كلها. القرار لك.', 'Not now': 'ليس الآن', 'Select essential albums': 'اختيار الألبومات الأساسية', 'No stories': 'لا توجد قصص', 'Experience your adventures again in curated collections automatically made from your pictures and videos.': 'عِش مغامراتك من جديد في مجموعات منسقة تلقائياً من صورك وفيديوهاتك.', 'Videos': 'الفيديوهات', 'Locations': 'المواقع', 'Shared albums': 'الألبومات المشتركة', 'Recycle bin': 'سلة المحذوفات', 'Select': 'تحديد', 'selected': 'محدد', 'Empty': 'إفراغ', 'Subscriptions': 'الاشتراكات', 'You': 'أنت', 'Expires': 'تنتهي', 'Frozen': 'مجمّدة', 'Freeze': 'تجميد', 'Unfreeze': 'إلغاء التجميد', 'Details': 'التفاصيل', 'Limits': 'الحدود', 'Card number': 'رقم البطاقة', 'Cancel': 'إلغاء' });
+Object.assign(TR.ar, { 'Deposit': 'إيداع', 'Swap': 'تبديل', 'More': 'المزيد', 'Send money, receive cash': 'أرسل أموالاً واستلم نقداً', '0 fees on your first transfer': '0 رسوم على أول تحويل', 'Credit': 'الائتمان', 'Available credit': 'الائتمان المتاح', 'Outstanding balance': 'الرصيد المستحق', 'Risk score': 'درجة المخاطر', 'Safe': 'آمن', 'Home': 'الرئيسية', 'Card': 'البطاقة', 'Send': 'إرسال', 'Assets': 'الأصول', 'Coming soon': 'قريباً', 'Search CTube': 'ابحث في يوتيوب', 'Choose CTube region': 'اختر بلد يوتيوب', 'Contact saved': 'تم حفظ جهة الاتصال', 'Region': 'البلد', 'contacts': 'جهة اتصال', 'My profile': 'ملفي الشخصي', 'Groups': 'المجموعات', 'Call': 'اتصال', 'Message': 'رسالة', 'Clear call log': 'مسح سجل المكالمات', 'Recents': 'الأخيرة', 'Settings': 'الإعدادات', 'Today': 'اليوم', 'Yesterday': 'أمس', 'Pictures': 'الصور', 'Albums': 'الألبومات', 'Stories': 'القصص', 'Menu': 'القائمة', 'Essential albums': 'الألبومات الأساسية', 'View all': 'عرض الكل', 'Recent': 'الأحدث', 'Favourites': 'المفضلة', 'Camera': 'الكاميرا', 'Customise the Albums tab': 'تخصيص تبويب الألبومات', 'Select a few essential albums to show, show them all, or something in between. It\'s up to you.': 'اختر بعض الألبومات الأساسية لعرضها، أو اعرضها كلها. القرار لك.', 'Not now': 'ليس الآن', 'Select essential albums': 'اختيار الألبومات الأساسية', 'No stories': 'لا توجد قصص', 'Experience your adventures again in curated collections automatically made from your pictures and videos.': 'عِش مغامراتك من جديد في مجموعات منسقة تلقائياً من صورك وفيديوهاتك.', 'Videos': 'الفيديوهات', 'Locations': 'المواقع', 'Shared albums': 'الألبومات المشتركة', 'Recycle bin': 'سلة المحذوفات', 'Select': 'تحديد', 'selected': 'محدد', 'Empty': 'إفراغ', 'Subscriptions': 'الاشتراكات', 'You': 'أنت', 'Expires': 'تنتهي', 'Frozen': 'مجمّدة', 'Freeze': 'تجميد', 'Unfreeze': 'إلغاء التجميد', 'Details': 'التفاصيل', 'Limits': 'الحدود', 'Card number': 'رقم البطاقة', 'Cancel': 'إلغاء' });
 
 const APPS = [
   { id: 'messages', n: 'Messages', i: 'messages' }, { id: 'phone', n: 'Phone', i: 'phone' },
@@ -135,15 +148,20 @@ const APPS = [
   { id: 'bank', n: 'Bank', i: 'bank' }, { id: 'garage', n: 'Garage', i: 'garage' },
   { id: 'trendy', n: 'Trendy', i: 'trendy' }, { id: 'inpic', n: 'Inpic', i: 'inpic' },
   { id: 'calc', n: 'Calculator', i: 'calculator' }, { id: 'services', n: 'Services', i: 'services' },
-  { id: 'music', n: 'Music', i: 'music' }, { id: 'youtube', n: 'YouTube', i: 'youtube' }, { id: 'gemini', n: 'Gemini', i: 'gemini' },
+  { id: 'music', n: 'Music', i: 'music' }, { id: 'youtube', n: 'CTube', i: 'youtube' }, { id: 'gemini', n: 'Cminai', i: 'gemini' },
   { id: 'browser', n: 'Browser', i: 'browser' }, { id: 'camera', n: 'Camera', i: 'camera' }, { id: 'photos', n: 'Photos', i: 'photos' },
-  { id: 'weather', n: 'Weather', i: 'weather' }, { id: 'clock', n: 'Clock', i: 'clock' }, { id: 'maps', n: 'Maps', i: 'maps' },
-  { id: 'radio', n: 'Radio', i: 'radio' }, { id: 'yasir', n: 'Yasir', i: 'yasir' },
-  { id: 'settings', n: 'Settings', i: 'settings' },
-];
-/* Samsung home page icons (row above search) + dock */
-const HOME_PAGE = ['bank', 'photos', 'youtube', 'inpic'];
-const DOCK = ['phone', 'whatsnow', 'maps', 'camera'];
+  { id: 'weather', n: 'Weather', i: 'weather' }, { id: 'clock', n: 'Clock', i: 'clock' }, { id: 'health', n: 'Health', i: 'health' }, { id: 'maps', n: 'Maps', i: 'maps' },
+  { id: 'radio', n: 'Radio', i: 'radio' }, { id: 'yasir', n: 'CDrive', i: 'yasir' },
+  { id: 'darkchat', n: 'Dark Chat', i: 'darkchat' }, { id: 'discord', n: 'Discord', i: 'discord' },
+  { id: 'contacts', n: 'Contacts', i: 'contacts' }, { id: 'settings', n: 'Settings', i: 'settings' }, { id: 'cstore', n: 'CStore', i: 'cstore' },
+ ];
+/* CStore: apps every player has on a fresh phone (server Config.DefaultApps overrides); the rest is downloaded from CStore */
+const DEF_APPS = ['cstore', 'phone', 'contacts', 'browser', 'messages', 'bank', 'clock', 'settings', 'radio', 'maps', 'camera', 'photos', 'health'];
+st.apps = new Set(DEF_APPS);
+const isInst = id => st.apps.has(id);
+/* CPhone home page icons (row above search) + dock */
+const HOME_PAGE = ['bank', 'cstore', 'photos', 'contacts'];   // first 4 installed ones are shown
+const dockIds = () => ['phone', 'messages', 'browser', 'settings'];
 
 let tt;
 function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2200) }
@@ -159,11 +177,11 @@ function bindAppClicks(root) {
 }
 function renderHome() {
   const hi = $('#home-icons');
-  if (hi) hi.innerHTML = HOME_PAGE.map(id => appIcon(APPS.find(a => a.id === id))).join('');
+  if (hi) hi.innerHTML = HOME_PAGE.filter(isInst).slice(0, 4).map(id => appIcon(APPS.find(a => a.id === id))).join('');
   const dock = $('#dock');
-  if (dock) dock.innerHTML = DOCK.map(id => appIcon(APPS.find(a => a.id === id))).join('');
+  if (dock) dock.innerHTML = dockIds().filter(isInst).map(id => appIcon(APPS.find(a => a.id === id))).join('');
   const dr = $('#dr-grid');
-  if (dr) dr.innerHTML = APPS.map(appIcon).join('');
+  if (dr) dr.innerHTML = APPS.filter(x => isInst(x.id)).map(appIcon).join('');
   bindAppClicks(document);
   refreshWxWidget();
 }
@@ -233,7 +251,7 @@ function closeRecents() {
 function openRecents() {
   if (st.locked) return;
   closeDrawer();
-  const list = (st.recents || []).filter(x => APPS.some(a => a.id === x));
+  const list = (st.recents || []).filter(x => APPS.some(a => a.id === x) && isInst(x));
   const cards = $('#rc-cards');
   const icons = $('#rc-icons');
   if (!list.length) {
@@ -296,7 +314,7 @@ function filterDrawer(q) {
   });
 }
 
-/* ===== Samsung Quick Settings ===== */
+/* ===== CPhone Quick Settings ===== */
 const QS_ICO = {
   wifi: (on) => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 18.5a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8z" fill="currentColor"/><path d="M8.6 14.3a5 5 0 0 1 6.8 0M5.5 11.2a9 9 0 0 1 13 0M2.8 8.2a13 13 0 0 1 18.4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
   bt: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 7l10 10-5 5V2l5 5L7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
@@ -318,7 +336,7 @@ const QS_ICO = {
 
 Object.assign(TR.ar, { 'Live notifications': 'الإشعارات المباشرة', 'Notification settings': 'إعدادات الإشعارات', 'Notifications': 'الإشعارات', 'Clear': 'مسح', 'Phone speaker': 'سماعة الهاتف', 'Media output': 'مخرج الوسائط', 'Play last song': 'تشغيل آخر أغنية' });
 Object.assign(TR.fr, { 'Live notifications': 'Notifications en direct', 'Notification settings': 'Paramètres des notifications', 'Notifications': 'Notifications', 'Clear': 'Effacer', 'Phone speaker': 'Haut-parleur du téléphone', 'Media output': 'Sortie média', 'Play last song': 'Lire le dernier titre' });
-/* Samsung media card (Quick Settings + notification shade) */
+/* CPhone media card (Quick Settings + notification shade) */
 const mc2 = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(Math.floor(n % 60)).padStart(2, '0');
 const MCI = {
   cast: '<circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M8.2 8.2a5.4 5.4 0 0 0 0 7.6M15.8 8.2a5.4 5.4 0 0 1 0 7.6M5.4 5.4a9.4 9.4 0 0 0 0 13.2M18.6 5.4a9.4 9.4 0 0 1 0 13.2"/>',
@@ -374,7 +392,7 @@ document.addEventListener('click', e => {
   closeQS(); closeShade(); openApp('music'); if (st.mus.cur) player();
 }, true);
 
-/* Samsung notification shade (swipe down once) */
+/* CPhone notification shade (swipe down once) */
 st.notifs = st.notifs || [];
 function closeShade() {
   const p = $('#ntpanel'); if (!p) return;
@@ -391,8 +409,8 @@ function drawShade() {
   qsMedia();
   const l = st.notifs;
   $('#nt-sec-n').classList.toggle('hidden', !l.length);
-  $('#nt-list').innerHTML = l.map((n, i) => `<div class="nt-card" data-i="${i}"><span class="nt-av">${esc((n.name || '#')[0])}</span><div class="nt-tx"><small>${esc(t('Messages'))} · ${ago(n.ts)}</small><b dir="auto">${esc(n.name)}</b><span dir="auto">${esc(n.text)}</span></div></div>`).join('');
-  $('#nt-list').querySelectorAll('.nt-card').forEach(e => e.onclick = () => { const n = st.notifs[+e.dataset.i]; st.notifs.splice(+e.dataset.i, 1); closeShade(); if (n) openApp('messages') });
+  $('#nt-list').innerHTML = l.map((n, i) => `<div class="nt-card" data-i="${i}"><span class="nt-av">${n.av ? `<img src="${esc(n.av)}" alt="">` : esc((n.name || '#')[0])}</span><div class="nt-tx"><small>${esc(t(n.appName || 'Messages'))} · ${ago(n.ts)}</small><b dir="auto">${esc(n.name)}</b><span dir="auto">${esc(n.text)}</span></div></div>`).join('');
+  $('#nt-list').querySelectorAll('.nt-card').forEach(e => e.onclick = () => { const n = st.notifs[+e.dataset.i]; st.notifs.splice(+e.dataset.i, 1); closeShade(); if (n) { openApp('messages') } });
 }
 function openShade() {
   if (st.locked) return;
@@ -415,11 +433,11 @@ function openShade() {
 }
 /* heads-up banner (replaces the old Dynamic Island pop-up) */
 let hupT;
-function headsUp(html, ms = 4000) {
+function headsUp(html, ms = 4000, go) {
   let b = $('#hup');
   if (!b) { b = document.createElement('div'); b.id = 'hup'; $('#screen').appendChild(b) }
   b.innerHTML = html; b.classList.add('show');
-  b.onclick = () => { b.classList.remove('show'); openApp('messages') };
+  b.onclick = () => { b.classList.remove('show'); if (go) go(); else openApp('messages') };
   clearTimeout(hupT); hupT = setTimeout(() => b.classList.remove('show'), ms);
 }
 
@@ -565,8 +583,8 @@ function updateLockClock() {
   const ld = $('#lkdate'); if (ld) ld.textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()].slice(0, 3);
   const gt = now.getHours() < 12 ? 'Good morning' : now.getHours() < 18 ? 'Good afternoon' : 'Good evening';
   const nm = String((st.me && st.me.name) || '').trim().split(/\s+/)[0];
-  const ht = $('#hw-title'); if (ht) ht.textContent = t(gt) + (nm ? ', ' + nm : '') + ' !';
-  const hs = $('#hw-sub'); if (hs) hs.textContent = t('Send a message to someone today');
+  const ht = $('#hw-title'); if (ht) ht.textContent = t(gt);
+  const hs = $('#hw-sub'); if (hs) hs.textContent = t('Get a personalized briefing that changes throughout the day.');
   const hst = $('#hw-start-t'); if (hst) hst.textContent = t('Start');
   const bp = parseInt(($('#battpct') || {}).textContent, 10), gb = $('#gg-b');
   if (gb && !isNaN(bp)) { gb.style.setProperty('--p', bp); gb.firstChild.textContent = bp }
@@ -575,6 +593,7 @@ function updateLockClock() {
 }
 
 function home() {
+  if (yt.story) igAudioStop();
   if (st.io) { st.io.disconnect(); st.io = null }
   clearInterval(st.wi); st.musRefresh = null;
   if (yt.mode !== 'audio') ytStop();
@@ -592,6 +611,7 @@ function home() {
 }
 
 function view(title, html, o = {}) {
+  if (yt.story) igAudioStop();
   if (yt.mode === 'short') ytStop(); else ytShOff();
   if (st.io) { st.io.disconnect(); st.io = null }
   clearInterval(st.wi);
@@ -638,7 +658,7 @@ function openApp(id) {
   closeRecents();
   $('#home')?.classList.add('hidden');
   pushRecent(id);
-  const fn = ({ messages: msgs, phone: () => phone(), whatsnow: () => whatsnow(), bank, garage, trendy, inpic, calc, services, settings, music, youtube, gemini: gpt, browser: gsearch, camera, photos, weather, clock: () => clockApp(), maps, radio, yasir: () => yasirApp() })[id];
+  const fn = ({ messages: msgs, phone: () => phone(), whatsnow: () => whatsnow(), discord: () => discordApp(), bank, contacts: () => contactsApp(), garage, trendy, inpic, calc, services, settings, music, youtube, gemini: gpt, browser: () => (window.chromeApp ? chromeApp() : gsearch()), camera, photos, weather, clock: () => clockApp(), maps, radio, yasir: () => yasirApp(), darkchat: () => darkChatApp(), cstore: () => cstoreApp(), health: () => healthApp() })[id];
   if (fn) fn();
 }
 
@@ -788,7 +808,7 @@ async function thread(n, name) {
 }
 
 /* ---------- Phone ---------- */
-/* ---------- Phone (Samsung dialer style) ---------- */
+/* ---------- Phone (CPhone dialer style) ---------- */
 Object.assign(IP, {
   kp: '<g fill="currentColor" stroke="none"><circle cx="6" cy="4.5" r="1.7"/><circle cx="12" cy="4.5" r="1.7"/><circle cx="18" cy="4.5" r="1.7"/><circle cx="6" cy="10" r="1.7"/><circle cx="12" cy="10" r="1.7"/><circle cx="18" cy="10" r="1.7"/><circle cx="6" cy="15.5" r="1.7"/><circle cx="12" cy="15.5" r="1.7"/><circle cx="18" cy="15.5" r="1.7"/><circle cx="12" cy="21" r="1.7"/></g>',
   phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2C10 21 3 14 3 6a2 2 0 0 1 2-2z" fill="currentColor"/>',
@@ -813,7 +833,7 @@ const pNav = tab => {
   return `<div class="pnv">${b('keys', IP.kp, IP.kp, t('Keypad'))}${b('recents', IP.rec, IP.recF, t('Recents'))}${b('contacts', IP.con, IP.conF, t('Contacts'))}</div>`;
 };
 const pNavBind = () => document.querySelectorAll('.pnv button').forEach(e => e.onclick = () => { st.pq = ''; phone(e.dataset.t) });
-const pHead = (sub, icons) => `<div class="pth" id="pth"><div class="ptt"><h1>${t('Phone')}</h1>${sub ? `<small>${sub}</small>` : ''}</div><div class="pti">${icons}</div></div>
+const pHead = (sub, icons, ttl) => `<div class="pth" id="pth"><div class="ptt"><h1>${ttl || t('Phone')}</h1>${sub ? `<small>${sub}</small>` : ''}</div><div class="pti">${icons}</div></div>
   <div class="psb hidden" id="psb"><input id="psq" placeholder="${t('Search')}" value="${esc(st.pq || '')}"></div>`;
 const pScroll = () => { const sc = $('#phs'), th = $('#pth'); if (sc && th) sc.onscroll = () => th.style.setProperty('--k', Math.min(1, sc.scrollTop / 70)) };
 const pDots = items => `<div class="phdd hidden" id="pdd">${items}</div>`;
@@ -831,6 +851,7 @@ function pSearchBind(redraw) {
 }
 
 function phone(tab = 'keys') {
+  st.ctApp = false;
   if (tab === 'recents') return pRecents();
   if (tab === 'contacts') return contactsTab();
   const keys = [['1', 'vm'], ['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['*', 'ast'], ['0', '+'], ['#']];
@@ -875,8 +896,10 @@ async function pRecents() {
 async function contactsTab() {
   const r = await post('getContacts'); const all = r.list || [];
   const favs = favGet();
-  pBody(`${pHead(all.length + ' ' + t('contacts'), `<button id="pad">${I(IP.plus, 24)}</button><button id="phsr2">${I(IP.search, 22)}</button><button id="pdt">${I(IP.dots, 22)}</button>`)}
-    <div class="scr" id="phs"></div>${pNav('contacts')}${pDots(`<div id="ddset">${t('Settings')}</div>`)}`);
+  const A = !!st.ctApp;
+  pBody(`${pHead(A ? '' : all.length + ' ' + t('contacts'), `<button id="pad">${I(IP.plus, 24)}</button><button id="phsr2">${I(IP.search, 22)}</button><button id="pdt">${I(IP.dots, 22)}</button>`, A ? t('Contacts') : '')}
+    <div class="scr" id="phs"></div>${A ? '' : pNav('contacts')}${A ? `<div class="phdd ctm hidden" id="pdd">${['Select', 'View by storage location', 'Scan QR code', 'Reorder Favourites', '|', 'Recycle bin', 'Settings'].map(x => x === '|' ? '<hr>' : `<div class="ctmi">${t(x)}</div>`).join('')}</div>` : pDots(`<div id="ddset">${t('Settings')}</div>`)}`);
+  $('#app').classList.toggle('ctapp', A);
   const L = $('#phs');
   const row = c => `<div class="prw ct" data-id="${c.id}"><span class="pav" style="background:${phAvc(c.name)}">${esc((c.name || '?')[0].toUpperCase())}</span><span class="pnm">${esc(c.name)}</span></div>`;
   const draw = () => {
@@ -884,22 +907,96 @@ async function contactsTab() {
     const l = all.filter(c => !q || c.name.toLowerCase().includes(q) || c.number.includes(q));
     const fv = l.filter(c => favs.includes(c.id));
     const sec = {}; l.forEach(c => { const k = /\p{L}/u.test(c.name[0]) ? c.name[0].toUpperCase() : '#'; (sec[k] = sec[k] || []).push(c) });
-    L.innerHTML = `${q ? '' : `<h4 class="pgh">${t('My profile')}</h4><div class="pcd"><div class="prw"><span class="pav" style="background:${phAvc(st.me.name)}">${esc((st.me.name || '?')[0])}</span><span class="pnm">${esc(st.me.name)}</span></div></div>`}
+    L.innerHTML = `${q ? '' : `<h4 class="pgh">${t('My profile')}</h4><div class="pcd"><div class="prw" id="pme"><span class="pav" style="background:${phAvc(st.me.name)}">${esc((st.me.name || '?')[0])}</span><span class="pnm">${esc(st.me.name)}</span></div></div>`}
       ${fv.length ? `<h4 class="pgh star">${I(IP.starF, 18)}${t('Favourites')}</h4><div class="pcd">${fv.map(row).join('')}</div>` : ''}
       ${q ? '' : `<div class="pcd gp" id="pgp"><div class="prw"><span class="pav grey">${I(IP.shr, 22)}</span><span class="pnm">${t('Groups')}</span></div></div>`}
       ${Object.keys(sec).sort().map(k => `<h4 class="pgh">${esc(k)}</h4><div class="pcd">${sec[k].map(row).join('')}</div>`).join('') || (all.length ? '' : `<p class="empty">${t('No contacts yet.')}</p>`)}`;
     L.querySelectorAll('.ct').forEach(e => e.onclick = () => pContact(all.find(c => c.id === +e.dataset.id)));
-    const g = $('#pgp'); if (g) g.onclick = () => toast(t('Coming soon'));
+    const g = $('#pgp'); if (g) g.onclick = () => toast(t('Coming soon')); const pm = $('#pme'); if (pm) pm.onclick = myProfile;
   };
   draw(); pScroll(); pSearchBind(draw); pNavBind();
   $('#pad').onclick = addContact;
-  $('#pdt').onclick = () => $('#pdd').classList.toggle('hidden'); $('#ddset').onclick = () => toast(t('Coming soon'));
+  $('#pdt').onclick = () => $('#pdd').classList.toggle('hidden'); if ($('#ddset')) $('#ddset').onclick = () => toast(t('Coming soon'));
+  document.querySelectorAll('.ctmi').forEach(e => e.onclick = () => { $('#pdd').classList.add('hidden'); toast(t('Coming soon')) });
 }
+/* ---------- My profile (CPhone Contacts style) ---------- */
+const profGet = () => { try { return JSON.parse(localStorage.getItem('ios_myprofile') || '{}') } catch (e) { return {} } };
+const profSet = o => { try { localStorage.setItem('ios_myprofile', JSON.stringify(o)) } catch (e) { } };
+const profAv = (cls = '') => { const p = profGet(); return `<span class="mpf-av ${cls}" style="${p.photo ? `background-image:url(${p.photo})` : `background:${phAvc(st.me.name)}`}">${p.photo ? '' : esc((st.me.name || '?')[0].toUpperCase())}</span>` };
+const profPhones = () => { const p = profGet(); return (p.phones && p.phones.length) ? p.phones : (st.me.number ? [st.me.number] : []) };
+const profBar = (a, b, c) => `<div class="mpf-bar">${[a, b, c].map(x => `<button id="${x[0]}">${I(x[1], 24)}<span>${x[2]}</span></button>`).join('')}</div>`;
+const IPQ = '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM19 14v3M14 19h3M19 19h2"/>';
+const IPED = '<path d="M4 20h4L19 9l-4-4L4 16z"/>', IPSH = '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>';
+function profRow(label, val, ic) { return `<div class="mpf-r"><div><small>${label}</small><b>${esc(val)}</b></div>${ic ? I(ic, 22) : ''}</div>` }
+function myProfile() {
+  const p = profGet(), ph = profPhones();
+  pBody(`<div class="mpf"><div class="mpf-top"><button id="mpb">${I(IP.arrowL, 26)}</button></div>
+    <div class="mpf-body">
+    <div class="mpf-name"><b>${esc(st.me.name)}</b>${profAv()}</div>
+    <div class="mpf-card"><b>${t('Profile card and picture')}</b><small>${t('Not shared')}</small></div>
+    <div class="mpf-card">${ph.map(n => `<div class="mpf-r"><div><small>${t('Mobile')}</small><b>${esc(n)}</b></div><span class="mpf-ac"><i class="c1" data-n="${esc(n)}">${I(IP.phone, 22)}</i><i class="c2">${I(IP.msg, 22)}</i><i class="c3">${I('<rect x="3" y="7" width="12" height="10" rx="2" fill="currentColor"/><path d="M15 11l5-3v8l-5-3z" fill="currentColor"/>', 22)}</i></span></div>`).join('')}
+      ${p.email ? profRow(t('Home'), p.email, '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>') : ''}
+      ${p.site ? profRow(t('Website'), p.site, '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>') : ''}
+      ${p.nick ? profRow(t('Nickname'), p.nick) : ''}</div></div>
+    ${profBar(['mpq', IPQ, t('QR code')], ['mpe', IPED, t('Edit')], ['mps', IPSH, t('Share')])}</div>`);
+  $('#mpb').onclick = contactsTab;
+  $('#mpq').onclick = profQR; $('#mpe').onclick = profEdit; $('#mps').onclick = profShare;
+  document.querySelectorAll('.mpf .c1').forEach(e => e.onclick = () => dial(e.dataset.n, st.me.name));
+}
+function profShare() {
+  const p = profGet(), txt = [st.me.name, ...profPhones(), p.email].filter(Boolean).join('\n');
+  const ta = Object.assign(document.createElement('textarea'), { value: txt }); document.body.appendChild(ta); ta.select();
+  let ok = false; try { ok = document.execCommand('copy') } catch (e) { } ta.remove();
+  toast(ok ? t('Copied') : t('Failed'));
+}
+function profEdit() {
+  const p = { ...profGet() }, phones = [...profPhones()]; let photo = p.photo || '';
+  const draw = () => {
+    pBody(`<div class="mpf"><div class="mpf-body ed">
+      <div class="mpf-ph"><label class="mpf-pic"><input type="file" accept="image/*" id="mpi" hidden>${photo ? `<span class="mpf-av xl" style="background-image:url(${photo})"></span>` : `<span class="mpf-av xl" style="background:${phAvc(st.me.name)}">${esc((st.me.name || '?')[0].toUpperCase())}</span>`}<em>${I(IPED, 18)}</em></label></div>
+      <div class="mpf-card ro"><div class="mpf-r">${I(IP.con, 22)}<b>${esc(st.me.name)}</b></div></div>
+      <div class="mpf-card">${phones.map((n, i) => `<div class="mpf-r ep"><div><small class="bl">${t('Mobile')} ⌄</small><input data-i="${i}" class="mpn" value="${esc(n)}" inputmode="tel"></div><u data-d="${i}"></u></div>`).join('')}
+        <div class="mpf-r add" id="mpa">${I('<path d="M12 5v14M5 12h14"/>', 22)}<span>${t('Add phone number')}</span></div></div>
+      <div class="mpf-card"><div class="mpf-r ep"><div><small class="bl">${t('Home')} ⌄</small><input id="mpem" value="${esc(p.email || '')}" placeholder="Email"></div></div>
+        <div class="mpf-r ep"><div><small class="bl">${t('Website')}</small><input id="mpws" value="${esc(p.site || '')}"></div></div>
+        <div class="mpf-r ep"><div><small class="bl">${t('Nickname')}</small><input id="mpnk" value="${esc(p.nick || '')}"></div></div></div>
+      </div><div class="mpf-bar two"><button id="mpc">${t('Cancel')}</button><button id="mpsv">${t('Save')}</button></div></div>`);
+    const keep = () => { document.querySelectorAll('.mpn').forEach(e => phones[+e.dataset.i] = e.value); p.email = $('#mpem').value; p.site = $('#mpws').value; p.nick = $('#mpnk').value };
+    document.querySelectorAll('[data-d]').forEach(e => e.onclick = () => { keep(); phones.splice(+e.dataset.d, 1); draw() });
+    $('#mpa').onclick = () => { keep(); phones.push(''); draw() };
+    $('#mpc').onclick = myProfile;
+    $('#mpsv').onclick = () => { keep(); profSet({ ...p, phones: phones.map(x => x.trim()).filter(Boolean), photo }); myProfile() };
+    $('#mpi').onchange = e => {
+      const f = e.target.files[0]; if (!f) return; keep();
+      const img = new Image(), u = URL.createObjectURL(f);
+      img.onload = () => { const c = document.createElement('canvas'); c.width = c.height = 160; const x = c.getContext('2d'), s = Math.min(img.width, img.height); x.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, 160, 160); photo = c.toDataURL('image/jpeg', .8); URL.revokeObjectURL(u); draw() };
+      img.src = u;
+    };
+  };
+  draw();
+}
+function profQR() {
+  const seed = [...(st.me.name + profPhones().join(''))].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7), N = 33, cell = 8;
+  let s = seed; const rnd = () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
+  let d = '';
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const f = (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9), mid = Math.abs(x - 16) < 6 && Math.abs(y - 16) < 6;
+    if (!f && !mid && rnd() > .5) d += `<circle cx="${x * cell + 4}" cy="${y * cell + 4}" r="2.6"/>`;
+  }
+  const ring = (x, y) => `<circle cx="${x}" cy="${y}" r="22" fill="#666"/><circle cx="${x}" cy="${y}" r="13" fill="#fff"/><circle cx="${x}" cy="${y}" r="7" fill="#666"/>`;
+  pBody(`<div class="mpf qr"><div class="mpf-top"><button id="mpb">${I(IP.arrowL, 26)}</button><b>${t('QR code')}</b></div>
+    <div class="mpf-qn">${esc(st.me.name)}</div>
+    <div class="mpf-qr"><svg viewBox="0 0 ${N * cell} ${N * cell}" fill="#111">${d}${ring(30, 30)}${ring(N * cell - 30, 30)}${ring(30, N * cell - 30)}</svg>${profAv('qrav')}</div>
+    <p class="mpf-hint">${t('Scan the QR code to add this contact.')}</p>
+    ${profBar(['mpe', IPED, t('Edit info')], ['mpv', '<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>', t('Save as image')], ['mps', IPSH, t('Share')])}</div>`);
+  $('#mpb').onclick = myProfile; $('#mpe').onclick = profEdit; $('#mps').onclick = profShare; $('#mpv').onclick = () => toast(t('Coming soon'));
+}
+
 function pContact(c) {
   if (!c) return contactsTab();
   const fav = favGet().includes(c.id);
   pBody(`<div class="pdh"><button id="pcb">${I(IP.arrowL, 24)}</button><span></span><button id="pcd">${I(IP.bin, 22)}</button></div>
-    <div class="pdc"><div class="pav lg" style="background:${phAvc(c.name)}">${esc((c.name || '?')[0].toUpperCase())}</div><h2>${esc(c.name)}</h2><small>${esc(c.number)}</small>
+    <div class="pdc"><div class="pav lg" style="background:${phAvc(c.name)}">${esc((c.name || '?')[0].toUpperCase())}</div><h2>${esc(c.name)}</h2><small>${esc(c.number)}</small>${ctEm()[c.number] ? `<small>${esc(ctEm()[c.number])}</small>` : ''}
     <div class="pda"><div><button class="g" id="pcc">${I(IP.phone, 22)}</button><span>${t('Call')}</span></div><div><button id="pcm">${I(IP.msg, 22)}</button><span>${t('Message')}</span></div><div><button id="pcf" class="${fav ? 'on' : ''}">${I(fav ? IP.starF : IP.star, 22)}</button><span>${t('Favourites')}</span></div></div></div>`);
   $('#pcb').onclick = contactsTab;
   $('#pcc').onclick = () => dial(c.number, c.name);
@@ -907,17 +1004,30 @@ function pContact(c) {
   $('#pcf').onclick = () => { const f = favGet(); lsSet('ios_ct_fav', f.includes(c.id) ? f.filter(x => x !== c.id) : [...f, c.id]); pContact(c) };
   $('#pcd').onclick = async () => { await post('deleteContact', { id: c.id }); contactsTab() };
 }
+const ctEm = () => { try { return JSON.parse(localStorage.getItem('ios_ct_email') || '{}') } catch (e) { return {} } };
 function addContact() {
-  pBody(`<div class="pdh"><button id="pcb">${I(IP.arrowL, 24)}</button><b class="pdt">${t('New contact')}</b><span></span></div>
-    <div class="pfm"><input id="cn" placeholder="${t('Name')}" maxlength="40"><input id="cm" placeholder="${t('Phone number')}"><button class="pbt" id="cs2">${t('Save')}</button></div>`);
+  pBody(`<div class="mpf"><div class="mpf-body ed ctf">
+    <div class="ctf-acc"><span class="ctf-g">${I(IP.con, 18)}</span><b>${t('Phone')}</b></div>
+    <div class="ctf-ph"><div class="ctf-card">${I('<rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M8 17c1-3 7-3 8 0"/>', 40)}<em>+</em></div><div class="ctf-circ">${I(IP.con, 40)}<em>+</em></div></div>
+    <div class="ctf-in">${I(IP.con, 22)}<input id="cn" placeholder="${t('Name')}" maxlength="40"></div>
+    <div class="ctf-in">${I(IP.phone, 22)}<input id="cm" placeholder="${t('Phone')}" inputmode="tel"></div>
+    <div class="ctf-in">${I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>', 22)}<input id="ce" placeholder="Email"></div>
+    <div class="ctf-in" id="cgr">${I('<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-4 3-6 6-6s6 2 6 6M15 14c3 0 6 1.5 6 5"/>', 22)}<span>${t('Groups')}</span></div>
+    <div class="ctf-more" id="cvm">⌄ ${t('View more')}</div></div>
+    <div class="mpf-bar two"><button id="pcb">${t('Cancel')}</button><button id="cs2">${t('Save')}</button></div></div>`);
   $('#pcb').onclick = contactsTab;
+  $('#cgr').onclick = $('#cvm').onclick = () => toast(t('Coming soon'));
   $('#cs2').onclick = async () => {
     const n = $('#cn').value.trim(), m = $('#cm').value.trim();
     if (!n || !m) return toast(t('Enter name and number'));
     const x = await post('addContact', { name: n, number: m });
-    x.ok ? contactsTab() : toast(x.err || t('Failed'));
+    if (x.ok) { const e = $('#ce').value.trim(); if (e) { const o = ctEm(); o[m] = e; try { localStorage.setItem('ios_ct_email', JSON.stringify(o)) } catch (_) { } } contactsTab() }
+    else toast(x.err || t('Failed'));
   };
 }
+
+/* ---------- Contacts app (standalone, shares the same contacts as Phone) ---------- */
+function contactsApp() { st.ctApp = true; st.pq = ''; contactsTab() }
 
 /* ---------- Calls ---------- */
 async function dial(n, name) {
@@ -942,7 +1052,7 @@ async function bank() {
   const hide = !!st.bankHide, mk = v => hide ? '••••' : v;
   const digs = String(st.me.account || '').replace(/\D/g, ''), cardNum = ('5412' + digs.padStart(12, '7')).slice(0, 16), cardExp = '12/29', cardCvv = String(digs.slice(-3) || '421').padStart(3, '0');
   view(t('Bank'), `<div class="bk2">
-    <div class="bkt"><div class="bav">${esc((st.me.name || '?')[0])}</div><b>iBank</b><span class="bki"><span>${I(IP.scan, 21)}</span><span class="rd">${I(IP.bell, 21)}</span><span>${I(IP.sup, 21)}</span></span></div>
+    <div class="bkt"><div class="bav">${esc((st.me.name || '?')[0])}</div><b>FlecaBank</b><span class="bki"><span>${I(IP.scan, 21)}</span><span class="rd">${I(IP.bell, 21)}</span><span>${I(IP.sup, 21)}</span></span></div>
     <div class="bkl"><small>${t('Balance')}</small><button id="beye">${I(hide ? IP.eyeoff : IP.eye, 17)}</button></div>
     <div class="bkb ${bal < 0 ? 'neg' : ''}">${mk(fmt(bal))} <small>USD ▾</small></div>
     <div class="bka">
@@ -964,7 +1074,7 @@ async function bank() {
   </div>
   <div class="bnav"><button class="on" data-g="top">${I(IP.home, 20)}<span>${t('Home')}</span></button><button data-g="card">${I(IP.card, 20)}<span>${t('Card')}</span></button><button data-g="send">${I(IP.send, 20)}<span>${t('Send')}</span></button><button data-g="rec">${I(IP.wallet, 20)}<span>${t('Assets')}</span></button></div>
   <div class="bcd hidden" id="bcd"><div class="bcdh"><button id="bcb">${I(IP.chev, 24)}</button><b>${t('Card')}</b><span></span></div>
-    <div class="vcard ${st.cardFrozen ? 'frz' : ''}" id="vcard"><div class="vc1"><b>iBank</b><span class="ctl2">${I('<path d="M8 8a6 6 0 0 1 0 8M11.5 5.5a10 10 0 0 1 0 13M15 3a14 14 0 0 1 0 18"/>', 20)}</span></div><span class="chip"></span><div class="bnum" id="cnum">${st.cardShow ? cardNum.replace(/(.{4})/g, '$1 ').trim() : '•••• •••• •••• ' + last4}</div><div class="b2"><div><small>${t('Cardholder')}</small><b>${esc(st.me.name)}</b></div><div><small>${t('Expires')}</small><b>${cardExp}</b></div><span class="mc"><i></i><i></i></span></div>${st.cardFrozen ? `<div class="frzb">${t('Frozen')}</div>` : ''}</div>
+    <div class="vcard ${st.cardFrozen ? 'frz' : ''}" id="vcard"><div class="vc1"><b>FlecaBank</b><span class="ctl2">${I('<path d="M8 8a6 6 0 0 1 0 8M11.5 5.5a10 10 0 0 1 0 13M15 3a14 14 0 0 1 0 18"/>', 20)}</span></div><span class="chip"></span><div class="bnum" id="cnum">${st.cardShow ? cardNum.replace(/(.{4})/g, '$1 ').trim() : '•••• •••• •••• ' + last4}</div><div class="b2"><div><small>${t('Cardholder')}</small><b>${esc(st.me.name)}</b></div><div><small>${t('Expires')}</small><b>${cardExp}</b></div><span class="mc"><i></i><i></i></span></div>${st.cardFrozen ? `<div class="frzb">${t('Frozen')}</div>` : ''}</div>
     <div class="bka cda">
       <div><button id="cfz" class="${st.cardFrozen ? 'w' : ''}">${I('<path d="M12 2v20M4.5 7l15 10M19.5 7l-15 10"/>', 22)}</button><span>${st.cardFrozen ? t('Unfreeze') : t('Freeze')}</span></div>
       <div><button id="cdt">${I(st.cardShow ? IP.eyeoff : IP.eye, 22)}</button><span>${t('Details')}</span></div>
@@ -1001,25 +1111,130 @@ async function bank() {
   };
 }
 
+/* ---------- BaridiMob app ---------- */
+async function baridimob(page) {
+  const r = await post('getBank');
+  const bal = Number(r.balance || 0), l = r.list || [];
+  const acc = String(st.me.account || '').replace(/\D/g, '').padStart(10, '0');
+  const masked = '******** ' + '******'.slice(0, 6);
+  const tile = (id, ic, label) => `<button class="bm-t" data-p="${id}"><span>${I(ic, 44)}</span><small>${label}</small></button>`;
+  const P = {
+    home: () => `<div class="bm-logo"><b>بريدي موب</b><i></i></div><div class="bm-grid">
+      ${tile('acc', '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>', 'Comptes')}
+      ${tile('card', '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>', 'Cartes')}
+      ${tile('vir', '<circle cx="12" cy="12" r="9"/><path d="M8 10h8l-2-2M16 14H8l2 2"/>', 'Virement')}
+      ${tile('loc', '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>', 'Localisation')}
+      ${tile('off', '<path d="M4 10v4h3l7 4V6L7 10z"/><path d="M17 9a4 4 0 0 1 0 6"/>', 'Offres')}
+      ${tile('set', '<path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="10" cy="17" r="2"/>', 'Paramètres')}
+      ${tile('out', '<path d="M12 3v9"/><path d="M6.3 7a8 8 0 1 0 11.4 0"/>', 'Déconnexion')}</div>`,
+    acc: () => `<div class="bm-acc"><div class="bm-ah"><span class="bm-cur">DZD</span><span>${masked}</span></div>
+      <div class="bm-bal">${fmt(bal)}.00 <small>DZD</small></div><div class="bm-st">Statut : Actif</div></div>
+      <div class="bm-list">${l.map(tx => `<div class="bm-tx"><span class="bm-ar ${tx.out ? '' : 'in'}">${tx.out ? '←' : '→'}</span><div><b>${tx.out ? '-' : '+'}${fmt(tx.amount)}.00 DZD</b><p>${tx.out ? 'Virement vers' : 'Virement de'} ${esc(tx.name)}</p><small>${ago(tx.ts)}</small></div></div>`).join('') || '<p class="bm-em">Aucune opération</p>'}</div>`,
+    vir: () => `<div class="bm-f"><label>SOURCE DE VIREMENT</label><div class="bm-in">Compte ${acc.slice(-4).padStart(8, '*')} · ${fmt(bal)} DZD</div></div>
+      <div class="bm-f"><label>COMPTE RIP DU BÉNÉFICIAIRE</label><input id="bn" inputmode="numeric" placeholder="N° téléphone"></div>
+      <div class="bm-f"><label>LE MONTANT</label><div class="bm-am"><input id="ba" inputmode="numeric"><span>DZD</span></div></div>
+      <button class="bm-btn" id="bs">Continuer</button>`,
+    card: () => `<div class="bm-h2">DÉTAILS DE LA CARTE</div><div class="bm-box"><div><span>Nom</span><b>${esc(st.me.name)}</b></div><div><span>Statut</span><b>${st.cardFrozen ? 'Bloquée' : 'Active'}</b></div></div>
+      <div class="bm-h2">SÉLECTION DU TYPE DE BLOCAGE</div><div class="bm-box"><label class="bm-r"><i class="on"></i>Sans définir la période</label><label class="bm-r"><i></i>Définir la période</label></div>
+      <button class="bm-btn" id="bblk">${st.cardFrozen ? 'Débloquer la Carte' : 'Bloquer la Carte'}</button>`,
+    loc: () => `<div class="bm-seg"><span>LISTE</span><span class="on">CARTE</span></div><div class="bm-map">${[[20, 30], [45, 55], [70, 25], [30, 70], [60, 65], [80, 50]].map(p => `<i style="left:${p[0]}%;top:${p[1]}%"></i>`).join('')}</div>`,
+    off: () => '<p class="bm-em">Aucune offre pour le moment</p>',
+    set: () => `<div class="bm-box"><div><span>Nom</span><b>${esc(st.me.name)}</b></div><div><span>Compte</span><b>${acc}</b></div></div>`
+  };
+  const T = { acc: 'DÉTAILS DU COMPTE', card: 'BLOQUER LA CARTE', vir: 'VIREMENT', loc: 'LOCALISATION', off: 'OFFRES', set: 'PARAMÈTRES' };
+  const p = page && P[page] ? page : 'home';
+  const hdr = p === 'home' ? `<div class="bm-hd"><span>☰</span><b>ACCUEIL</b></div>` : `<div class="bm-hd"><button id="bmb">←</button><b>${T[p]}</b></div>${p === 'vir' ? '<div class="bm-sub">Compte Détenteur de Carte</div>' : ''}`;
+  view('BaridiMob', `<div class="bm">${hdr}<div class="bm-c">${P[p]()}</div></div>`, { app: 'bmob', nohdr: true, cls: 'bmbody' });
+  const bb = $('#bmb'); if (bb) bb.onclick = () => baridimob();
+  document.querySelectorAll('.bm-t').forEach(e => e.onclick = () => e.dataset.p === 'out' ? home() : baridimob(e.dataset.p));
+  const bs = $('#bs'); if (bs) bs.onclick = async () => {
+    const n = $('#bn').value.trim(), a = Math.floor(+$('#ba').value);
+    if (!n || !(a > 0)) return toast(t('Enter number and amount'));
+    const x = await post('transfer', { number: n, amount: a });
+    toast(x.ok ? t('Transfer sent') : (x.err || t('Failed'))); if (x.ok) baridimob('acc');
+  };
+  const bk = $('#bblk'); if (bk) bk.onclick = () => { st.cardFrozen = !st.cardFrozen; baridimob('card') };
+}
+
 /* ---------- Garage ---------- */
+Object.assign(TR.fr, { 'All': 'Tout', 'Available services': 'Services disponibles', 'Boss': 'Patron', 'Call': 'Appeler', 'Employees': 'Employés', 'Garage': 'Garage', 'Location': 'Emplacement', 'My vehicles': 'Mes véhicules', 'No employees.': 'Aucun employé.', 'No results': 'Aucun résultat', 'Nobody on duty': 'Personne en service', 'Off duty': 'Hors service', 'Offline': 'Hors ligne', 'Sent': 'Envoyé', 'Services': 'Services', 'Services on duty': 'Services en service', 'Staff': 'Équipe', 'This week': 'Cette semaine', 'Today': "Aujourd'hui", 'Total': 'Total', 'Vehicle condition': 'État du véhicule', 'View staff': "Voir l'équipe", 'Visible to this service staff only': 'Visible uniquement par le personnel de ce service', 'Welcome to': 'Bienvenue chez', 'Work time': 'Temps de travail', 'Phone number': 'Numéro de téléphone', 'Grade': 'Grade', 'Service': 'Service', 'Search': 'Rechercher' });
+Object.assign(TR.es, { 'All': 'Todos', 'Available services': 'Servicios disponibles', 'Boss': 'Jefe', 'Call': 'Llamar', 'Employees': 'Empleados', 'Location': 'Ubicación', 'My vehicles': 'Mis vehículos', 'No employees.': 'Sin empleados.', 'No results': 'Sin resultados', 'Nobody on duty': 'Nadie de servicio', 'Off duty': 'Fuera de servicio', 'Offline': 'Desconectado', 'Sent': 'Enviado', 'Services on duty': 'Servicios de turno', 'Staff': 'Personal', 'This week': 'Esta semana', 'Today': 'Hoy', 'Total': 'Total', 'Vehicle condition': 'Estado del vehículo', 'View staff': 'Ver personal', 'Visible to this service staff only': 'Visible solo para el personal de este servicio', 'Welcome to': 'Bienvenido a', 'Work time': 'Tiempo de trabajo', 'Phone number': 'Número de teléfono', 'Grade': 'Rango', 'Service': 'Servicio' });
+Object.assign(TR.tr, { 'All': 'Tümü', 'Available services': 'Mevcut hizmetler', 'Boss': 'Patron', 'Call': 'Ara', 'Employees': 'Çalışanlar', 'Location': 'Konum', 'My vehicles': 'Araçlarım', 'No employees.': 'Çalışan yok.', 'No results': 'Sonuç yok', 'Nobody on duty': 'Görevde kimse yok', 'Off duty': 'Görev dışı', 'Offline': 'Çevrimdışı', 'Sent': 'Gönderildi', 'Services on duty': 'Görevdeki hizmetler', 'Staff': 'Ekip', 'This week': 'Bu hafta', 'Today': 'Bugün', 'Total': 'Toplam', 'Vehicle condition': 'Araç durumu', 'View staff': 'Ekibi gör', 'Visible to this service staff only': 'Yalnızca bu hizmetin çalışanlarına görünür', 'Welcome to': 'Hoş geldiniz:', 'Work time': 'Çalışma süresi', 'Phone number': 'Telefon numarası', 'Grade': 'Rütbe', 'Service': 'Hizmet' });
+Object.assign(TR.ar, { 'Brand': 'العلامة', 'Model': 'الموديل', 'Category': 'الفئة', 'Price': 'السعر', 'Photo': 'الصورة' });
+Object.assign(TR.fr, { 'Brand': 'Marque', 'Model': 'Modèle', 'Category': 'Catégorie', 'Price': 'Prix', 'Photo': 'Photo' });
+Object.assign(TR.ar, { 'Not enough money': 'ما عندكش رصيد كافي في البنك', 'Wait a moment': 'استنى شوية', 'Vehicle is already out': 'السيارة راهي برا', 'Vehicle is impounded': 'السيارة في الفورييار' });
+Object.assign(TR.fr, { 'Not enough money': 'Pas assez d’argent en banque', 'Wait a moment': 'Patientez un instant', 'Vehicle is already out': 'Le véhicule est déjà dehors', 'Vehicle is impounded': 'Le véhicule est en fourrière' });
 const bar = (l, v) => `<div class="bar"><span>${l}</span><i><u style="width:${Math.max(0, Math.min(100, v || 0))}%"></u></i></div>`;
 const GS = ['Out', 'Garaged', 'Impound'];
 const CAR_SVG = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M5.2 10.2l1.5-3.6A2.2 2.2 0 0 1 8.7 5.2h6.6c.8 0 1.5.4 1.9 1.1l1.6 3.9h.7A1.5 1.5 0 0 1 21 11.7v3.6c0 .5-.4.9-.9.9H3.9a.9.9 0 0 1-.9-.9v-3.6a1.5 1.5 0 0 1 1.5-1.5z"/><path fill="#ff8a1a" opacity=".5" d="M8.2 10l1-3h2.3v3zM12.8 10V7h2.4l1.7 3z"/><circle cx="7.5" cy="16.2" r="2.3" fill="currentColor" stroke="#ff9f0a" stroke-width="1"/><circle cx="16.5" cy="16.2" r="2.3" fill="currentColor" stroke="#ff9f0a" stroke-width="1"/></svg>';
+const carIco = z => CAR_SVG.replace('width="22" height="22"', `width="${z}" height="${z}"`);
+const CAT_N = x => String(x || '').replace(/[_-]/g, ' ').replace(/^./, m => m.toUpperCase());
+const carPic = (v, c) => v && v.photo && v.photo.url
+  ? `<img class="cimg photo ${c || ''}" src="${esc(v.photo.url)}" referrerpolicy="no-referrer" draggable="false" alt="" onerror="this.onerror=null;this.src='img/car.webp';this.classList.remove('photo')">`
+  : carImg(c);
+/* ask the server (carapi) for the real photos of the models that were not looked up yet; fills v.photo (false = none) */
+async function carLoadPhotos(l) {
+  const need = [...new Set(l.filter(v => v.spawn && v.photo === undefined).map(v => v.spawn))];
+  if (!need.length) return false;
+  const r = await post('carPhotos', { list: need });
+  const m = (r && r.map) || {};
+  l.forEach(v => { if (need.includes(v.spawn) && v.spawn in m) v.photo = m[v.spawn] || null });
+  return true;
+}
+const carImg = c => `<img class="cimg ${c || ''}" src="img/car.webp" draggable="false" alt="">`;
+const PIN_P = '<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>';
+const lvl = p => p > 60 ? '#30d158' : p > 30 ? '#ffb340' : '#ff453a';
+const gm = v => [
+  { k: 'Fuel', p: Math.max(0, Math.min(100, Math.round(v.fuel || 0))) },
+  { k: 'Engine', p: Math.max(0, Math.min(100, Math.round((v.engine || 0) / 10))) },
+  { k: 'Body', p: Math.max(0, Math.min(100, Math.round((v.body || 0) / 10))) },
+];
 async function garage() {
   const r = await post('getGarage'); const l = r.list || [];
-  const b = view(t('Garage'), l.length ? `<div class="list">${l.map((v, i) => `<div class="row" data-i="${i}"><div class="ic gic">${CAR_SVG}</div><div class="rc"><b>${esc(v.label)}</b><small>${esc(v.plate)} · ${esc(v.garage || '-')}</small></div><span class="tag s${v.state}">${t(GS[v.state] || '?')}</span></div>`).join('')}</div>` : `<p class="empty">${t('No vehicles.')}</p>`);
-  b.querySelectorAll('.row').forEach(e => e.onclick = () => carView(l[+e.dataset.i]));
+  const cnt = x => l.filter(v => v.state === x).length;
+  let flt = -1;
+  const chips = [[-1, t('All'), l.length], [1, t('Garaged'), cnt(1)], [0, t('Out'), cnt(0)], [2, t('Impound'), cnt(2)]];
+  const b = view(t('Garage'), `<div class="grgw">
+    <div class="grg-hero"><div class="grg-hc"><small>${t('My vehicles')}</small><b>${l.length}</b></div><div class="grg-hi">${carImg('hero')}</div></div>
+    <div class="grg-chips" id="gch">${chips.map(c => `<button data-f="${c[0]}" class="${c[0] === -1 ? 'on' : ''}">${c[1]}<em>${c[2]}</em></button>`).join('')}</div>
+    <div class="grg-list" id="gls"></div></div>`, { dark: true, app: 'grg' });
+  const draw = () => {
+    const arr = l.map((v, i) => [v, i]).filter(x => flt === -1 || x[0].state === flt);
+    $('#gls').innerHTML = arr.map(([v, i]) => `<div class="gcar" data-i="${i}">
+      <div class="gc-pic${v.photo ? ' has' : ''}"><span class="gst s${v.state}"><i></i>${t(GS[v.state] || '?')}</span>${carPic(v, 'list')}</div>
+      <div class="gc-top"><div class="gc-nm"><b>${esc(v.label)}</b><small>${I(PIN_P, 12)}<span>${esc(v.garage || '-')}</span></small></div><span class="plate">${esc(v.plate)}</span></div>
+      <div class="gc-mini">${gm(v).map(m => `<div title="${t(m.k)}"><i><u style="width:${m.p}%;background:${lvl(m.p)}"></u></i><small>${t(m.k)} ${m.p}%</small></div>`).join('')}</div>
+    </div>`).join('') || `<p class="empty" style="margin:40px 0">${t('No vehicles.')}</p>`;
+    $('#gls').querySelectorAll('.gcar').forEach(e => e.onclick = () => carView(l[+e.dataset.i]));
+  };
+  $('#gch').onclick = e => {
+    const bt = e.target.closest('button'); if (!bt) return;
+    flt = +bt.dataset.f; $('#gch').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === bt)); draw();
+  };
+  draw();
+  carLoadPhotos(l).then(ch => { if (ch && $('#gls')) draw() }).catch(() => { });
 }
 function carView(v) {
+  carLoadPhotos([v]).then(ch => { if (ch && $('#app.grg .grg-car')) carView(v) }).catch(() => { });
   const fee = st.me.bringFee ? ` · $${fmt(st.me.bringFee)}` : '';
+  const ring = m => `<div class="grg-ring" style="--p:${m.p};--c:${lvl(m.p)}"><div><b>${m.p}<small>%</small></b></div><span>${t(m.k)}</span></div>`;
+  const sp = (k, val) => val ? `<div class="sp"><small>${t(k)}</small><b dir="auto">${esc(val)}</b></div>` : '';
+  const specs = (v.brand || v.model || v.category || v.price) ? `<div class="grg-info grg-spec">${sp('Brand', v.brand)}${sp('Model', v.model)}${sp('Category', v.category && CAT_N(v.category))}${sp('Price', v.price && ('$' + fmt(v.price)))}</div>` : '';
   const acts = v.state === 2
-    ? `<p class="empty" style="margin:16px 0">${t('This vehicle is impounded. Pick it up at the impound lot.')}</p>`
-    : `<div class="form"><button class="btn" id="cm">${t('Show on map')}</button>${v.state === 1 ? `<button class="btn green" id="cbv">${t('Bring vehicle')}${fee}</button>` : `<small style="text-align:center">${t('This vehicle is out. Mark it on the map to find it.')}</small>`}</div>`;
-  view(v.label, `<div class="card car"><div class="top"><b>${esc(v.label)}</b><span class="tag s${v.state}">${t(GS[v.state] || '?')}</span></div><small>${esc(v.plate)} · ${esc(v.garage || '-')}</small>${bar(t('Fuel'), v.fuel)}${bar(t('Engine'), v.engine / 10)}${bar(t('Body'), v.body / 10)}</div>` + acts, { back: garage });
+    ? `<p class="grg-note red">${t('This vehicle is impounded. Pick it up at the impound lot.')}</p>`
+    : `<div class="grg-acts"><button class="gbtn" id="cm">${I(PIN_P, 18)}<span>${t('Show on map')}</span></button>${v.state === 1 ? `<button class="gbtn green" id="cbv">${I('<path d="M5 12h14M13 6l6 6-6 6"/>', 18)}<span>${t('Bring vehicle')}${fee}</span></button>` : `<p class="grg-note">${t('This vehicle is out. Mark it on the map to find it.')}</p>`}</div>`;
+  view(v.label, `<div class="grgw">
+    <div class="grg-card"><div class="grg-glow"></div><div class="grg-car${v.photo ? ' has' : ''}">${carPic(v, 'big')}${v.photo ? '' : '<i class="grg-floor"></i>'}</div>
+      <div class="grg-t"><b>${esc(v.label)}</b><span class="gst s${v.state}"><i></i>${t(GS[v.state] || '?')}</span></div>
+      <span class="plate big">${esc(v.plate)}</span>${v.photo && v.photo.credit ? `<small class="grg-cr" dir="auto">${t('Photo')}: ${esc(v.photo.credit)}</small>` : ''}</div>
+    ${specs}
+    <div class="grg-info"><div>${I(PIN_P, 16)}<small>${t('Location')}</small><b>${esc(v.garage || '-')}</b></div></div>
+    <div class="grg-h">${t('Vehicle condition')}</div>
+    <div class="grg-rings">${gm(v).map(ring).join('')}</div>${acts}</div>`, { dark: true, app: 'grg', back: garage });
   const m = $('#cm');
   if (m) m.onclick = async () => { const x = await post('track', { plate: v.plate }); toast(x.ok ? (x.kind === 'garage' ? t('Garage marked on map') : t('Vehicle marked on map')) : (x.err || t('Vehicle not found'))) };
   const c = $('#cbv');
-  if (c) c.onclick = async () => { const x = await post('bringVehicle', { plate: v.plate }); if (x.ok) { toast(t('Your vehicle is on its way')); post('close') } else toast(x.err || t('Failed')) };
+  if (c) c.onclick = async () => { const x = await post('bringVehicle', { plate: v.plate }); if (x.ok) { toast(t('Your vehicle is on its way')); post('close') } else toast(t(x.err || 'Failed')) };
 }
 
 /* ---------- Trendy / Inpic ---------- */
@@ -1217,7 +1432,7 @@ const IGI = {
 function igAv(name, url, size = 44, ring) {
   const l = esc(String(name || '?')[0].toUpperCase());
   const img = url ? `<img src="${esc(url)}" onerror="this.remove()">` : '';
-  return `<div class="ig-av ${ring ? 'ring' : ''}" style="width:${size}px;height:${size}px;font-size:${Math.round(size / 2.4)}px">${img}<span>${l}</span></div>`;
+  return `<div class="ig-av ${ring ? 'ring' : ''} ${ring === 'seen' ? 'seen' : ''}" style="width:${size}px;height:${size}px;font-size:${Math.round(size / 2.4)}px">${img}<span>${l}</span></div>`;
 }
 function igNav(tab) {
   const it = (id, ic, fill) => `<button class="${tab === id ? 'on' : ''}" data-t="${id}">${I(fill && tab === id ? fill : ic, 26)}</button>`;
@@ -1263,20 +1478,24 @@ function igPostCard(p) {
 async function inpic() {
   const [r, stStories, me] = await Promise.all([
     post('getPosts', { app: 'inpic' }),
-    post('getInpicStories'),
+    post('getStories'),
     post('getProfile', { app: 'inpic' })
   ]);
+  const meName = (me && (me.username || me.name)) || (st.me && st.me.name) || 'me';
   const list = r.list || [];
   const stories = stStories.list || [];
-  const meName = me.name || st.me?.name || 'You';
+  const seen = igSeenGet();
+  const ringOf = u => u.items.every(x => seen.includes(x.id)) ? 'seen' : true;
+  const mineU = stories.find(u => u.mine);
+  const others = stories.filter(u => !u.mine);
   const storyRow = `<div class="ig-stories">
     <div class="ig-story mine" id="igstoryme">
-      ${igAv(meName, me.avatar, 58)}
-      <i class="ig-add">${I(IGI.plus, 12)}</i>
+      ${igAv(meName, me.avatar, 58, mineU ? ringOf(mineU) : false)}
+      <i class="ig-add" id="igstoryadd">${I(IGI.plus, 12)}</i>
       <span>${t('Your story')}</span>
     </div>
-    ${stories.map(s => `<div class="ig-story ${s.has ? 'has' : ''}">
-      ${igAv(s.name, s.avatar, 58, s.has)}
+    ${others.map((s, k) => `<div class="ig-story has" data-k="${k}">
+      ${igAv(s.name, s.avatar, 58, ringOf(s))}
       <span>${esc((s.username || s.name || '').slice(0, 10))}</span>
     </div>`).join('')}
   </div>`;
@@ -1294,7 +1513,9 @@ async function inpic() {
     </div>`);
   $('#igmsg').onclick = igInbox;
   $('#igheart').onclick = () => toast(t('Activity'));
-  $('#igstoryme').onclick = () => newPost('inpic');
+  $('#igstoryme').onclick = () => mineU ? igStoryView(stories, 0) : igStoryAdd();
+  $('#igstoryadd').onclick = ev => { ev.stopPropagation(); igStoryAdd() };
+  b.querySelectorAll('.ig-story[data-k]').forEach(e => e.onclick = () => igStoryView(stories, stories.indexOf(others[+e.dataset.k])));
   b.querySelectorAll('.ig-lk').forEach(e => e.onclick = async () => {
     const x = await post('like', { id: +e.dataset.id });
     if (x.ok) {
@@ -1496,7 +1717,220 @@ function igSettings() {
     </div>
   `, { dark: true, app: 'ig', back: igProfile });
 }
+
+/* ---------- InPic stories (viewer + "Add to story") ---------- */
+Object.assign(TR.ar, { 'Add to story': 'إضافة إلى القصة', 'Templates': 'القوالب', 'Music': 'الموسيقى', 'Collage': 'كولاج', 'Recents': 'الأحدث', 'Select': 'تحديد', 'No recent photos or videos': 'لا توجد صور أو فيديوهات حديثة', 'Send message': 'إرسال رسالة', 'Your story': 'قصتك', 'Share to story': 'مشاركة في القصة', 'Song name': 'اسم الأغنية', 'Add a caption…': 'أضف تعليقاً…', 'Story shared': 'تمت مشاركة القصة', 'Delete story': 'حذف القصة', 'Delete this story?': 'حذف هذه القصة؟', 'Camera': 'الكاميرا', 'Sent': 'تم الإرسال', 'Cancel': 'إلغاء', 'Too many stories': 'عدد القصص كبير جداً' });
+Object.assign(TR.fr, { 'Add to story': 'Ajouter à la story', 'Templates': 'Modèles', 'Music': 'Musique', 'Collage': 'Collage', 'Recents': 'Récents', 'Select': 'Sélectionner', 'No recent photos or videos': 'Aucune photo ou vidéo récente', 'Send message': 'Envoyer un message', 'Your story': 'Votre story', 'Share to story': 'Partager en story', 'Song name': 'Nom du titre', 'Add a caption…': 'Ajouter une légende…', 'Story shared': 'Story partagée', 'Delete story': 'Supprimer la story', 'Delete this story?': 'Supprimer cette story ?', 'Camera': 'Caméra', 'Sent': 'Envoyé', 'Cancel': 'Annuler', 'Too many stories': 'Trop de stories' });
+Object.assign(IGI, {
+  close: '<path d="M5 5l14 14M19 5L5 19"/>',
+  tpl: '<rect x="3" y="5" width="18" height="14" rx="4"/><circle cx="9" cy="12" r="2.5"/><circle cx="15" cy="12" r="2.5"/>',
+  mus: '<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
+  col: '<rect x="3" y="3" width="8" height="18" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/>',
+  sel: '<rect x="8" y="8" width="13" height="13" rx="3"/><path d="M16 4H7a3 3 0 0 0-3 3v9"/>',
+  sparkle: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',
+});
+const igSeenGet = () => { try { return JSON.parse(localStorage.getItem('ios_ig_seen') || '[]') } catch (e) { return [] } };
+const igSeenAdd = id => { try { const a = igSeenGet(); if (!a.includes(id)) { a.push(id); localStorage.setItem('ios_ig_seen', JSON.stringify(a.slice(-300))) } } catch (e) { } };
+const igAgo = ts => { const m = Math.max(1, Math.floor((Date.now() / 1000 - ts) / 60)); return m < 60 ? m + 'm' : Math.floor(m / 60) + 'h' };
+st.svm = st.svm || {};
+IGI.trash = '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>';
+IGI.bm = '<path d="M6 3h12v18l-6-4-6 4z"/>';
+IGI.bmF = '<path d="M6 3h12v18l-6-4-6 4z" fill="currentColor"/>';
+function igAudioPlay(id) { yt.story = true; yt.mode = 'audio'; ytPlay(id) }
+function igAudioStop() { if (!yt.story) return; yt.story = false; if (yt.p && yt.ready) { try { yt.p.stopVideo() } catch (e) { } } st.mus.playing = false }
+async function igStoryMedia(id) {
+  if (st.svm[id]) return st.svm[id];
+  const x = await post('getStoryMedia', { id });
+  if (x && x.media) st.svm[id] = x.media;
+  return st.svm[id] || '';
+}
+async function igStoryView(users, ui, ii = 0) {
+  const u = users[ui];
+  if (!u) return inpic();
+  // start at the first unseen item of that user
+  if (ii === 0) { const seen = igSeenGet(), k = u.items.findIndex(x => !seen.includes(x.id)); if (k > 0 && k < u.items.length) ii = k }
+  const it = u.items[ii];
+  if (!it) return igStoryView(users, ui + 1, 0);
+  igSeenAdd(it.id);
+  const bars = u.items.map((_, k) => `<i><b style="width:${k < ii ? 100 : 0}%"></b></i>`).join('');
+  const b = view('Story', `<div class="sv">
+    <div class="sv-stage" id="svst">
+      <div class="sv-media" id="svm"></div>
+      <div class="sv-top">
+        <div class="sv-bars">${bars}</div>
+        <div class="sv-hd">
+          ${igAv(u.name, u.avatar, 34)}
+          <div class="sv-who"><b>${esc(u.username || u.name)}</b><small>${igAgo(it.ts)}</small>${it.music ? `<span class="sv-mus">${I(IGI.mus, 13)}${esc(it.music)}</span>` : ''}</div>
+          ${u.mine ? `<button id="svmenu" aria-label="delete">${I(IGI.trash, 22)}</button>` : ''}
+          <button id="svx" aria-label="close">${I(IGI.close, 22)}</button>
+        </div>
+      </div>
+      <div class="sv-z l" id="svl"></div><div class="sv-z r" id="svr"></div>
+      ${it.caption ? `<div class="sv-cap">${esc(it.caption)}</div>` : ''}
+    </div>
+    <div class="sv-bar">
+      ${u.mine ? `<div class="sv-me">${I(IGI.heart, 20)}<span>${t('Your story')}</span></div>` : `<input id="svin" placeholder="${t('Send message')}" maxlength="120" autocomplete="off"><button id="svlk" aria-label="like">${I(IGI.heart, 26)}</button><button id="svsd" aria-label="send">${I(IGI.share, 24)}</button>`}
+    </div>
+  </div>`, { dark: true, app: 'ig', nohdr: true, cls: 'full ig-body ig-sv' });
+  const next = () => { clearInterval(st.wi); igAudioStop(); ii + 1 < u.items.length ? igStoryView(users, ui, ii + 1) : igStoryView(users, ui + 1, 0) };
+  const prev = () => { clearInterval(st.wi); igAudioStop(); ii > 0 ? igStoryView(users, ui, ii - 1) : (ui > 0 ? igStoryView(users, ui - 1, 0) : igStoryView(users, ui, 0)) };
+  $('#svr').onclick = next; $('#svl').onclick = prev;
+  $('#svx').onclick = () => { clearInterval(st.wi); igAudioStop(); inpic() };
+  if (u.mine) $('#svmenu').onclick = async () => {
+    if (!st.svDel) { st.svDel = true; setTimeout(() => st.svDel = false, 3000); return toast(t('Delete this story?') + ' (' + t('Delete story') + ')') }
+    st.svDel = false;
+    await post('deleteStory', { id: it.id });
+    delete st.svm[it.id];
+    igAudioStop(); inpic();
+  };
+  if (!u.mine) {
+    $('#svlk').onclick = e => e.currentTarget.classList.toggle('on');
+    $('#svsd').onclick = () => { const v = $('#svin'); if (v.value.trim()) { v.value = ''; toast(t('Sent')) } };
+  }
+  const mbox = $('#svm');
+  const src = await igStoryMedia(it.id);
+  if (!document.body.contains(mbox)) return;            // user left meanwhile
+  mbox.innerHTML = src ? `<img src="${esc(src)}">` : '';
+  // preload the next one
+  const nx = u.items[ii + 1]; if (nx) igStoryMedia(nx.id);
+  if (it.musicId) igAudioPlay(it.musicId);
+  const total = Math.max(5, +st.storySec || 30) * 1000, t0 = Date.now(); let paused = 0, pAt = 0;
+  const fill = document.querySelectorAll('.sv-bars i')[ii]?.firstChild;
+  clearInterval(st.wi);
+  st.wi = setInterval(() => {
+    const inp = $('#svin');
+    if (inp && document.activeElement === inp) { if (!pAt) pAt = Date.now(); return }   // paused while typing
+    if (pAt) { paused += Date.now() - pAt; pAt = 0 }
+    const pct = Math.min(100, ((Date.now() - t0 - paused) / total) * 100);
+    if (fill) fill.style.width = pct + '%';
+    if (pct >= 100) next();
+  }, 100);
+}
+async function igStoryAdd() {
+  st.igStory = false;
+  let list = [];
+  try { const r = await post('getPhotos'); st.ph = r.list || []; list = st.ph.filter(p => p.kind !== 'video').slice(0, 30) } catch (e) { }
+  const sg = st.svSong;
+  view('Story', `<div class="sa">
+    <div class="sa-hd"><button id="sax" aria-label="close">${I(IGI.close, 26)}</button><b>${t('Add to story')}</b><span style="width:26px"></span></div>
+    <div class="sa-tiles"><button class="sa-t ${sg ? 'on' : ''}" id="samus">${sg ? `<img class="sa-th" src="${esc(sg.thumb)}">` : I(IGI.mus, 30)}<span>${sg ? esc(sg.title.slice(0, 26)) : t('Music')}</span></button></div>
+    <div class="sa-rh"><b>${t('Recents')}</b></div>
+    <div class="sa-gw">
+      <div class="sa-grid">
+        <button class="sa-cam" id="sacam">${I(IGI.cam, 30)}${list.length ? `<small>${t('Camera')}</small>` : ''}</button>
+        ${list.map(p => `<button class="sa-ph" data-id="${p.id}" id="saph${p.id}"></button>`).join('')}
+      </div>
+      ${list.length ? '' : `<p class="sa-empty">${t('No recent photos or videos')}</p>`}
+    </div>
+  </div>`, { dark: true, app: 'ig', nohdr: true, cls: 'full ig-body ig-sa' });
+  $('#sax').onclick = () => { st.svSong = null; inpic() };
+  $('#samus').onclick = () => igMusicSheet(() => igStoryAdd());
+  $('#sacam').onclick = async () => {
+    st.igCompose = true; st.composeApp = 'inpic'; st.igStory = true;
+    await post('setCamCompose', { on: true, app: 'inpic' });
+    post('startCamera');
+  };
+  list.forEach(async p => {
+    try {
+      if (!st.pc[p.id]) { const x = await post('getPhoto', { id: +p.id, thumb: true }); if (x && x.data) st.pc[p.id] = x.data }
+      const el = document.getElementById('saph' + p.id);
+      if (el && st.pc[p.id]) el.style.backgroundImage = `url(${st.pc[p.id]})`;
+    } catch (_) { }
+  });
+  document.querySelectorAll('.sa-ph').forEach(el => el.onclick = async () => {
+    const id = +el.dataset.id;
+    const full = await post('getPhoto', { id, thumb: false });
+    igStoryCompose((full && full.data) || st.pc[id], id);
+  });
+}
+
+/* Music picker (bottom sheet) — songs come from the CTube API (music category) */
+Object.assign(TR.ar, { 'Search…': 'بحث…', 'For you': 'لك', 'Trending': 'الرائج', 'Saved': 'المحفوظة', 'No saved songs': 'لا توجد أغاني محفوظة', 'No results': 'لا توجد نتائج', 'Loading…': 'جارٍ التحميل…' });
+Object.assign(TR.fr, { 'Search…': 'Rechercher…', 'For you': 'Pour vous', 'Trending': 'Tendances', 'Saved': 'Enregistrés', 'No saved songs': 'Aucun titre enregistré', 'No results': 'Aucun résultat', 'Loading…': 'Chargement…' });
+const igSongsGet = () => { try { return JSON.parse(localStorage.getItem('ios_ig_songs') || '[]') } catch (e) { return [] } };
+const igSongsSave = a => { try { localStorage.setItem('ios_ig_songs', JSON.stringify(a.slice(0, 60))) } catch (e) { } };
+const igSong = v => ({ id: v.id, title: v.title, artist: String(v.channel || '').replace(/\s*-\s*Topic$/i, ''), thumb: v.thumb, dur: v.dur || 0 });
+st.igSongCache = st.igSongCache || {};
+function igMusicSheet(done) {
+  const app = $('#app');
+  const old = $('#msheet'); if (old) old.remove();
+  const sh = document.createElement('div'); sh.id = 'msheet'; sh.className = 'msheet';
+  sh.innerHTML = `<div class="ms-grip" id="msg"><i></i></div>
+    <label class="ms-s">${I(IGI.search, 22)}<input id="msq" placeholder="${t('Search…')}" maxlength="80" autocomplete="off"></label>
+    <div class="ms-ch"><button data-c="you" class="on">${t('For you')}</button><button data-c="trend">${t('Trending')}</button><button data-c="saved">${t('Saved')}</button></div>
+    <div class="ms-list" id="msl"></div>`;
+  app.appendChild(sh);
+  let tab = 'you', timer = null, seq = 0;
+  const close = () => { sh.remove(); };
+  $('#msg').onclick = close;
+  const row = v => {
+    const s = igSong(v), saved = igSongsGet().some(x => x.id === s.id);
+    return `<div class="ms-r" data-id="${esc(s.id)}"><img src="${esc(s.thumb)}"><div class="ms-m"><b>${esc(s.title)}</b><small>${esc(s.artist)}${s.dur ? ' • ' + mmss(s.dur) : ''}</small></div><button class="ms-bm ${saved ? 'on' : ''}" aria-label="save">${I(saved ? IGI.bmF : IGI.bm, 26)}</button></div>`;
+  };
+  const draw = list => {
+    const box = $('#msl'); if (!box) return;
+    box.innerHTML = list.length ? list.map(row).join('') : `<p class="ms-e">${t(tab === 'saved' ? 'No saved songs' : 'No results')}</p>`;
+    box.querySelectorAll('.ms-r').forEach((el, i) => {
+      const v = list[i];
+      el.onclick = () => { st.svSong = igSong(v); close(); done && done() };
+      el.querySelector('.ms-bm').onclick = ev => {
+        ev.stopPropagation();
+        const s = igSong(v); let all = igSongsGet();
+        const had = all.some(x => x.id === s.id);
+        all = had ? all.filter(x => x.id !== s.id) : [s, ...all];
+        igSongsSave(all);
+        if (tab === 'saved') draw(all.map(x => ({ id: x.id, title: x.title, channel: x.artist, thumb: x.thumb, dur: x.dur })));
+        else { ev.currentTarget.classList.toggle('on', !had); ev.currentTarget.innerHTML = I(had ? IGI.bm : IGI.bmF, 26) }
+      };
+    });
+  };
+  const load = async (key, call, args) => {
+    if (key === 'saved') return draw(igSongsGet().map(x => ({ id: x.id, title: x.title, channel: x.artist, thumb: x.thumb, dur: x.dur })));
+    const me = ++seq;
+    if (st.igSongCache[key]) return draw(st.igSongCache[key]);
+    $('#msl').innerHTML = `<p class="ms-e">${t('Loading…')}</p>`;
+    const r = await post(call, args);
+    if (me !== seq || !$('#msl')) return;
+    if (!r || !r.ok) { $('#msl').innerHTML = `<p class="ms-e">${esc(t((r && r.err) || 'Search failed'))}</p>`; return }
+    st.igSongCache[key] = r.list || [];
+    draw(st.igSongCache[key]);
+  };
+  const show = () => {
+    const q = $('#msq').value.trim();
+    if (q.length >= 2) return load('q:' + q.toLowerCase(), 'ytSearch', { q, music: true, dur: true });
+    if (tab === 'saved') return load('saved');
+    if (tab === 'trend') return load('trend', 'ytTrending', { music: true, dur: true, global: true });
+    return load('you', 'ytTrending', { music: true, dur: true });
+  };
+  sh.querySelectorAll('.ms-ch button').forEach(b => b.onclick = () => {
+    sh.querySelectorAll('.ms-ch button').forEach(x => x.classList.remove('on')); b.classList.add('on');
+    tab = b.dataset.c; $('#msq').value = ''; show();
+  });
+  $('#msq').oninput = () => { clearTimeout(timer); timer = setTimeout(show, 900) };
+  $('#msq').onkeydown = e => { if (e.key === 'Enter') { clearTimeout(timer); show() } };
+  show();
+}
+function igStoryCompose(src, photoId) {
+  if (!src) return igStoryAdd();
+  view('Story', `<div class="sv"><div class="sv-stage">
+      <div class="sv-media"><img src="${esc(src)}"></div>
+      <div class="sv-top"><div class="sv-hd" style="justify-content:space-between"><button id="scx" aria-label="back">${I(IGI.close, 24)}</button></div></div>
+    </div>
+    <div class="sv-bar sc-bar"><input id="scc" maxlength="80" placeholder="${t('Add a caption…')}" autocomplete="off"><button class="sc-go" id="scgo">${t('Share to story')}</button></div>
+  </div>`, { dark: true, app: 'ig', nohdr: true, cls: 'full ig-body ig-sv' });
+  $('#scx').onclick = igStoryAdd;
+  $('#scgo').onclick = async () => {
+    const sg = st.svSong, payload = { caption: $('#scc').value.trim() };
+    if (sg) Object.assign(payload, { music: (sg.title + (sg.artist ? ' · ' + sg.artist : '')).slice(0, 100), musicId: sg.id, musicThumb: sg.thumb });
+    if (photoId) payload.photoId = photoId; else payload.media = src;
+    const x = await post('addStory', payload);
+    if (x.ok) { st.svSong = null; toast(t('Story shared')); inpic() }
+    else toast(t(x.err) || t('Failed'));
+  };
+}
+
 async function newPost(app, prefill) {
+  st.igStory = false;
   const back = app === 'trendy' ? trendy : inpic;
   const isIg = app === 'inpic';
   let selectedMedia = (prefill && prefill.media) || '';
@@ -1659,17 +2093,119 @@ function calc() {
 }
 
 /* ---------- Services ---------- */
+const SV_ICO = {
+  shield: '<path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+  cross: '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/>',
+  wrench: '<path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-2.5-.5-.5-2.5z"/>',
+  cup: '<path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h2a2.5 2.5 0 0 1 0 5h-2M8 4v2M11 4v2"/>',
+  burger: '<path d="M4 11a8 6 0 0 1 16 0z"/><path d="M3 14h18"/><path d="M4 17h16a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/>',
+  star: '<path d="M12 4l2.4 5 5.6.7-4.1 3.8 1.1 5.5L12 16.3 7 19l1.1-5.5L4 9.7 9.6 9z"/>',
+  crown: '<path d="M4 18h16M5 16l-1-8 5 4 3-6 3 6 5-4-1 8z"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  phone: '<path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/>',
+};
+function svcStyle(j) {
+  const n = ((j.name || '') + ' ' + (j.label || '')).toLowerCase();
+  if (/police|sheriff|lspd|bcso|trooper|ranger|شرط/.test(n)) return ['shield', '#4aa3ff', '#1f5fe0'];
+  if (/ambul|ems|doctor|medic|hospital|اسعاف|إسعاف|طب/.test(n)) return ['cross', '#ff6b6b', '#e0243c'];
+  if (/mech|bennys|tow|repair|garage|ميكانيك|ورشة|سحب/.test(n)) return ['wrench', '#ffb340', '#ff7a00'];
+  if (/burger|shot|برجر|برقر/.test(n)) return ['burger', '#ff9a52', '#e0432a'];
+  if (/cat\s?_?(coffee|cafe)|catco|كات/.test(n)) return ['cup', '#ff8cc0', '#d63a8a'];
+  if (/bean|coffee|cafe|كوفي|قهو|بان/.test(n)) return ['cup', '#4fd18b', '#0f8a4f'];
+  return ['star', '#8f8cff', '#5a4de0'];
+}
+const fdur = s => { s = Math.max(0, Math.floor(s || 0)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h}${t('h')} ${m}${t('m')}` : `${m}${t('m')}` };
+const stfSt = e => e.onduty ? ['s1', 'on duty'] : e.online ? ['s0', 'Off duty'] : ['sx', 'Offline'];
+const stfAv = (e, big) => `<div class="stf-av ${big ? 'big' : ''} ${stfSt(e)[0]}">${esc((e.name || '?')[0])}${e.boss ? `<em>${I(SV_ICO.crown, big ? 15 : 10)}</em>` : ''}</div>`;
+
 async function services() {
-  const r = await post('getServices');
-  const b = view(t('Services'), `<div class="list">${(r.list || []).map(j => `<div class="row" style="cursor:default"><div class="av">${esc((j.label || '?')[0])}</div><div class="rc"><b>${esc(j.label)}</b><small>${j.onduty} ${t('on duty')}</small></div><button class="btn sm" data-j="${esc(j.name)}">${t('Request')}</button></div>`).join('') || `<p class="empty">${t('No services available.')}</p>`}</div>`);
-  b.querySelectorAll('[data-j]').forEach(e => e.onclick = async () => { const x = await post('requestService', { job: e.dataset.j }); toast(x.ok ? t('Request sent') : (x.err || t('Failed'))) });
+  const r = await post('getServices'); const l = r.list || [];
+  const tot = l.reduce((a, j) => a + (+j.onduty || 0), 0);
+  view(t('Services'), `<div class="svw">
+    <img class="svc-bg" src="img/police.webp" alt="">
+    <div class="svc-hero ov"><div><small>${t('Services on duty')}</small><b>${tot}</b></div></div>
+    <div class="svc-search">${I('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>', 17)}<input id="svq" type="text" placeholder="${t('Search')}" autocomplete="off"></div>
+    <div class="grg-h">${t('Available services')}</div>
+    <div class="svc-list" id="svl"></div></div>`, { dark: true, app: 'svc' });
+  const draw = q => {
+    const f = l.filter(j => !q || (j.label || '').toLowerCase().includes(q));
+    $('#svl').innerHTML = f.map(j => {
+      const [ic, c1, c2] = svcStyle(j), on = +j.onduty || 0, i = l.indexOf(j);
+      return `<div class="svi" data-s="${i}">${svcLogo(j) ? `<div class="svi-ic logo"><img src="${svcLogo(j)}" alt=""></div>` : `<div class="svi-ic" style="background:linear-gradient(145deg,${c1},${c2})">${I(SV_ICO[ic], 22)}</div>`}
+        <div class="rc"><b>${esc(j.label)}</b><small class="${on ? 'up' : ''}"><i></i>${on ? on + ' ' + t('on duty') : t('Nobody on duty')}</small></div>
+        <button class="sbtn ${on ? '' : 'dim'}" data-j="${esc(j.name)}">${t('Request')}</button><span class="svi-ch">${I('<path d="M9 5l7 7-7 7"/>', 16)}</span></div>`;
+    }).join('') || `<p class="empty" style="margin:40px 0">${l.length ? t('No results') : t('No services available.')}</p>`;
+  };
+  draw('');
+  $('#svq').oninput = e => draw(e.target.value.trim().toLowerCase());
+  $('#svl').onclick = async e => {
+    const bt = e.target.closest('[data-j]');
+    if (!bt) { const row = e.target.closest('[data-s]'); if (row) serviceStaff(l[+row.dataset.s]); return }
+    if (bt.disabled) return;
+    bt.disabled = true;
+    const x = await post('requestService', { job: bt.dataset.j });
+    toast(x.ok ? t('Request sent') : (x.err || t('Failed')));
+    if (x.ok) { bt.textContent = '✓ ' + t('Sent'); bt.classList.add('ok'); setTimeout(() => { bt.disabled = false; bt.textContent = t('Request'); bt.classList.remove('ok') }, 2500) } else bt.disabled = false;
+  };
 }
 
-/* ---------- Dynamic Island: removed (Samsung notification shade + heads-up banner instead) ---------- */
+const SVC_WEL = [
+  { re: /cat\s?_?(coffee|cafe)|catco|كات/, img: 'img/catcoffee.jpg', logo: 'img/logos/catcoffee.png', brand: 'Carlodz Catcoffee', bg: ['#fff7ea', '#ffd7a1'], ac: '#ff9f0a', mul: 1 },
+  { re: /burger|برجر|برقر/, img: 'img/burgershot.jpg', logo: 'img/logos/burgershot.png', brand: 'Burger Shot', bg: ['#f0f5ff', '#b9d0ff'], ac: '#e0243c', mul: 1 },
+  { re: /bean|بان/, img: 'img/beanmachine.webp', logo: 'img/logos/beanmachine.png', brand: 'Bean Machine', bg: ['#f7f0e7', '#d8bc9b'], ac: '#8a4b24' },
+  { re: /police|sheriff|lspd|bcso|شرط/, img: 'img/police.webp', logo: 'img/logos/police.png', brand: 'Police', bg: ['#eef3ff', '#a9c4ff'], ac: '#2f6df6' },
+  { re: /mech|bennys|repair|ميكانيك|ورشة/, img: 'img/mechanic.webp', logo: 'img/logos/mechanic.png', brand: 'Mechanic', bg: ['#fff2ee', '#ffc3b6'], ac: '#e0243c' },
+  { re: /ambul|ems|doctor|medic|hospital|اسعاف|إسعاف/, img: 'img/ambulance.webp', logo: 'img/logos/ambulance.png', brand: 'EMS', bg: ['#edfbff', '#a8e2f5'], ac: '#0a84ff' },
+];
+const svcLogo = j => (svcWel(j) || {}).logo;
+const svcWel = j => { const n = ((j.name || '') + ' ' + (j.label || '')).toLowerCase(); return SVC_WEL.find(w => w.re.test(n)) };
+async function serviceStaff(j, skipWel) {
+  const r = await post('getServiceStaff', { job: j.name });
+  if (r.ok === false) { toast(r.err || t('Failed')); return }
+  const w = !skipWel && svcWel(j);
+  if (w) staffWelcome(j, r, w); else renderStaff(j, r);
+}
+function staffWelcome(j, r, w) {
+  const l = r.list || [], on = l.filter(x => x.onduty).length;
+  view(j.label, `<div class="wel" style="--b1:${w.bg[0]};--b2:${w.bg[1]};--ac:${w.ac}">
+    <img class="wel-img ${w.mul ? 'mul' : ''}" src="${w.img}" alt="">
+    <button class="wel-bk" id="wbk">${I('<path d="M15 5l-7 7 7 7"/>', 20)}</button>
+    <span class="wel-br">${esc(w.brand)}</span>
+    <div class="wel-pn">${w.logo ? `<span class="wel-logo"><img src="${w.logo}" alt=""></span>` : ''}<small>${t('Welcome to')}</small><h2>${esc(j.label)}</h2><p>${esc(st.me.name || '')}</p>
+      <div class="wel-st"><span><b>${l.length}</b>${t('Employees')}</span><span><b>${on}</b>${t('on duty')}</span></div>
+      <button class="wel-go" id="wgo">${t('View staff')}</button></div></div>`, { nohdr: true, app: 'svc wel', cls: 'full' });
+  $('#wbk').onclick = services;
+  $('#wgo').onclick = () => renderStaff(j, r);
+}
+function renderStaff(j, r) {
+  const l = r.list || [], [ic, c1, c2] = svcStyle(j), on = l.filter(x => x.onduty).length;
+  const b = view(j.label, `<div class="svw">
+    <div class="svc-hero" style="background:linear-gradient(135deg,${c1},${c2});box-shadow:0 10px 26px ${c2}55"><div><small>${t('Employees')}</small><b>${l.length}</b><div class="svc-chips"><span>${on} ${t('on duty')}</span>${r.canTime ? `<span>${I(SV_ICO.clock, 12)} ${t('Work time')}</span>` : ''}</div></div><div class="svc-hi">${svcLogo(j) ? `<span class="svc-hlogo"><img src="${svcLogo(j)}" alt=""></span>` : I(SV_ICO[ic], 40)}</div></div>
+    <div class="grg-h">${t('Staff')}</div>
+    <div class="svc-list">${l.map((e, i) => `<div class="svi stf" data-i="${i}">${stfAv(e)}
+      <div class="rc"><b>${esc(e.name)}${e.me ? ' •' : ''}</b><small><span class="gtag ${e.boss ? 'boss' : ''}">${esc(e.grade)}</span><span class="stf-ph">${esc(e.phone || '-')}</span></small></div>
+      ${r.canTime && e.time ? `<div class="stf-t"><b>${fdur(e.time.week)}</b><small>${t('This week')}</small></div>` : ''}<span class="svi-ch">${I('<path d="M9 5l7 7-7 7"/>', 16)}</span></div>`).join('') || `<p class="empty" style="margin:40px 0">${t('No employees.')}</p>`}</div></div>`, { dark: true, app: 'svc', back: services });
+  b.querySelectorAll('.stf').forEach(x => x.onclick = () => staffView(j, r, l[+x.dataset.i]));
+}
+
+function staffView(j, r, e) {
+  const [ic, c1, c2] = svcStyle(j), [sc, sl] = stfSt(e);
+  const row = (k, v) => `<div><small>${t(k)}</small><b>${v}</b></div>`;
+  view(e.name, `<div class="svw">
+    <div class="grg-card"><div class="grg-glow" style="background:radial-gradient(circle,${c1}77,transparent 65%)"></div>${stfAv(e, true)}
+      <div class="grg-t"><b>${esc(e.name)}</b><span class="gst ${sc}"><i></i>${t(sl)}</span></div><span class="gtag ${e.boss ? 'boss' : ''}">${esc(e.grade)}</span></div>
+    <div class="grg-info stfi">${row('Service', esc(j.label))}${row('Grade', esc(e.grade) + (e.boss ? ' · ' + t('Boss') : ''))}${row('Phone number', `<span style="direction:ltr;display:inline-block">${esc(e.phone || '-')}</span>`)}</div>
+    ${e.phone && !e.me ? `<div class="grg-acts"><button class="gbtn green" id="sfc">${I(SV_ICO.phone, 18)}<span>${t('Call')}</span></button></div>` : ''}
+    ${r.canTime && e.time ? `<div class="grg-h">${t('Work time')}</div><div class="grg-rings"><div class="stm"><b>${fdur(e.time.today)}</b><span>${t('Today')}</span></div><div class="stm"><b>${fdur(e.time.week)}</b><span>${t('This week')}</span></div><div class="stm"><b>${fdur(e.time.total)}</b><span>${t('Total')}</span></div></div>` : `<p class="grg-note">${I(SV_ICO.clock, 14)} ${t('Visible to this service staff only')}</p>`}
+  </div>`, { dark: true, app: 'svc', back: () => serviceStaff(j, true) });
+  const c = $('#sfc'); if (c) c.onclick = () => dial(e.phone, e.name);
+}
+
+/* ---------- Dynamic Island: removed (CPhone notification shade + heads-up banner instead) ---------- */
 function islandIdle() { const n = $('#notch'); if (n) { n.className = ''; n.innerHTML = '' } st.isBig = false }
 function island() { }
 
-/* ---------- Shared YouTube player (hidden for Music, docked for YouTube) ---------- */
+/* ---------- Shared CTube player (hidden for Music, docked for CTube) ---------- */
 const yt = { p: null, api: false, ready: false, pending: null, mode: 'audio', drag: false };
 const ytBox = (() => { const b = document.createElement('div'); b.id = 'ytbox'; b.innerHTML = '<div id="ytp"></div>'; document.body.appendChild(b); return b })();
 /* Expand (big) mode for videos: our own fullscreen, ESC = back to the normal phone */
@@ -1682,7 +2218,7 @@ const YT_ICO = {
   on: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
   off: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>',
 };
-function ytFsShow(show) { ytFs.style.display = show ? 'flex' : 'none'; if (show) ytFs.innerHTML = ytBig ? YT_ICO.off : YT_ICO.on }
+function ytFsShow(show) { ytFs.style.display = show ? 'flex' : 'none'; if (show) ytFs.innerHTML = (ytBig || window.tvOn) ? YT_ICO.off : YT_ICO.on }
 function ytFsPos(el) {
   if (ytBig || !el) return;
   const r = el.getBoundingClientRect();
@@ -1701,8 +2237,51 @@ function ytExpand(on) {
     const vs = $('#vslot'); if (vs && yt.mode === 'video') ytFsPos(vs); else ytFsShow(false);
   }
 }
-ytFs.onclick = e => { e.stopPropagation(); ytExpand(!ytBig) };
-/* the YouTube iframe steals keyboard focus; give it back so ESC always reaches the phone */
+/* Cast to a TV: expanding a video next to a TV prop plays it on the TV (client/tvcast.lua); otherwise the normal expand.
+   While casting, a small remote (play/pause, -10 s / +10 s, volume, mute, stop) appears at the bottom of the phone. */
+window.tvOn = false;
+const tvEst = { pos: 0, at: 0, playing: true };            // estimated TV position (the game cannot tell us), used to resume on the phone
+const tvPos = () => tvEst.playing ? tvEst.pos + (Date.now() - tvEst.at) / 1000 : tvEst.pos;
+function tvRemoteDraw() {
+  let r = document.getElementById('tvremote');
+  if (!window.tvOn) { if (r) r.remove(); return }
+  if (r) return;
+  const sc = document.getElementById('screen'); if (!sc) return;
+  r = document.createElement('div'); r.id = 'tvremote';
+  r.innerHTML = '<span class="tvl">TV</span>'
+    + '<button data-c="seek" data-v="-10">-10</button><button data-c="toggle">&#9199;</button><button data-c="seek" data-v="10">+10</button>'
+    + '<button data-c="vol" data-v="-10">V-</button><button data-c="vol" data-v="10">V+</button><button data-c="mute">&#128263;</button>'
+    + '<button data-c="stop" class="x">&#10005;</button>';
+  r.onclick = e => {
+    const b = e.target.closest('button'); if (!b) return; e.stopPropagation();
+    const c = b.dataset.c, v = +b.dataset.v || 0;
+    if (c === 'stop') return tvStop(true);
+    post('tvCtl', { cmd: c, v });
+    if (c === 'toggle') { tvEst.pos = tvPos(); tvEst.at = Date.now(); tvEst.playing = !tvEst.playing }
+    else if (c === 'seek') { tvEst.pos = Math.max(0, tvPos() + v); tvEst.at = Date.now() }
+  };
+  sc.appendChild(r);
+}
+function tvStop(resume) {
+  if (!window.tvOn) return; window.tvOn = false;
+  post('tvCast', { on: false });
+  if (resume && yt.p && yt.ready) { try { yt.p.seekTo(tvPos(), true); if (tvEst.playing) yt.p.playVideo() } catch (e) { } }
+  tvRemoteDraw(); ytFsShow(yt.mode === 'video');
+}
+function tvCastEnded() { if (window.tvOn) { window.tvOn = false; tvRemoteDraw(); ytFsShow(yt.mode === 'video'); toast(t('Left the TV')) } }
+ytFs.onclick = async e => {
+  e.stopPropagation();
+  if (window.tvOn) return tvStop(true);
+  if (ytBig) return ytExpand(false);
+  let ct = 0; try { ct = yt.p.getCurrentTime() || 0 } catch (er) { }
+  const r = (yt.mode === 'video' && yt.curId) ? await post('tvCast', { on: true, id: yt.curId, t: ct }) : null;
+  if (r && r.ok) {
+    window.tvOn = true; tvEst.pos = ct; tvEst.at = Date.now(); tvEst.playing = true;
+    try { yt.p.pauseVideo() } catch (er) { }
+    ytFsShow(true); tvRemoteDraw(); toast(t('Playing on TV'));
+  } else ytExpand(true);
+};
+/* the CTube iframe steals keyboard focus; give it back so ESC always reaches the phone */
 window.addEventListener('blur', () => setTimeout(() => {
   const a = document.activeElement;
   if (a && a.tagName === 'IFRAME' && a.id === 'ytf') { a.blur(); window.focus() }
@@ -1713,14 +2292,20 @@ ytUndock();
 function ytLoad() {
   return new Promise((res, rej) => {
     if (yt.api) return res();
-    const to = setTimeout(() => rej(new Error('YouTube script blocked')), 10000);
+    const to = setTimeout(() => rej(new Error('CTube script blocked')), 10000);
     window.onYouTubeIframeAPIReady = () => { clearTimeout(to); yt.api = true; res() };
     const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api';
-    s.onerror = () => { clearTimeout(to); rej(new Error('YouTube script blocked')) };
+    s.onerror = () => { clearTimeout(to); rej(new Error('CTube script blocked')) };
     document.head.appendChild(s);
   });
 }
 async function ytPlay(id, ctl = 1) {
+  if (!/^[\w-]{11}$/.test(String(id || ''))) {   // CTube error 2 = invalid video id: skip it instead of getting stuck
+    console.error('YT bad video id:', id);
+    if (yt.mode === 'short') { ysLast = 0; setTimeout(() => ysStep(1), 50) } else toast(t('Search failed'));
+    return;
+  }
+  yt.curId = id;
   try { await ytLoad() } catch (e) { toast(t('Search failed')); console.error(e); return }
   if (yt.p && yt.ready && yt.ctl !== ctl) { try { yt.p.destroy() } catch (e) { } yt.p = null; yt.ready = false; ytBox.innerHTML = '' }
   if (yt.p && !yt.ready) { yt.pending = id; return }
@@ -1735,17 +2320,18 @@ async function ytPlay(id, ctl = 1) {
   yt.p = new YT.Player(f, {
     events: {
       onReady: e => { yt.ready = true; if (yt.pending) { e.target.loadVideoById(yt.pending); yt.pending = null } else e.target.playVideo() },
-      onError: e => { console.error('YT error', e.data); if (yt.mode === 'short') { ysLast = 0; ysStep(1) } else toast('YouTube error ' + e.data) },
+      onError: e => { console.error('YT error', e.data, yt.curId); if (yt.mode === 'short') { ysLast = 0; ysStep(1) } else toast('CTube error ' + e.data) },
       onStateChange: e => {
         if (yt.mode === 'short') { if (e.data === 0) { e.target.seekTo(0, true); e.target.playVideo() } else if (e.data === 1) ysPlaying(); return }
         if (e.data === 1) st.mus.playing = true; else if (e.data === 2) st.mus.playing = false;
-        if (e.data === 0 && yt.mode === 'audio') { if (st.mus.rep) { e.target.seekTo(0, true); e.target.playVideo() } else musStep(1) }
+        if (e.data === 0 && yt.mode === 'audio' && !yt.story) { if (st.mus.rep) { e.target.seekTo(0, true); e.target.playVideo() } else musStep(1) }
         musSync();
       },
     },
   });
 }
 function ytStop() {
+  if (window.tvOn) tvStop(false);
   ytShOff();
   if (yt.p && yt.ready) { try { yt.p.stopVideo() } catch (e) { } }
   yt.mode = 'audio'; ytUndock(); st.mus.playing = false;
@@ -1787,7 +2373,7 @@ async function music() {
   };
   const load = async q => {
     st.mq = q; ml.innerHTML = `<p class="empty">${t('Loading…')}</p>`;
-    const r = await post(q ? 'ytSearch' : 'ytTrending', { q, music: true, region: st.settings.ytRegion || 'US' });
+    const r = await post(q ? 'ytSearch' : 'ytTrending', { q, music: true });
     if (!$('#ml')) return;
     if (!r.ok) ml.innerHTML = `<p class="empty">${esc(t(r.err || 'Search failed'))}</p>`; else { st.mus.results = r.list; draw(r.list) }
   };
@@ -1828,7 +2414,7 @@ function player() {
   sk.onchange = () => { yt.drag = false; if (yt.p && yt.ready) yt.p.seekTo(yt.p.getDuration() * sk.value / 100, true) };
 }
 
-/* ---------- YouTube (dark app style) ---------- */
+/* ---------- CTube (dark app style) ---------- */
 Object.assign(IP, {
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>', arrowL: '<path d="M19 12H5M11 6l-6 6 6 6"/>',
   mic: '<rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
@@ -1839,7 +2425,7 @@ Object.assign(IP, {
   yhome: '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z" fill="currentColor" stroke="none"/>', yshorts: '<path d="M9 3l7 4-3 1.5 3 1.5-8 4.5-7-4 3-1.5-3-1.5z M10 14l4 2-3 1.5" /><path d="M8 20l8-4.5"/>',
   subs: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M6 5h12M9 2h6M10 12l5 3-5 3z"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/>',
 });
-const YTLOGO = `<svg width="26" height="18" viewBox="0 0 26 18"><rect width="26" height="18" rx="5" fill="#ff0000"/><path d="M10 5l7 4-7 4z" fill="#fff"/></svg><b>YouTube</b>`;
+const YTLOGO = `<svg width="26" height="18" viewBox="0 0 26 18"><rect width="26" height="18" rx="5" fill="#ff0000"/><path d="M10 5l7 4-7 4z" fill="#fff"/></svg><b>CTube</b>`;
 const yhGet = () => { try { return JSON.parse(localStorage.getItem('ios_yt_h') || '[]') } catch (e) { return [] } };
 const yhSet = a => { try { localStorage.setItem('ios_yt_h', JSON.stringify(a.slice(0, 20))) } catch (e) { } };
 const avc = n => `hsl(${[...String(n)].reduce((a, c) => a + c.charCodeAt(0), 0) % 360} 45% 38%)`;
@@ -1849,50 +2435,27 @@ const ytBind = (root, list, from) => root.querySelectorAll('.yc').forEach(e => {
   e.onclick = () => { st.yfrom = from; watch(list[+e.dataset.i], list) };
   const av = e.querySelector('.yav'), v = list[+e.dataset.i];
   if (av && v && v.cid) av.onclick = ev => { ev.stopPropagation(); ychannel(v.cid, ybackFor(from)) };
+  const dt = e.querySelector('.ydt'); if (dt && v) dt.onclick = ev => { ev.stopPropagation(); ywlToggle(v) };
 });
-const ytBody = (html) => view(t('YouTube'), html, { dark: true, app: 'yt', nohdr: true, cls: 'full ytb' });
+const ytBody = (html) => view(t('CTube'), html, { dark: true, app: 'yt', nohdr: true, cls: 'full ytb' });
 
 async function youtube() {
   if (yt.mode !== 'audio') ytStop();
-  const reg = (st.settings.ytRegion || 'US').toUpperCase();
-  ytBody(`<div class="yh"><span class="ylg">${YTLOGO}</span><span class="yhi"><button id="yreg" class="yreg-btn" title="Region">${esc(reg)}</button><span>${I(IP.bell, 22)}</span><button id="ysb">${I(IP.search, 22)}</button></span></div>
+  ytBody(`<div class="yh"><span class="ylg">${YTLOGO}</span><span class="yhi"><span>${I(IP.bell, 22)}</span><button id="ysb">${I(IP.search, 22)}</button></span></div>
     <div class="scr" id="yl"><p class="empty">${t('Loading…')}</p></div>
     ${ynav('h')}`);
   ynavBind();
   $('#ysb').onclick = () => ysearch('');
-  $('#yreg').onclick = () => ytRegionPicker();
   const yl = $('#yl');
   const draw = l => { yl.innerHTML = l.length ? l.map(ytCard).join('') : `<p class="empty">${t('No results')}</p>`; ytBind(yl, l, 'h') };
   if (st.yhome) return draw(st.yhome);
-  const r = await post('ytTrending', { q: '', music: false, region: st.settings.ytRegion || 'US' });
+  const r = await post('ytTrending', { q: '', music: false });
   if (!$('#yl')) return;
   if (!r.ok) yl.innerHTML = `<p class="empty">${esc(t(r.err || 'Search failed'))}</p>`; else { st.yhome = r.list; draw(r.list) }
 }
-function ytRegionPicker() {
-  const opts = [
-    { c: 'US', n: 'USA' }, { c: 'DZ', n: 'Algérie / DZ' }, { c: 'GB', n: 'UK' }, { c: 'FR', n: 'France' },
-    { c: 'MA', n: 'Maroc' }, { c: 'DE', n: 'Deutschland' }, { c: 'ES', n: 'España' }, { c: 'CA', n: 'Canada' }
-  ];
-  const cur = (st.settings.ytRegion || 'US').toUpperCase();
-  ytBody(`<div class="yh"><span class="ylg">${YTLOGO}</span><span class="yhi"><button id="ybk">${I(IP.arrowL, 22)}</button></span></div>
-    <div class="scr" style="padding:12px">
-      <p style="opacity:.7;margin:0 0 12px;font-size:13px">${t('Choose YouTube region') || 'Choose YouTube region / بلد يوتيوب'}</p>
-      ${opts.map(o => `<button class="ss-row yt-reg-opt" data-c="${o.c}" style="width:100%;text-align:left;border:0;background:${o.c===cur?'rgba(47,107,255,.15)':'transparent'};padding:14px 16px;border-radius:12px;margin-bottom:6px;cursor:pointer">
-        <b>${esc(o.n)}</b> <small style="opacity:.6">${o.c}</small>${o.c===cur?' ✓':''}
-      </button>`).join('')}
-    </div>`);
-  $('#ybk').onclick = () => { st.yhome = null; youtube(); };
-  document.querySelectorAll('.yt-reg-opt').forEach(btn => btn.onclick = () => {
-    st.settings.ytRegion = btn.dataset.c;
-    st.yhome = null;
-    save();
-    toast((t('Region') || 'Region') + ': ' + btn.dataset.c);
-    youtube();
-  });
-}
 async function ysearch(q0) {
   if (yt.mode !== 'audio') ytStop();
-  ytBody(`<div class="ysr"><button id="ybk">${I(IP.arrowL, 22)}</button><input id="yq" placeholder="${t('Search YouTube')}" value="${esc(q0 || '')}"><button class="ymic">${I(IP.mic, 20)}</button></div><div class="scr" id="yl"></div>`);
+  ytBody(`<div class="ysr"><button id="ybk">${I(IP.arrowL, 22)}</button><input id="yq" placeholder="${t('Search CTube')}" value="${esc(q0 || '')}"><button class="ymic">${I(IP.mic, 20)}</button></div><div class="scr" id="yl"></div>`);
   const yl = $('#yl'), inp = $('#yq');
   $('#ybk').onclick = youtube;
   const hist = () => {
@@ -1908,7 +2471,7 @@ async function ysearch(q0) {
   const load = async q => {
     if (!q) return hist();
     st.yq = q; yl.innerHTML = `<p class="empty">${t('Loading…')}</p>`;
-    const r = await post('ytSearch', { q, music: false, region: st.settings.ytRegion || 'US' });
+    const r = await post('ytSearch', { q, music: false });
     if (!$('#yl')) return;
     if (!r.ok) return yl.innerHTML = `<p class="empty">${esc(t(r.err || 'Search failed'))}</p>`;
     st.ysr = r.list; st.ysq = q; draw(r.list);
@@ -1920,20 +2483,21 @@ async function ysearch(q0) {
 }
 function watch(v, list) {
   st.mus.cur = null; st.mus.playing = false; islandIdle();
-  const handle = yHandle(v);
+  const handle = yHandle(v); yLibAdd('ios_yt_hist', v, 40);
   ytBody(`<div class="ywb"><button id="ywk">${I(IP.chev, 22)}</button></div><div class="vslot" id="vslot" style="background-image:url('${esc(v.thumb)}')"></div>
     <div class="scr"><div class="yti"><b>${esc(v.title)}</b><small>${esc(handle)}${v.pub && Date.parse(v.pub) ? ' · ' + ago(Date.parse(v.pub) / 1000) : ''}</small></div>
-    <div class="yact">${yavH(v.channel, v.avatar, v.cid)}<button class="ybell" id="ybl">${I(IP.bell, 18)}${I(IP.chev, 12)}</button><button id="ylk">${I(IP.like, 22)}</button><button id="ydl">${I(IP.dislike, 22)}</button><button id="ysh">${I(IP.share, 22)}</button><button id="ysp">${I(IP.spark, 22)}</button><button id="ydt">${I(IP.dots, 22)}</button></div>
+    <div class="yact">${yavH(v.channel, v.avatar, v.cid)}<button class="ybell" id="ybl">${I(IP.bell, 18)}${I(IP.chev, 12)}</button><button id="ylk" class="${yLibHas('ios_yt_liked', v.id) ? 'on' : ''}">${I(IP.like, 22)}</button><button id="ydl">${I(IP.dislike, 22)}</button><button id="ysh">${I(IP.share, 22)}</button><button id="ysp">${I(IP.spark, 22)}</button><button id="ydt">${I(IP.dots, 22)}</button></div>
     <div class="yrl">${list.map((x, i) => x.id === v.id ? '' : ytCard(x, i)).join('')}</div></div>`);
   yt.mode = 'video'; ytDock($('#vslot')); ytFsPos($('#vslot')); ytPlay(v.id);
   ytBind($('.yrl'), list, st.yfrom);
   const backFn = ybackFor(st.yfrom);
   $('#ywk').onclick = () => { ytStop(); backFn() };
   const wav = $('.yact .yav'); if (wav && v.cid) wav.onclick = () => ychannel(v.cid, () => watch(v, list));
-  $('#ylk').onclick = e => { e.currentTarget.classList.toggle('on'); $('#ydl').classList.remove('on') };
-  $('#ydl').onclick = e => { e.currentTarget.classList.toggle('on'); $('#ylk').classList.remove('on') };
+  $('#ylk').onclick = e => { const on = e.currentTarget.classList.toggle('on'); $('#ydl').classList.remove('on'); yLibSet('ios_yt_liked', v, on) };
+  $('#ydl').onclick = e => { e.currentTarget.classList.toggle('on'); if (e.currentTarget.classList.contains('on')) { $('#ylk').classList.remove('on'); yLibSet('ios_yt_liked', v, false) } };
   $('#ybl').onclick = e => e.currentTarget.classList.toggle('on');
-  ['ysh', 'ysp', 'ydt'].forEach(id => $('#' + id).onclick = () => toast(t('Coming soon')));
+  $('#ydt').onclick = () => ywlToggle(v);
+  ['ysh', 'ysp'].forEach(id => $('#' + id).onclick = () => toast(t('Coming soon')));
 }
 
 /* ---------- Shorts + channel profile ---------- */
@@ -1950,9 +2514,118 @@ const yshuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { con
 const yHandle = v => v.handle || '@' + String(v.channel || '').replace(/\s+/g, '');
 const yavH = (name, avatar, cid, cls) => `<div class="yav ${cls || ''}" data-cid="${esc(cid || '')}" style="background:${avc(name)}">${avatar ? `<img src="${esc(avatar)}">` : esc((name || '?')[0])}</div>`;
 const ynav = on => `<div class="ynav">${[['h', IP.yhome, t('Home')], ['s', IP.yshorts, 'Shorts'], ['p', IP.plus, ''], ['b', IP.subs, t('Subscriptions')], ['u', IP.user, t('You')]].map(([k, ic, lb]) => `<button data-n="${k}" class="${k === on ? 'on' : 'so'}${k === 'p' ? ' yplus' : ''}">${I(ic, k === 'p' ? 24 : 22)}${lb ? `<span>${lb}</span>` : ''}</button>`).join('')}</div>`;
-const YN = { h: () => youtube(), s: () => { if (st.ysh && (st.ysh.cid || st.ysh.back)) st.ysh = null; yshorts() } };
+const YN = { h: () => youtube(), u: () => ytYou(), s: () => { if (st.ysh && (st.ysh.cid || st.ysh.back)) st.ysh = null; yshorts() } };
 const ynavBind = (root, fn) => (root || document).querySelectorAll('.ynav [data-n]').forEach(e => e.onclick = () => (YN[e.dataset.n] || (() => (fn || toast)(t('Coming soon'))))());
-const ybackFor = from => from === 's' && st.ysq ? () => ysearch(st.ysq) : from === 'c' && st.ycb ? st.ycb : () => youtube();
+const ybackFor = from => from === 's' && st.ysq ? () => ysearch(st.ysq) : from === 'c' && st.ycb ? st.ycb : from === 'u' ? () => ytYou() : from === 'p' ? () => yPlaylist(st.ypl || 'liked') : () => youtube();
+
+
+/* ---------- CTube: "You" tab (profile, History, Library) ---------- */
+Object.assign(TR.ar, { 'Accounts': 'الحسابات', 'View channel': 'عرض القناة', 'Get Premium': 'احصل على Premium', 'History': 'السجل', 'Library': 'المكتبة', 'Playlists': 'قوائم التشغيل', 'Liked videos': 'الفيديوهات المعجب بها', 'Watch later': 'المشاهدة لاحقاً', 'Private': 'خاص', 'watched': 'تمت مشاهدتها', 'Saved to Watch later': 'تم الحفظ في المشاهدة لاحقاً', 'Removed from Watch later': 'تمت الإزالة من المشاهدة لاحقاً', 'Recent': 'الأحدث', 'No videos yet': 'لا توجد فيديوهات بعد', 'Added recently': 'أضيفت مؤخراً', 'Recently added': 'أضيفت مؤخراً', 'Played recently': 'شوهدت مؤخراً' });
+Object.assign(TR.fr, { 'Accounts': 'Comptes', 'View channel': 'Voir la chaîne', 'Get Premium': 'Passer à Premium', 'History': 'Historique', 'Library': 'Bibliothèque', 'Playlists': 'Playlists', 'Liked videos': 'Vidéos aimées', 'Watch later': 'À regarder plus tard', 'Private': 'Privée', 'watched': 'vues', 'Saved to Watch later': 'Ajoutée à « À regarder plus tard »', 'Removed from Watch later': 'Retirée de « À regarder plus tard »', 'Recent': 'Récent', 'No videos yet': 'Aucune vidéo', 'Played recently': 'Lues récemment' });
+const yLibGet = k => { try { return JSON.parse(localStorage.getItem(k) || '[]') } catch (e) { return [] } };
+const yLibSave = (k, a) => { try { localStorage.setItem(k, JSON.stringify(a)) } catch (e) { } };
+const ySlim = v => ({ id: v.id, title: v.title, channel: v.channel, cid: v.cid, thumb: v.thumb, avatar: v.avatar, pub: v.pub, handle: v.handle });
+const yLibHas = (k, id) => yLibGet(k).some(x => x.id === id);
+function yLibAdd(k, v, max) { yLibSave(k, [ySlim(v), ...yLibGet(k).filter(x => x.id !== v.id)].slice(0, max || 100)) }
+function yLibSet(k, v, on) { on ? yLibAdd(k, v) : yLibSave(k, yLibGet(k).filter(x => x.id !== v.id)) }
+function ywlToggle(v) { const had = yLibHas('ios_yt_wl', v.id); yLibSet('ios_yt_wl', v, !had); toast(t(had ? 'Removed from Watch later' : 'Saved to Watch later')) }
+function yShortSeen(v) {
+  try { const o = JSON.parse(localStorage.getItem('ios_yt_sh') || '{"ids":[],"thumb":""}'); if (!o.ids.includes(v.id)) o.ids = [v.id, ...o.ids].slice(0, 500); o.thumb = v.thumb || o.thumb; localStorage.setItem('ios_yt_sh', JSON.stringify(o)) } catch (e) { }
+}
+const yShortInfo = () => { try { return JSON.parse(localStorage.getItem('ios_yt_sh') || '{"ids":[],"thumb":""}') } catch (e) { return { ids: [], thumb: '' } } };
+Object.assign(IP, { ygear: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5l1.6 2.3 2.7-.6.9 2.6 2.6.9-.6 2.7 2.3 1.6-2.3 1.6.6 2.7-2.6.9-.9 2.6-2.7-.6L12 21.5l-1.6-2.3-2.7.6-.9-2.6-2.6-.9.6-2.7L2.5 12l2.3-1.6-.6-2.7 2.6-.9.9-2.6 2.7.6z"/>', ylike: IP.like, yclock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/>' });
+
+function ytYou() {
+  if (yt.mode !== 'audio') ytStop();
+  const nm = String((st.me && st.me.name) || 'Player').trim();
+  const handle = '@' + nm.replace(/\s+/g, '').toLowerCase();
+  const hist = yLibGet('ios_yt_hist'), liked = yLibGet('ios_yt_liked'), wl = yLibGet('ios_yt_wl'), sh = yShortInfo();
+  const hcards = [];
+  if (sh.ids.length) hcards.push(`<div class="yhc2" data-k="sh"><div class="yhc2t" style="background-image:url('${esc(sh.thumb)}')"><span class="yshb">${I(IP.yshorts, 18)}</span></div><b>Shorts</b><small>${sh.ids.length} ${t('watched')}</small></div>`);
+  hist.slice(0, 12).forEach((v, i) => hcards.push(`<div class="yhc2" data-i="${i}"><div class="yhc2t" style="background-image:url('${esc(v.thumb)}')"></div><b>${esc(v.title)}</b><small>${esc(v.channel)}</small></div>`));
+  const plRow = (k, title, list, ic) => `<div class="ypl" data-k="${k}"><div class="ypt" style="${list[0] ? `background-image:url('${esc(list[0].thumb)}')` : ''}"><span class="ypi">${I(ic, 20)}</span></div><div class="ypm"><b>${t(title)}</b><small>${t('Private')}${list.length ? ' · ' + list.length : ''}</small></div><span class="ypd">${I(IP.dots, 20)}</span></div>`;
+  ytBody(`<div class="yh yuh"><button id="yacc" class="yacc">${t('Accounts')} ${I(IP.chev, 14)}</button><span class="yhi"><span>${I(IP.bell, 22)}</span><button id="ysb">${I(IP.search, 22)}</button><button id="yset">${I(IP.ygear, 22)}</button></span></div>
+    <div class="scr yyou">
+      <div class="yprof"><div class="yprav" style="background:${avc(nm)}">${esc(nm[0] || '?')}</div><div class="yprn"><b>${esc(nm)}</b><small>${esc(handle)}</small></div></div>
+      <div class="yprb"><button id="yvc" class="yb1">${t('View channel')}</button><button id="ygp" class="yb2">${t('Get Premium')}</button></div>
+      <div class="ysec"><b>${t('History')}</b><span>${I(IP.chev, 16)}</span></div>
+      <div class="yhrow">${hcards.join('') || `<p class="empty" style="margin:8px 12px">${t('No videos yet')}</p>`}</div>
+      <div class="ysec" style="margin-top:22px"><b>${t('Library')}</b></div>
+      <div class="ychips"><button class="ych">${t('Recent')} ${I(IP.chev, 12)}</button><button class="ych">${t('Playlists')}</button></div>
+      ${plRow('liked', 'Liked videos', liked, IP.ylike)}${plRow('wl', 'Watch later', wl, IP.yclock)}
+    </div>${ynav('u')}`);
+  ynavBind();
+  $('#ysb').onclick = () => ysearch('');
+  ['yacc', 'yvc', 'ygp'].forEach(id => $('#' + id).onclick = () => toast(t('Coming soon')));
+  $('#yset').onclick = () => ytRegionPicker();
+  document.querySelectorAll('.yhc2').forEach(e => e.onclick = () => {
+    if (e.dataset.k === 'sh') { if (st.ysh && (st.ysh.cid || st.ysh.back)) st.ysh = null; return yshorts() }
+    st.yfrom = 'u'; watch(hist[+e.dataset.i], hist);
+  });
+  document.querySelectorAll('.ypl').forEach(e => e.onclick = () => yPlaylist(e.dataset.k));
+}
+/* CTube region picker: shorts + videos follow the selected country */
+const YT_REGIONS = [
+  { c: 'AU', f: '🌐', n: 'Auto' },
+  { c: 'US', f: '🇺🇸', n: 'USA' },
+  { c: 'DZ', f: '🇩🇿', n: 'Algeria' },
+  { c: 'FR', f: '🇫🇷', n: 'France' },
+  { c: 'MA', f: '🇲🇦', n: 'Morocco' },
+  { c: 'TN', f: '🇹🇳', n: 'Tunisia' },
+  { c: 'SA', f: '🇸🇦', n: 'Saudi' },
+  { c: 'EG', f: '🇪🇬', n: 'Egypt' },
+  { c: 'GB', f: '🇬🇧', n: 'UK' },
+  { c: 'DE', f: '🇩🇪', n: 'Germany' },
+  { c: 'TR', f: '🇹🇷', n: 'Turkey' },
+  { c: 'CA', f: '🇨🇦', n: 'Canada' },
+  { c: 'AE', f: '🇦🇪', n: 'UAE' },
+  { c: 'IQ', f: '🇮🇶', n: 'Iraq' },
+  { c: 'JO', f: '🇯🇴', n: 'Jordan' },
+  { c: 'LB', f: '🇱🇧', n: 'Lebanon' },
+  { c: 'LY', f: '🇱🇾', n: 'Libya' },
+  { c: 'KW', f: '🇰🇼', n: 'Kuwait' },
+  { c: 'QA', f: '🇶🇦', n: 'Qatar' },
+];
+async function ytRegionPicker() {
+  const cur = await post('getYtRegion');
+  const code = (cur && cur.code) || 'US';
+  const auto = cur && cur.auto;
+  ytBody(`<div class="ysr"><button id="ybk">${I(IP.arrowL, 22)}</button><b style="font-size:17px;font-weight:600;flex:1">${t('Choose CTube region')}</b></div>
+    <div class="scr" style="padding:8px 12px 24px">
+      <p class="empty" style="margin:4px 0 14px;text-align:left;font-size:13px;opacity:.7">${t('Region')} — Shorts &amp; videos follow the country you pick.</p>
+      ${YT_REGIONS.map(r => {
+        const on = (r.c === 'AU' && auto) || (r.c !== 'AU' && !auto && r.c === code);
+        return `<button class="yreg ${on ? 'on' : ''}" data-c="${r.c}" style="display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;margin:0 0 8px;border:none;border-radius:12px;background:${on ? 'rgba(255,0,0,.18)' : 'rgba(255,255,255,.06)'};color:#fff;font-size:15px;cursor:pointer">
+          <span style="font-size:22px">${r.f}</span><b style="flex:1;text-align:left">${esc(r.n)}</b><small style="opacity:.6">${r.c === 'AU' ? 'AUTO' : r.c}</small>${on ? ' ✓' : ''}
+        </button>`;
+      }).join('')}
+    </div>${ynav('u')}`);
+  ynavBind();
+  $('#ybk').onclick = ytYou;
+  document.querySelectorAll('.yreg').forEach(b => b.onclick = async () => {
+    const r = await post('setYtRegion', { code: b.dataset.c });
+    if (r && r.ok) {
+      // force Home + Shorts to reload with the new country
+      st.yhome = null;
+      st.ysh = null;
+      st.ysr = null;
+      toast(t('Region') + ': ' + (b.dataset.c === 'AU' ? 'Auto' : b.dataset.c));
+      ytRegionPicker();
+    } else toast(t(r && r.err || 'Search failed'));
+  });
+}
+function yPlaylist(k) {
+  const key = k === 'liked' ? 'ios_yt_liked' : 'ios_yt_wl', title = k === 'liked' ? 'Liked videos' : 'Watch later';
+  const list = yLibGet(key);
+  ytBody(`<div class="ysr"><button id="ybk">${I(IP.arrowL, 22)}</button><b style="font-size:17px;font-weight:600;flex:1">${t(title)}</b></div>
+    <div class="scr" id="yl">${list.length ? list.map(ytCard).join('') : `<p class="empty">${t('No videos yet')}</p>`}</div>${ynav('u')}`);
+  ynavBind();
+  $('#ybk').onclick = ytYou;
+  const yl = $('#yl');
+  // from === 'p': back from the player returns to this playlist
+  ytBind(yl, list, 'p');
+  st.ypl = k;
+}
 
 /* --- Shorts viewer: lives in its own layer above the shared player (#ytbox is above the phone) --- */
 let ysL = null, ysLast = 0, ysKeyH = null;
@@ -1964,14 +2637,14 @@ function ytShOff() {
 function ysPos() {
   if (!ysL) return;
   const r = $('#app').getBoundingClientRect();
-  Object.assign(ysL.style, { left: r.left + 'px', top: (r.top + 28) + 'px', width: r.width + 'px', height: (r.height - 28 - 36) + 'px' });
+  const ps = window.__ps; Object.assign(ysL.style, { left: r.left + 'px', top: (r.top + 28 * ps) + 'px', width: (r.width / ps) + 'px', height: ((r.height - (28 + 36) * ps) / ps) + 'px', transform: `scale(${ps})`, transformOrigin: '0 0' });
   const v = $('#ysv'); if (v && yt.mode === 'short') { ytDock(v, true); ytBox.style.pointerEvents = 'none' }
 }
 function ysT(m) { const e = $('#ystoast'); if (!e) return toast(m); e.textContent = m; e.classList.add('show'); clearTimeout(ysT.h); ysT.h = setTimeout(() => e.classList.remove('show'), 1800) }
 async function yshorts() {
   ytBody(`<div class="scr"><p class="empty" id="ysld">${t('Loading…')}</p></div>${ynav('s')}`); ynavBind();
   if (!st.ysh || !st.ysh.list.length) {
-    const r = await post('ytShorts', { region: st.settings.ytRegion || 'US' });
+    const r = await Promise.race([post('ytShorts', {}), new Promise(res => setTimeout(() => res({ ok: false, err: 'Search failed' }), 20000))]);
     if (!$('#ysld')) return;
     if (!r.ok || !(r.list || []).length) { $('#ysld').textContent = t(r.err || 'No results'); return }
     st.ysh = { list: yshuf(r.list), i: 0, token: r.token };
@@ -2003,7 +2676,7 @@ function ysRender() {
 }
 function ysShow(i, dir) {
   const S = st.ysh, v = S && S.list[i]; if (!v || !ysL) return;
-  S.i = i;
+  S.i = i; yShortSeen(v);
   const th = $('#ysth'); th.style.backgroundImage = `url('${esc(v.thumb)}')`; th.classList.remove('off');
   ysFill(v, dir);
   yt.mode = 'short'; ysPos();
@@ -2027,7 +2700,7 @@ function ysStep(d) {
 async function ysMore() {
   const S = st.ysh; if (!S || S.loading || !S.token) return;
   S.loading = true;
-  const r = await post('ytShorts', { token: S.token, cid: S.cid, region: st.settings.ytRegion || 'US' });
+  const r = await post('ytShorts', { token: S.token, cid: S.cid });
   S.loading = false;
   if (r.ok) { const have = new Set(S.list.map(x => x.id)); S.list.push(...(r.list || []).filter(x => !have.has(x.id))); S.token = r.token || null }
   const want = S.want; S.want = false;
@@ -2088,7 +2761,7 @@ async function ychannel(cid, back, tab0) {
   };
   const shorts = async () => {
     ychl.innerHTML = `<p class="empty">${t('Loading…')}</p>`;
-    if (!sh) { const x = await post('ytShorts', { cid, region: st.settings.ytRegion || 'US' }); if (!$('#ychl')) return; if (!x.ok) return ychl.innerHTML = `<p class="empty">${esc(t(x.err || 'Search failed'))}</p>`; sh = x }
+    if (!sh) { const x = await post('ytShorts', { cid }); if (!$('#ychl')) return; if (!x.ok) return ychl.innerHTML = `<p class="empty">${esc(t(x.err || 'Search failed'))}</p>`; sh = x }
     if (!sh.list.length) return ychl.innerHTML = `<p class="empty">${t('No results')}</p>`;
     ychl.innerHTML = `<div class="ysg">${sh.list.map((v, i) => `<div class="ysc" data-i="${i}"><img src="${esc(v.thumb)}"><span>${v.views != null ? ynum(v.views) + ' ' + t('views') : ''}</span></div>`).join('')}</div>`;
     ychl.querySelectorAll('.ysc').forEach(e => e.onclick = () => { st.ysh = { list: sh.list, i: +e.dataset.i, token: sh.token, cid, back: () => ychannel(cid, back, 's') }; yshorts() });
@@ -2097,15 +2770,15 @@ async function ychannel(cid, back, tab0) {
   if (tab0 === 's') { document.querySelectorAll('.ychtabs button').forEach(x => x.classList.toggle('on', x.dataset.t === 's')); shorts() } else vids();
 }
 
-/* ---------- Gemini app (Google Gemini API through the server) ---------- */
+/* ---------- Cminai app (Google Cminai API through the server) ---------- */
 Object.assign(IP, {
   gmenu: '<path d="M4 8h16M4 16h10"/>',
   gnew: '<path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M18.5 3.5a2.1 2.1 0 0 1 3 3L12 16l-4 1 1-4z"/>',
   copy: '<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
   gup: '<path d="M12 19V5M5 12l7-7 7 7"/>', wave: '<path d="M6 10v4M10 6v12M14 9v6M18 11v2"/>',
 });
-Object.assign(TR.ar, { 'Open music player': 'افتح الموسيقى', 'Open YouTube': 'افتح يوتيوب', 'Capital of Algeria': 'عاصمة الجزائر شنو هي؟', 'Get Plus': 'احصل على Plus', 'Ask Gemini': 'اسأل Gemini', 'Chat': 'دردشة', 'Pinned': 'المثبتة', 'Pin': 'تثبيت', 'Unpin': 'إلغاء التثبيت', 'Delete chat': 'حذف المحادثة', 'Copied': 'تم النسخ', "What's next, {n}?": 'ما التالي يا {n}؟', 'Help me write a message': 'ساعدني في كتابة رسالة', 'Explain something simply': 'اشرح لي شيئاً ببساطة', 'Give me a recipe idea': 'أعطني فكرة وصفة', 'Translate to Arabic': 'ترجم إلى العربية', 'OpenAI API key is not set': 'مفتاح OpenAI API غير مضبوط', 'OpenAI API key is invalid': 'مفتاح OpenAI API غير صالح', 'OpenAI quota or rate limit reached': 'تم بلوغ حد OpenAI', 'Gemini request failed': 'فشل طلب Gemini', 'Please wait a moment': 'انتظر قليلاً' });
-Object.assign(TR.fr, { 'Open music player': 'Ouvre la musique', 'Open YouTube': 'Ouvre YouTube', 'Capital of Algeria': 'Quelle est la capitale de l\'Algérie ?', 'Get Plus': 'Passer à Plus', 'Ask Gemini': 'Demandez à Gemini', 'Chat': 'Discuter', 'Pinned': 'Épinglées', 'Recents': 'Récentes', 'Pin': 'Épingler', 'Unpin': 'Désépingler', 'Delete chat': 'Supprimer la discussion', 'Copied': 'Copié', "What's next, {n}?": 'Et ensuite, {n} ?', 'Help me write a message': 'Aide-moi à écrire un message', 'Explain something simply': 'Explique-moi simplement', 'Give me a recipe idea': 'Donne-moi une idée de recette', 'Translate to Arabic': "Traduis en arabe", 'OpenAI API key is not set': "La clé API OpenAI n'est pas définie", 'OpenAI API key is invalid': 'Clé API OpenAI invalide', 'OpenAI quota or rate limit reached': 'Limite OpenAI atteinte', 'Gemini request failed': 'Échec de la requête Gemini', 'Please wait a moment': 'Patientez un instant' });
+Object.assign(TR.ar, { 'Open music player': 'افتح الموسيقى', 'Open CTube': 'افتح يوتيوب', 'Capital of Algeria': 'عاصمة الجزائر شنو هي؟', 'Get Plus': 'احصل على Plus', 'Ask Cminai': 'اسأل Cminai', 'Chat': 'دردشة', 'Pinned': 'المثبتة', 'Pin': 'تثبيت', 'Unpin': 'إلغاء التثبيت', 'Delete chat': 'حذف المحادثة', 'Copied': 'تم النسخ', "What's next, {n}?": 'ما التالي يا {n}؟', 'Help me write a message': 'ساعدني في كتابة رسالة', 'Explain something simply': 'اشرح لي شيئاً ببساطة', 'Give me a recipe idea': 'أعطني فكرة وصفة', 'Translate to Arabic': 'ترجم إلى العربية', 'OpenAI API key is not set': 'مفتاح OpenAI API غير مضبوط', 'OpenAI API key is invalid': 'مفتاح OpenAI API غير صالح', 'OpenAI quota or rate limit reached': 'تم بلوغ حد OpenAI', 'Cminai request failed': 'فشل طلب Cminai', 'Please wait a moment': 'انتظر قليلاً' });
+Object.assign(TR.fr, { 'Open music player': 'Ouvre la musique', 'Open CTube': 'Ouvre CTube', 'Capital of Algeria': 'Quelle est la capitale de l\'Algérie ?', 'Get Plus': 'Passer à Plus', 'Ask Cminai': 'Demandez à Cminai', 'Chat': 'Discuter', 'Pinned': 'Épinglées', 'Recents': 'Récentes', 'Pin': 'Épingler', 'Unpin': 'Désépingler', 'Delete chat': 'Supprimer la discussion', 'Copied': 'Copié', "What's next, {n}?": 'Et ensuite, {n} ?', 'Help me write a message': 'Aide-moi à écrire un message', 'Explain something simply': 'Explique-moi simplement', 'Give me a recipe idea': 'Donne-moi une idée de recette', 'Translate to Arabic': "Traduis en arabe", 'OpenAI API key is not set': "La clé API OpenAI n'est pas définie", 'OpenAI API key is invalid': 'Clé API OpenAI invalide', 'OpenAI quota or rate limit reached': 'Limite OpenAI atteinte', 'Cminai request failed': 'Échec de la requête Cminai', 'Please wait a moment': 'Patientez un instant' });
 
 const gKey = () => 'ios_gemini_' + ((st.me && st.me.number) || '0');
 const gLoad = () => { try { const d = JSON.parse(localStorage.getItem(gKey()) || 'null'); if (d && Array.isArray(d.chats)) return d } catch (e) { } return { chats: [], cur: null } };
@@ -2115,7 +2788,7 @@ const gFirst = () => String((st.me && st.me.name) || '').split(' ')[0];
 const gInit = () => String((st.me && st.me.name) || '?').split(' ').map(x => x[0] || '').join('').slice(0, 2).toUpperCase();
 const GCHIPS = [
   ['🎵', 'Open music player'],
-  ['▶️', 'Open YouTube'],
+  ['▶️', 'Open CTube'],
   ['🇩🇿', 'Capital of Algeria'],
   ['✏️', 'Help me write a message'],
 ];
@@ -2134,6 +2807,7 @@ const GPT_APPS = [
   { id: 'garage', keys: ['garage', 'car', 'garage', 'كراج', 'سيارة'] },
   { id: 'clock', keys: ['clock', 'alarm', 'timer', 'stopwatch', 'ساعة', 'منبه', 'مؤقت', 'horloge'] },
   { id: 'weather', keys: ['weather', 'طقس', 'الجو'] },
+  { id: 'health', keys: ['health', 'steps', 'walk', 'run', 'fitness', 'صحة', 'الصحة', 'خطوات', 'مشي', 'santé', 'pas'] },
   { id: 'whatsnow', keys: ['whatsapp', 'whatsnow', 'واتس', 'واتساب'] },
   { id: 'contacts', keys: ['contacts', 'contact', 'جهات', 'أرقام'] },
 ];
@@ -2163,7 +2837,7 @@ function gptDetectOpen(text) {
 }
 const GPT_OPEN_REPLY = {
   music: { en: 'Opening Music player…', ar: 'راني نفتح لك الموسيقى…', fr: 'J’ouvre le lecteur musique…' },
-  youtube: { en: 'Opening YouTube…', ar: 'راني نفتح لك يوتيوب…', fr: 'J’ouvre YouTube…' },
+  youtube: { en: 'Opening CTube…', ar: 'راني نفتح لك يوتيوب…', fr: 'J’ouvre CTube…' },
   camera: { en: 'Opening Camera…', ar: 'راني نفتح الكاميرا…', fr: 'J’ouvre l’appareil photo…' },
   photos: { en: 'Opening Photos…', ar: 'راني نفتح الصور…', fr: 'J’ouvre Photos…' },
   browser: { en: 'Opening Google Search…', ar: 'راني نفتح البحث…', fr: 'J’ouvre la recherche Google…' },
@@ -2196,8 +2870,8 @@ function gptCopy(txt) {
 }
 function gpt() {
   const G = st.gpt = st.gpt || { db: gLoad(), busy: false, sq: false };
-  view('Gemini', `<div class="gptw">
-    <div class="gpth"><button class="gpc" id="gpm">${I(IP.gmenu, 22)}</button><span class="gptitle" id="gpp"><b>Gemini</b>${I(IP.chev, 16)}</span><span class="gpsp"></span><span class="gpr hidden" id="gpr"></span></div>
+  view('Cminai', `<div class="gptw">
+    <div class="gpth"><button class="gpc" id="gpm">${I(IP.gmenu, 22)}</button><span class="gptitle" id="gpp"><b>Cminai</b>${I(IP.chev, 16)}</span><span class="gpsp"></span><span class="gpr hidden" id="gpr"></span></div>
     <div class="gpmsgs" id="gpmsgs"></div>
     <div class="gpin"><button class="gpb" id="gpad">${I(IP.plus, 22)}</button><textarea id="gpi" rows="1" maxlength="1500"></textarea><button class="gpb" id="gpmic">${I(IP.mic, 20)}</button><button class="gpsend" id="gps">${I(IP.wave, 20)}</button></div>
     <div class="gpdr" id="gpdr"></div></div>`, { dark: true, app: 'gpt', nohdr: true, cls: 'full gptb' });
@@ -2214,7 +2888,7 @@ function gpt() {
 function gptDraw(sc) {
   const G = st.gpt, box = $('#gpmsgs'); if (!box) return;
   const c = gCur(), inp = $('#gpi');
-  inp.placeholder = t('Ask Gemini');
+  inp.placeholder = t('Ask Cminai');
   const gr = $('#gpr'); gr.classList.toggle('hidden', !c);
   gr.innerHTML = c ? `<button id="gpnew">${I(IP.gnew, 20)}</button><button id="gpdt">${I(IP.dots, 20)}</button>` : '';
   if (c) {
@@ -2278,7 +2952,7 @@ async function gptSend(text) {
   const payload = c.msgs.filter(m => !m.err).slice(-12).map(m => ({ role: m.r === 'u' ? 'user' : 'assistant', content: m.t }));
   const r = await post('geminiChat', { messages: payload });
   G.busy = false;
-  if (r.ok && r.text) c.msgs.push({ r: 'a', t: r.text }); else c.msgs.push({ r: 'a', t: '⚠ ' + t(r.err || 'Gemini request failed'), err: true });
+  if (r.ok && r.text) c.msgs.push({ r: 'a', t: r.text }); else c.msgs.push({ r: 'a', t: '⚠ ' + t(r.err || 'Cminai request failed'), err: true });
   gSave();
   if ($('#gpmsgs') && st.gpt === G && G.db.cur === c.id) gptDraw(true);
 }
@@ -2286,7 +2960,7 @@ function gptDrawer(open) {
   const d = $('#gpdr'); if (!d) return;
   if (!open) return d.classList.remove('on');
   const G = st.gpt;
-  d.innerHTML = `<div class="gpdim" id="gpdim"></div><div class="gpdp"><div class="gpdh"><b>Gemini</b><button class="gpc" id="gpsr">${I(IP.search, 20)}</button></div>
+  d.innerHTML = `<div class="gpdim" id="gpdim"></div><div class="gpdp"><div class="gpdh"><b>Cminai</b><button class="gpc" id="gpsr">${I(IP.search, 20)}</button></div>
     <input class="gpsi ${G.sq ? '' : 'hidden'}" id="gpsi" placeholder="${esc(t('Search'))}"><div class="gpdl" id="gpdl"></div>
     <div class="gpdf"><button class="gpnc" id="gpnc">${I(IP.gnew, 20)}<span>${t('Chat')}</span></button><span class="gpav">${esc(gInit())}</span></div></div>`;
   const list = () => {
@@ -2570,7 +3244,7 @@ async function phShareSheet(id) {
 }
 
 
-/* ---------- Radio (Samsung Radio style, plays the GTA radio stations) ---------- */
+/* ---------- Radio (CPhone Radio style, plays the GTA radio stations) ---------- */
 Object.assign(TR.ar, { 'Radio': 'الراديو', 'Turn on the Radio.': 'شغّل الراديو.', 'Stations': 'المحطات', 'Recordings': 'التسجيلات', 'Radio settings': 'إعدادات الراديو', 'Storage': 'التخزين', 'Internal storage': 'التخزين الداخلي', 'Radio text': 'نص الراديو', 'Show the station information.': 'عرض معلومات المحطة.', 'Sleep timer': 'مؤقت النوم', 'Off': 'إيقاف', 'min': 'د', 'Permissions': 'الأذونات', 'About Radio': 'حول الراديو', 'Contact us': 'اتصل بنا', 'No stations': 'لا توجد محطات', 'After you scan for stations, they will appear here.': 'بعد البحث عن المحطات ستظهر هنا.', 'No favourites': 'لا توجد مفضلة', 'Tap the star to add a station.': 'اضغط على النجمة لإضافة محطة.', 'No recordings': 'لا توجد تسجيلات', 'No signal': 'لا توجد إشارة', 'Scan': 'بحث' });
 Object.assign(TR.fr, { 'Radio': 'Radio', 'Turn on the Radio.': 'Allumez la radio.', 'Stations': 'Stations', 'Recordings': 'Enregistrements', 'Radio settings': 'Paramètres de la radio', 'Storage': 'Stockage', 'Internal storage': 'Stockage interne', 'Radio text': 'Texte radio', 'Show the station information.': 'Afficher les infos de la station.', 'Sleep timer': 'Minuterie de veille', 'Off': 'Désactivé', 'min': 'min', 'Permissions': 'Autorisations', 'About Radio': 'À propos de Radio', 'Contact us': 'Nous contacter', 'No stations': 'Aucune station', 'After you scan for stations, they will appear here.': 'Après la recherche, les stations apparaîtront ici.', 'No favourites': 'Aucun favori', 'Tap the star to add a station.': 'Touchez l’étoile pour ajouter une station.', 'No recordings': 'Aucun enregistrement', 'No signal': 'Aucun signal', 'Scan': 'Rechercher' });
 
@@ -2842,7 +3516,7 @@ function startRing() {
 function stopRing() { st.ringing = false; stopAudio(); $('#phone').classList.remove('vib') }
 
 /* ---------- Settings ---------- */
-let saveT; function save() { clearTimeout(saveT); saveT = setTimeout(() => post('saveSettings', st.settings), 300) }
+let saveT; function save() { applyStatus(); clearTimeout(saveT); saveT = setTimeout(() => post('saveSettings', st.settings), 300) }
 function applyWall() { $('#screen').style.backgroundImage = `url("${String(st.settings.wallpaper).replace(/"/g, '')}")`; lockTone() }
 function toneSync() {
   const sc = $('#screen'); if (!sc) return;
@@ -2869,7 +3543,14 @@ function lockTone() {
   };
   im.src = url;
 }
-function applyBT() { $('#bt').classList.toggle('hide', !st.settings.bluetooth) }
+function applyStatus() {
+  const x = st.settings, air = !!x.airplane;
+  $('#bt')?.classList.toggle('hide', !x.bluetooth);
+  $('#wf')?.classList.toggle('hide', !x.wifi || air);   // Wi-Fi off (or airplane) -> icon disappears
+  $('#sg')?.classList.toggle('hide', air);              // airplane -> signal bars disappear...
+  $('#air')?.classList.toggle('hide', !air);            // ...and the plane takes their place
+}
+function applyBT() { applyStatus() }
 function applyTheme() { $('#phone').classList.toggle('dk', st.settings.theme === 'dark') }
 function applyBright() { $('#dim').style.opacity = ((100 - st.settings.brightness) / 100) * 0.85 }
 function applyLang() {
@@ -2927,7 +3608,7 @@ function settings() {
         <button type="button" class="ss-search" id="ss-search">${SS_ICO.search}</button>
       </div>
       <div class="ss-account">
-        <div class="ss-acc-txt"><b>${esc(name)}</b><small>Samsung account</small></div>
+        <div class="ss-acc-txt"><b>${esc(name)}</b><small>CPhone account</small></div>
         <div class="ss-av">${esc(initial)}</div>
       </div>
       ${ssGroup([
@@ -3050,7 +3731,7 @@ function connectionsSettings() {
       ${ssLink('Mobile Hotspot and Tethering')}
     </div>
     <div class="ss-card">${ssLink('More connection settings')}</div>
-    ${ssLook(['Samsung Cloud', 'Android Auto', 'Quick Share'])}
+    ${ssLook(['CPhone Cloud', 'Android Auto', 'Quick Share'])}
   `);
   $('#ss-wifi').onchange = e => { st.settings.wifi = e.target.checked; if (e.target.checked) st.settings.airplane = false; save(); connectionsSettings(); };
   $('#ss-bt').onchange = e => { st.settings.bluetooth = e.target.checked; applyBT(); save(); connectionsSettings(); };
@@ -3320,7 +4001,7 @@ function homeScreenSettings() {
 }
 
 
-/* ---------- Screen lock: PIN pad (Samsung style) ---------- */
+/* ---------- Screen lock: PIN pad (CPhone style) ---------- */
 Object.assign(TR.ar, { 'Enter PIN': 'أدخل رمز PIN', 'Wrong PIN': 'رمز PIN خاطئ', 'Try again in': 'حاول مجدداً بعد', 'seconds': 'ثانية', 'Choose your PIN': 'اختر رمز PIN', 'Use 4 to 6 digits': 'استخدم من 4 إلى 6 أرقام', 'Confirm your PIN': 'أكد رمز PIN', 'PINs do not match': 'الرمزان غير متطابقين', 'Enter current PIN': 'أدخل رمز PIN الحالي', 'PIN set': 'تم تعيين الرمز', 'Screen lock removed': 'تمت إزالة قفل الشاشة' });
 Object.assign(TR.fr, { 'Enter PIN': 'Saisissez le code PIN', 'Wrong PIN': 'Code PIN incorrect', 'Try again in': 'Réessayez dans', 'seconds': 'secondes', 'Choose your PIN': 'Choisissez votre code PIN', 'Use 4 to 6 digits': 'Utilisez 4 à 6 chiffres', 'Confirm your PIN': 'Confirmez votre code PIN', 'PINs do not match': 'Les codes ne correspondent pas', 'Enter current PIN': 'Saisissez le code actuel', 'PIN set': 'Code PIN défini', 'Screen lock removed': 'Verrouillage supprimé' });
 
@@ -3505,12 +4186,12 @@ function lockScreenSettings() {
 
 function securitySettings() {
   ssPage('Security and privacy', `
-    <div class="ss-warn"><b>⚠ Check your Samsung account</b><small>Tap to learn more.</small></div>
+    <div class="ss-warn"><b>⚠ Check your CPhone account</b><small>Tap to learn more.</small></div>
     <h4 class="ss-h">Security</h4>
     <div class="ss-card">
       <div class="ss-row"><div class="ss-txt"><b>Lock screen</b><small>Screen lock is set</small></div><span class="ss-ok">●</span></div>
       <div class="ss-div"></div>
-      <div class="ss-row"><div class="ss-txt"><b>Account security</b><small class="ss-orange">Check your Samsung account</small></div><span class="ss-warn-dot">●</span></div>
+      <div class="ss-row"><div class="ss-txt"><b>Account security</b><small class="ss-orange">Check your CPhone account</small></div><span class="ss-warn-dot">●</span></div>
       <div class="ss-div"></div>
       <div class="ss-row"><div class="ss-txt"><b>Lost device protection</b><small>This phone is allowed to be found when lost</small></div><span class="ss-ok">●</span></div>
       <div class="ss-div"></div>
@@ -3571,7 +4252,7 @@ function safetySettings() {
 function accountsSettings() {
   ssPage('Accounts and backup', `
     <div class="ss-card">${ssLink('Manage accounts')}</div>
-    <h4 class="ss-h">Samsung Cloud</h4>
+    <h4 class="ss-h">CPhone Cloud</h4>
     <div class="ss-card">
       ${ssLink('Back up data')}
       <div class="ss-div"></div>
@@ -3585,7 +4266,7 @@ function accountsSettings() {
       <div class="ss-div"></div>
       ${ssLink('External storage transfer', 'Back up data to a USB storage device or SD card.')}
     </div>
-    ${ssLook(['Reset', 'Samsung Cloud'])}
+    ${ssLook(['Reset', 'CPhone Cloud'])}
   `);
 }
 
@@ -3646,10 +4327,10 @@ function deviceCareSettings() {
 }
 
 function appsSettings() {
-  const apps = APPS.map(a => ({ n: a.n, sz: (12 + (a.n.length * 3.7) % 40).toFixed(1) + ' MB' }));
+  const apps = APPS.filter(a => isInst(a.id)).map(a => ({ n: a.n, sz: (12 + (a.n.length * 3.7) % 40).toFixed(1) + ' MB' }));
   ssPage('Apps', `
     <div class="ss-card">${ssLink('Choose default apps', 'Choose which apps to use for making calls, sending messages, going to websites, and more.')}</div>
-    <div class="ss-card">${ssLink('Samsung app settings')}</div>
+    <div class="ss-card">${ssLink('CPhone app settings')}</div>
     <div class="ss-card">
       <div class="ss-row" style="cursor:default"><div class="ss-txt"><b>Your apps (${apps.length})</b></div></div>
       <div class="ss-div"></div>
@@ -3668,9 +4349,9 @@ function generalSettings() {
     </div>
     <div class="ss-card">${ssLink('Date and time')}</div>
     <div class="ss-card">
-      ${ssLink('Samsung Keyboard settings', 'English')}
+      ${ssLink('CPhone Keyboard settings', 'English')}
       <div class="ss-div"></div>
-      ${ssLink('Keyboard', 'Samsung Keyboard')}
+      ${ssLink('Keyboard', 'CPhone Keyboard')}
     </div>
     <div class="ss-card">
       ${ssLink('Physical keyboard', 'Not connected')}
@@ -3779,7 +4460,8 @@ window.addEventListener('message', async e => {
       ]);
       st.me = r || {}; st.settings = { ...DEF, ...((r && r.settings) || {}) }; st.walls = (r && r.wallpapers) || [];
       if (r && r.ringtones && r.ringtones.length) st.tones = r.ringtones;
-      st.hasPin = !!(r && r.hasPin); st.pinLen = (r && r.pinLen) || 0; st.ready = true;
+      st.apps = new Set([...((r && r.defaultApps) || DEF_APPS), ...((r && r.apps) || [])]); st.storeIds = (r && r.storeApps) || null;
+      st.storySec = (r && r.storySec) || 30; st.hasPin = !!(r && r.hasPin); st.pinLen = (r && r.pinLen) || 0; st.ready = true;
       applyAll(); renderHome();
       if (d.app) { if (!st.hasPin || Date.now() - (st.lastUnlock || 0) < 90000) unlockPhone(true); openApp(d.app); }
       else showLock();
@@ -3825,6 +4507,12 @@ window.addEventListener('message', async e => {
   if (d.action === 'openCompose') {
     st.igCompose = false;
     const capp = d.app === 'trendy' ? 'trendy' : 'inpic';
+    if (st.igStory && st.igComposeMedia) {
+      st.igStory = false;
+      const m = st.igComposeMedia, pid = st.igComposePhotoId;
+      st.igComposeMedia = null; st.igComposeKind = null;
+      return igStoryCompose(m, pid);
+    }
     const pre = st.igComposeMedia
       ? { media: st.igComposeMedia, photoId: st.igComposePhotoId, kind: st.igComposeKind || 'photo' }
       : null;
@@ -3838,6 +4526,7 @@ window.addEventListener('message', async e => {
     if (st.thread === d.data.from) { st.msgs.push({ mine: false, text: d.data.text }); st.redraw && st.redraw() }
     else { st.notifs.unshift({ name: d.data.name || d.data.from, text: d.data.text, ts: Math.floor(Date.now() / 1000) }); st.notifs = st.notifs.slice(0, 20); headsUp(`<span class="nt-av">${esc((d.data.name || '#')[0])}</span><div class="nt-tx"><small>${esc(t('Messages'))}</small><b dir="auto">${esc(d.data.name || d.data.from)}</b><span dir="auto">${esc(d.data.text)}</span></div>`, 4000); if ($('#ntpanel')?.classList.contains('open')) drawShade() }
   }
+  if (d.action === 'dcNotify' && window.dcOnNotify) { dcOnNotify(d.data); }
   if (d.action === 'incoming') { $('#phone').classList.remove('hidden'); showCall(d.data.name, t('Incoming call…'), true); startRing() }
   if (d.action === 'callStarted') {
     const a = $('#acc'); if (a) a.remove();
@@ -4090,7 +4779,7 @@ function mpApplyTransform(atlas) {
 }
 function mpCenterOn(x, y, el) {
   const pos = mpGameToPct(x, y);
-  const box = el.getBoundingClientRect();
+  const br = el.getBoundingClientRect(), box = { width: br.width / window.__ps, height: br.height / window.__ps };
   const v = st.mpView;
   // center that % point in the viewport
   const cx = box.width / 2, cy = box.height / 2;
@@ -4108,7 +4797,7 @@ function mpBindPanZoom(el) {
   const onDown = (x, y) => { dragging = true; moved = false; lx = x; ly = y; el.classList.add('grabbing'); };
   const onMove = (x, y) => {
     if (!dragging) return;
-    const dx = x - lx, dy = y - ly;
+    const dx = (x - lx) / window.__ps, dy = (y - ly) / window.__ps;
     if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
     st.mpView.tx += dx; st.mpView.ty += dy;
     lx = x; ly = y;
@@ -4145,7 +4834,7 @@ function mpBindPanZoom(el) {
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
     const ns = Math.max(1, Math.min(4.5, st.mpView.scale * delta));
     const rect = el.getBoundingClientRect();
-    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const mx = (e.clientX - rect.left) / window.__ps, my = (e.clientY - rect.top) / window.__ps;
     // zoom toward cursor
     const k = ns / st.mpView.scale;
     st.mpView.tx = mx - k * (mx - st.mpView.tx);
@@ -4465,7 +5154,7 @@ document.addEventListener('keydown', e => {
   if (ytBig || document.fullscreenElement) { e.preventDefault(); e.stopImmediatePropagation(); ytExpand(false); return }
   post('close');
 }, true);
-/* Samsung nav buttons */
+/* CPhone nav buttons */
 const navHome = () => {
   closeDrawer();
   closeRecents();
@@ -4514,7 +5203,7 @@ const tick = () => {
   const el = $('#clock');
   if (el) el.textContent = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2, '0');
   updateLockClock();
-  // Samsung battery % (sim: stays high in-game)
+  // CPhone battery % (sim: stays high in-game)
   const pct = typeof st.battery === 'number' ? st.battery : 86;
   const bp = document.getElementById('battpct');
   const bf = document.getElementById('battfill');
@@ -4589,7 +5278,7 @@ st.battery = 86;
   $('#lk-phone')?.addEventListener('click', e => { e.stopPropagation(); unlockPhone(); openApp('phone'); });
   $('#lk-cam')?.addEventListener('click', e => { e.stopPropagation(); unlockPhone(); openApp('camera'); });
   $('#wx-widget')?.addEventListener('click', () => openApp('weather'));
-  $('#hw-card')?.addEventListener('click', () => openApp('messages'));
+  $('#hw-brief')?.addEventListener('click', e => { e.stopPropagation(); openApp(isInst('weather') ? 'weather' : 'clock') });
   $('#hw-photo')?.addEventListener('click', () => openApp('photos'));
   $('#hw-start')?.addEventListener('click', () => openApp('music'));
   $('#hw-care')?.addEventListener('click', () => openApp('settings'));
@@ -4609,7 +5298,7 @@ Object.assign(TR.ar, { 'Photos & videos': 'الصور والفيديوهات', '
 Object.assign(TR.fr, { 'Photos & videos': 'Photos et vidéos', 'Choose a photo or video': 'Choisis une photo ou une vidéo' });
 
 
-/* Samsung: while the notification shade / Quick Settings are open, the status bar stays on top,
+/* CPhone: while the notification shade / Quick Settings are open, the status bar stays on top,
    the small clock is replaced by the carrier name (the big clock is inside the shade) */
 window.addEventListener('load', () => {
   const left = document.querySelector('#status .st-left');
@@ -4624,44 +5313,184 @@ window.addEventListener('load', () => {
   ['#qspanel', '#ntpanel'].forEach(q => { const e = document.querySelector(q); if (e) new MutationObserver(sync).observe(e, { attributes: true, attributeFilter: ['class'] }) });
 });
 
-Object.assign(TR.ar, { 'Gemini API key is not set': 'مفتاح Gemini API غير مضبوط', 'Gemini API key is invalid': 'مفتاح Gemini API غير صالح', 'Gemini quota or rate limit reached': 'تم بلوغ حد Gemini' });
-Object.assign(TR.fr, { 'Gemini API key is not set': "La clé API Gemini n'est pas définie", 'Gemini API key is invalid': 'Clé API Gemini invalide', 'Gemini quota or rate limit reached': 'Limite Gemini atteinte' });
+Object.assign(TR.ar, { 'Cminai API key is not set': 'مفتاح Cminai API غير مضبوط', 'Cminai API key is invalid': 'مفتاح Cminai API غير صالح', 'Cminai quota or rate limit reached': 'تم بلوغ حد Cminai' });
+Object.assign(TR.fr, { 'Cminai API key is not set': "La clé API Cminai n'est pas définie", 'Cminai API key is invalid': 'Clé API Cminai invalide', 'Cminai quota or rate limit reached': 'Limite Cminai atteinte' });
 
-Object.assign(TR.ar, { 'Hello, {n}': 'مرحبا {n} 👋', 'How can I help you today?': 'شنو نقدر نعاونك اليوم؟', 'Gemini request failed': 'فشل طلب Gemini' });
-Object.assign(TR.fr, { 'Hello, {n}': 'Bonjour {n}', 'How can I help you today?': "Comment puis-je vous aider aujourd'hui ?", 'Gemini request failed': 'Échec de la requête Gemini' });
+Object.assign(TR.ar, { 'Hello, {n}': 'مرحبا {n} 👋', 'How can I help you today?': 'شنو نقدر نعاونك اليوم؟', 'Cminai request failed': 'فشل طلب Cminai' });
+Object.assign(TR.fr, { 'Hello, {n}': 'Bonjour {n}', 'How can I help you today?': "Comment puis-je vous aider aujourd'hui ?", 'Cminai request failed': 'Échec de la requête Cminai' });
 
 Object.assign(TR.ar, { 'Images are not available': 'الصور غير متاحة' });
 Object.assign(TR.fr, { 'Images are not available': 'Images non disponibles' });
 
+/* ---------- Dark Chat (anonymous channel — locked for police jobs) ---------- */
+Object.assign(TR.ar, {
+  'Dark Chat': 'دارك شات', 'Access denied': 'الدخول ممنوع',
+  'This app is locked for your job.': 'هاد التطبيق مقفول على الجوب تاعك.',
+  'Your Dark number': 'الرقم السري تاعك', 'Status': 'الحالة', 'Save status': 'حفظ الحالة',
+  'Anonymous profile': 'بروفايل مجهول', 'Call via Dark': 'عيّط عبر دارك',
+  'Dark Chat is encrypted. Police cannot open this app.': 'دارك شات مشفّر. البوليس ما يقدرش يدخل للتطبيق.',
+  'Enter status…': 'اكتب الحالة…', 'Copied': 'تم النسخ',
+});
+Object.assign(TR.fr, {
+  'Dark Chat': 'Dark Chat', 'Access denied': 'Accès refusé',
+  'This app is locked for your job.': 'Cette appli est verrouillée pour votre métier.',
+  'Your Dark number': 'Votre numéro Dark', 'Status': 'Statut', 'Save status': 'Enregistrer le statut',
+  'Anonymous profile': 'Profil anonyme', 'Call via Dark': 'Appeler via Dark',
+  'Dark Chat is encrypted. Police cannot open this app.': 'Dark Chat est chiffré. La police ne peut pas ouvrir cette appli.',
+  'Enter status…': 'Écrire un statut…',
+});
+Object.assign(TR.ar, {
+  'Create your Dark account': 'أنشئ حسابك في دارك', 'Your real name is never shown. Others only see your anonymous name and your number.': 'اسمك الحقيقي ما يظهرش أبداً. الناس يشوفو غير اسمك المجهول ورقمك.',
+  'Anonymous name (optional)': 'الاسم المجهول (اختياري)', 'Secret code (4-6 digits)': 'الكود السري (4-6 أرقام)', 'Repeat the code': 'عاود كتب الكود',
+  'Create account': 'إنشاء الحساب', 'Enter your code': 'اكتب الكود تاعك', 'Unlock': 'دخول', 'Share a status…': 'شارك ستاتي…', 'Photo': 'صورة', 'Post': 'نشر',
+  'Posted': 'تم النشر', 'Invalid number': 'رقم غير صحيح', 'Code must be 4-6 digits': 'الكود لازم 4 إلى 6 أرقام', 'Codes do not match': 'الكودين ما يتشابهوش',
+  'Wrong code': 'كود غلط', 'Try again in': 'عاود بعد', 'Already registered': 'مسجل من قبل', 'Name must be 3-20 characters': 'الاسم من 3 إلى 20 حرف',
+  'Use an anonymous name, not your real name': 'استعمل اسم مجهول، موشي اسمك الحقيقي', 'Invalid photo': 'صورة غير صالحة', 'Empty': 'اكتب شي حاجة ولا زيد صورة',
+  'No posts yet': 'ما كاين حتى نشر', 'Lock': 'قفل', 'Call': 'اتصال', 'Dark Chat unavailable': 'دارك شات غير متاح', 'Posts disappear after 24 hours': 'المنشورات تتمسح بعد 24 ساعة',
+  'Too fast': 'بشوية شوية', 'Choose a photo': 'اختار صورة', 'No photos yet.': 'ما كاين حتى صورة.', 'Locked': 'مقفول', 'Not registered': 'غير مسجل', 'now': 'توّا',
+});
+Object.assign(TR.fr, {
+  'Create your Dark account': 'Créez votre compte Dark', 'Your real name is never shown. Others only see your anonymous name and your number.': "Votre vrai nom n'est jamais affiché. Les autres voient seulement votre nom anonyme et votre numéro.",
+  'Anonymous name (optional)': 'Nom anonyme (facultatif)', 'Secret code (4-6 digits)': 'Code secret (4-6 chiffres)', 'Repeat the code': 'Répétez le code',
+  'Create account': 'Créer le compte', 'Enter your code': 'Entrez votre code', 'Unlock': 'Entrer', 'Share a status…': 'Partager un statut…', 'Photo': 'Photo', 'Post': 'Publier',
+  'Posted': 'Publié', 'Invalid number': 'Numéro invalide', 'Code must be 4-6 digits': 'Le code doit avoir 4 à 6 chiffres', 'Codes do not match': 'Les codes ne correspondent pas',
+  'Wrong code': 'Code incorrect', 'Try again in': 'Réessayez dans', 'Already registered': 'Déjà inscrit', 'Name must be 3-20 characters': 'Le nom doit avoir 3 à 20 caractères',
+  'Use an anonymous name, not your real name': 'Utilisez un nom anonyme, pas votre vrai nom', 'Invalid photo': 'Photo invalide', 'Empty': 'Écrivez quelque chose ou ajoutez une photo',
+  'No posts yet': 'Aucune publication', 'Lock': 'Verrouiller', 'Call': 'Appeler', 'Dark Chat unavailable': 'Dark Chat indisponible', 'Posts disappear after 24 hours': 'Les publications disparaissent après 24 h',
+  'Too fast': 'Trop rapide', 'Choose a photo': 'Choisir une photo', 'No photos yet.': 'Aucune photo.', 'Locked': 'Verrouillé', 'Not registered': 'Non inscrit', 'now': 'maintenant',
+});
 
-/* ---------- Contact us -> CarloDZ website ---------- */
-const CONTACT_URL = 'https://carlodz.github.io/carlodz1/';
-function openLink(url) {
-  try {
-    if (typeof window.invokeNative === 'function') { window.invokeNative('openUrl', url); return true }   // FiveM: opens the player's default browser
-    window.open(url, '_blank', 'noopener'); return true;
-  } catch (e) { return false }
+const DCI = { lock: '<rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>' };
+const dcAgo = (ts, now) => { const s = Math.max(0, (now || Math.floor(Date.now() / 1000)) - ts); return s < 60 ? t('now') : s < 3600 ? Math.floor(s / 60) + 'm' : Math.floor(s / 3600) + 'h' };
+const dcErr = r => { if (r && r.wait) return toast(t('Try again in') + ' ' + r.wait + 's'); toast(t((r && r.err) || 'Dark Chat unavailable')) };
+const dcShell = (html, o) => view(t('Dark Chat'), `<div class="scr dc-root">${html}</div>`, Object.assign({ dark: true, app: 'darkchat' }, o || {}));
+
+/* call icon -> opens the Phone app, types the number on the keypad, then calls */
+function dcCall(n, name) {
+  n = String(n || '').trim(); if (!n) return;
+  openApp('phone');
+  const digits = n.replace(/\D/g, '').slice(0, 12); let i = 0;
+  const step = () => {
+    if (i < digits.length) { const b = document.querySelector(`.pkp [data-k="${digits[i++]}"]`); if (b) b.click(); setTimeout(step, 70) }
+    else setTimeout(() => dial(n, name), 450);
+  };
+  setTimeout(step, 250);
 }
-function contactUs() {
-  ssPage('Contact us', `
-    <div class="ss-card" style="padding:18px 16px;text-align:center">
-      <div style="font-size:22px;font-weight:700;margin-bottom:4px">CarloDZ</div>
-      <div style="opacity:.7;font-size:13px;margin-bottom:12px">FiveM scripts &amp; more</div>
-      <div dir="ltr" style="font-size:12.5px;word-break:break-all;color:#2f6bff;margin-bottom:16px">${esc(CONTACT_URL)}</div>
-      <button type="button" id="cu-open" style="width:100%;border:0;border-radius:14px;padding:13px;font-size:15px;font-weight:600;color:#fff;background:#2f6bff;cursor:pointer;margin-bottom:8px">${esc(t('Open website') || 'Open website')}</button>
-      <button type="button" id="cu-copy" style="width:100%;border:0;border-radius:14px;padding:13px;font-size:15px;font-weight:600;color:inherit;background:rgba(127,127,127,.18);cursor:pointer">${esc(t('Copy link') || 'Copy link')}</button>
-    </div>`);
-  $('#cu-open').onclick = () => { if (!openLink(CONTACT_URL)) toast(t('Failed') || 'Failed') };
-  $('#cu-copy').onclick = () => {
-    try { const x = document.createElement('textarea'); x.value = CONTACT_URL; document.body.appendChild(x); x.select(); document.execCommand('copy'); x.remove() } catch (e) { }
-    toast(t('Copied') || 'Copied');
+
+async function darkChatApp() {
+  let r = {};
+  try { r = await post('darkChatOpen', {}) || {}; } catch (e) { r = {}; }
+  if (r.locked === true) {
+    dcShell(`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;min-height:60%">
+      <div style="font-size:48px;margin-bottom:16px">🔒</div><b style="font-size:18px;margin-bottom:8px">${esc(t('Access denied'))}</b>
+      <p class="empty" style="opacity:.7">${esc(t('This app is locked for your job.'))}</p></div>`);
+    return;
+  }
+  if (!r.ok) return toast(t('Dark Chat unavailable'));
+  if (r.state === 'register') return dcRegister();
+  if (r.state === 'unlock') return dcUnlock(r);
+  dcHome(r);
+}
+
+function dcRegister() {
+  dcShell(`<div class="dc-hero">${I(DCI.lock, 38)}<b>${esc(t('Create your Dark account'))}</b><p>${esc(t('Your real name is never shown. Others only see your anonymous name and your number.'))}</p></div>
+    <label class="dc-lb">${esc(t('Phone number'))}</label><input class="dc-in" id="dcn" inputmode="numeric" maxlength="15" autocomplete="off">
+    <label class="dc-lb">${esc(t('Anonymous name (optional)'))}</label><input class="dc-in" id="dca" maxlength="20" autocomplete="off">
+    <label class="dc-lb">${esc(t('Secret code (4-6 digits)'))}</label><input class="dc-in" id="dc1" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
+    <label class="dc-lb">${esc(t('Repeat the code'))}</label><input class="dc-in" id="dc2" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
+    <button class="gbtn green dc-go" id="dcgo">${esc(t('Create account'))}</button>`);
+  $('#dcgo').onclick = async () => {
+    const d = { number: $('#dcn').value.trim(), alias: $('#dca').value.trim(), code: $('#dc1').value, code2: $('#dc2').value };
+    if (!/^\d{4,6}$/.test(d.code)) return toast(t('Code must be 4-6 digits'));
+    if (d.code !== d.code2) return toast(t('Codes do not match'));
+    const r = await post('darkChatRegister', d);
+    if (r && r.ok) darkChatApp(); else dcErr(r);
   };
 }
-Object.assign(TR.ar, { 'Open website': 'فتح الموقع' });
-Object.assign(TR.fr, { 'Open website': 'Ouvrir le site' });
-document.addEventListener('click', e => {
-  const row = e.target.closest('.ss-link, .ss-look-a, #rd-ct');
-  if (!row) return;
-  const label = (row.querySelector('b') || row).textContent.trim();
-  if (label === 'Contact us' || row.id === 'rd-ct') { e.preventDefault(); e.stopPropagation(); contactUs() }
-}, true);
+
+function dcUnlock(o) {
+  dcShell(`<div class="dc-hero">${I(DCI.lock, 38)}<b>${esc(t('Enter your code'))}</b></div>
+    <input class="dc-in dc-code" id="dcc" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
+    <button class="gbtn green dc-go" id="dcgo">${esc(t('Unlock'))}</button>`);
+  if (o && o.wait) toast(t('Try again in') + ' ' + o.wait + 's');
+  const go = async () => {
+    const r = await post('darkChatUnlock', { code: $('#dcc').value });
+    if (r && r.ok) darkChatApp(); else { dcErr(r); const e = $('#dcc'); if (e) e.value = '' }
+  };
+  $('#dcgo').onclick = go; $('#dcc').onkeydown = e => { if (e.key === 'Enter') go() };
+}
+
+st.dcm = st.dcm || {};
+function dcHome(o) {
+  const alias = o.alias || 'Anon';
+  let photo = null;
+  dcShell(`<div class="dc-me"><div class="dc-av">${esc((alias[0] || '?').toUpperCase())}</div><div class="dc-mi"><b>${esc(alias)}</b><small>${esc(o.number || '')}</small></div>
+      <button class="dc-ic" id="dclk" aria-label="${esc(t('Lock'))}">${I(DCI.lock, 22)}</button></div>
+    <div class="dc-comp"><textarea id="dctx" maxlength="150" placeholder="${esc(t('Share a status…'))}"></textarea>
+      <div class="dc-prev hidden" id="dcprev"></div>
+      <div class="dc-row"><button class="dc-ph" id="dcph">${I(IP.img, 20)}<span>${esc(t('Photo'))}</span></button><button class="gbtn green dc-post" id="dcpost">${esc(t('Post'))}</button></div>
+      <div class="dc-gal hidden" id="dcgal"></div></div>
+    <small class="dc-note">${esc(t('Posts disappear after 24 hours'))}</small><div id="dcfeed"></div>`);
+  const setPhoto = d => {
+    photo = d; const pv = $('#dcprev');
+    pv.classList.toggle('hidden', !d); pv.innerHTML = d ? `<img src="${d}"><button id="dcrm">${I(IP.x, 18)}</button>` : '';
+    if (d) $('#dcrm').onclick = () => setPhoto(null);
+  };
+  $('#dclk').onclick = async () => { await post('darkChatLock'); darkChatApp() };
+  $('#dcph').onclick = async () => {
+    const g = $('#dcgal');
+    if (!g.classList.contains('hidden')) return g.classList.add('hidden');
+    g.classList.remove('hidden'); g.innerHTML = `<p class="empty">${esc(t('Loading…'))}</p>`;
+    let list = [];
+    try { const r = await post('getPhotos'); list = (r.list || []).filter(p => p.kind !== 'video').slice(0, 24) } catch (e) { }
+    if (!$('#dcgal')) return;
+    if (!list.length) return g.innerHTML = `<p class="empty">${esc(t('No photos yet.'))}</p>`;
+    g.innerHTML = list.map(p => `<button class="dc-gp" data-id="${p.id}" id="dcgp${p.id}"></button>`).join('');
+    list.forEach(async p => {
+      try {
+        if (!st.pc[p.id]) { const x = await post('getPhoto', { id: +p.id, thumb: true }); if (x && x.data) st.pc[p.id] = x.data }
+        const el = document.getElementById('dcgp' + p.id); if (el && st.pc[p.id]) el.style.backgroundImage = `url(${st.pc[p.id]})`;
+      } catch (_) { }
+    });
+    g.querySelectorAll('.dc-gp').forEach(el => el.onclick = async () => {
+      const full = await post('getPhoto', { id: +el.dataset.id, thumb: false });
+      const small = full && full.data ? await shrink(full.data, 640, .7) : null;
+      if (!small) return toast(t('Invalid photo'));
+      setPhoto(small); g.classList.add('hidden');
+    });
+  };
+  $('#dcpost').onclick = async () => {
+    const text = $('#dctx').value.trim();
+    if (!text && !photo) return toast(t('Empty'));
+    const r = await post('darkChatPost', { text, media: photo || '' });
+    if (!r || !r.ok) return dcErr(r);
+    $('#dctx').value = ''; setPhoto(null); toast(t('Posted')); loadFeed();
+  };
+  async function loadFeed() {
+    const f = $('#dcfeed'); if (!f) return;
+    const r = await post('darkChatFeed');
+    if (!$('#dcfeed')) return;
+    if (!r || !r.ok) { if (r && r.err === 'Locked') return darkChatApp(); return dcErr(r) }
+    if (!r.list.length) return f.innerHTML = `<p class="empty">${esc(t('No posts yet'))}</p>`;
+    f.innerHTML = r.list.map(p => `<div class="dc-pst"><div class="dc-ph2"><div class="dc-av sm">${esc((p.alias || '?')[0].toUpperCase())}</div>
+        <div class="dc-who"><b>${esc(p.alias)}</b><small>${esc(dcAgo(p.ts, r.now))}${p.mine ? '' : ' · ' + esc(p.number || '')}</small></div>
+        ${p.mine ? `<button class="dc-ic dc-del" data-id="${p.id}" aria-label="Delete">${I(IP.bin, 20)}</button>`
+          : `<button class="dc-call" data-n="${esc(p.number)}" data-a="${esc(p.alias)}" aria-label="${esc(t('Call'))}">${I(IP.phone, 20)}</button>`}</div>
+        ${p.text ? `<p class="dc-tx">${esc(p.text)}</p>` : ''}${p.photo ? `<div class="dc-img" id="dcm${p.id}"></div>` : ''}</div>`).join('');
+    f.querySelectorAll('.dc-call').forEach(b => b.onclick = () => dcCall(b.dataset.n, b.dataset.a));
+    f.querySelectorAll('.dc-del').forEach(b => b.onclick = async () => { await post('darkChatDelete', { id: +b.dataset.id }); loadFeed() });
+    for (const p of r.list.filter(x => x.photo)) {
+      try {
+        if (!st.dcm[p.id]) { const x = await post('darkChatMedia', { id: p.id }); if (x && x.media) st.dcm[p.id] = x.media }
+        const el = document.getElementById('dcm' + p.id); if (el && st.dcm[p.id]) el.innerHTML = `<img src="${st.dcm[p.id]}">`;
+      } catch (_) { }
+    }
+  }
+  loadFeed();
+}
+
+Object.assign(TR.ar, { 'Profile card and picture': 'بطاقة الملف الشخصي والصورة', 'Not shared': 'غير مشاركة', 'Mobile': 'الجوال', 'Website': 'الموقع', 'Nickname': 'اللقب', 'QR code': 'رمز QR', 'Edit': 'تعديل', 'Edit info': 'تعديل المعلومات', 'Share': 'مشاركة', 'Save as image': 'حفظ كصورة', 'Add phone number': 'إضافة رقم هاتف', 'Cancel': 'إلغاء', 'Copied': 'تم النسخ', 'Scan the QR code to add this contact.': 'امسح رمز QR لإضافة جهة الاتصال.' });
+
+Object.assign(TR.ar, { 'Select': 'تحديد', 'View by storage location': 'عرض حسب موقع التخزين', 'Scan QR code': 'مسح رمز QR', 'Reorder Favourites': 'إعادة ترتيب المفضلة', 'Recycle bin': 'سلة المحذوفات', 'View more': 'عرض المزيد' });
+
+Object.assign(TR.ar, { 'Good morning': 'صباح الخير', 'Good afternoon': 'مساء الخير', 'Good evening': 'مساء الخير', 'Get a personalized briefing that changes throughout the day.': 'احصل على ملخص مخصص يتغير على مدار اليوم.', 'Start Now brief': 'ابدأ الملخص' });
