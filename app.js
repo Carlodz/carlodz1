@@ -375,14 +375,15 @@ document.addEventListener('DOMContentLoaded', () => {
 /* Theme: dark / light, persisted */
 const themeBtn = document.getElementById('themeBtn');
 function applyTheme(theme){
-  document.body.classList.toggle('light-theme', theme === 'light');
+  document.body.classList.add('light-theme');
+  document.body.classList.toggle('night', theme === 'dark');
   const icon = themeBtn?.querySelector('img');
   if(icon) icon.src = 'assets/icons/moon.svg';
   localStorage.setItem('carlodz-theme-v2', theme);
 }
 applyTheme(localStorage.getItem('carlodz-theme-v2') || 'light');
 themeBtn?.addEventListener('click', () => {
-  applyTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
+  applyTheme(document.body.classList.contains('night') ? 'light' : 'dark');
 });
 
 /* Service worker */
