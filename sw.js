@@ -1,5 +1,5 @@
 
-const CACHE = 'carlodz-v4';
+const CACHE = 'carlodz-v5';
 const CORE = ['./', './index.html', './style.css', './app.js'];
 
 self.addEventListener('install', e => {

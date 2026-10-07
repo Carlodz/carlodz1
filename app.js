@@ -26,7 +26,7 @@ const TRANSLATIONS = {
     search_placeholder: "Search scripts...",
     discord: "Discord",
     hero_eyebrow: "WELCOME TO",
-    hero_subtitle: "HIGH QUALITY FIVEM SCRIPTS",
+    hero_subtitle: "High quality FiveM scripts",
     hero_desc: "Premium scripts, custom solutions and unique experiences designed for modern FiveM servers. Clean code, polished NUI, and continuous support.",
     hero_explore: "Explore Scripts",
     hero_trailer: "Watch Trailer",
@@ -41,8 +41,8 @@ const TRANSLATIONS = {
     feat3_desc: "Always here for you",
     feat4_title: "Regular Updates",
     feat4_desc: "New features & fixes",
-    scripts_small: "FEATURED SCRIPTS",
-    scripts_title: "OUR <em>SCRIPTS</em>",
+    scripts_small: "Featured scripts",
+    scripts_title: "Our scripts",
     scripts_desc: "Discover our most popular and high-quality scripts for your FiveM server.",
     filter_all: "All",
     filter_free: "Free",
@@ -54,8 +54,8 @@ const TRANSLATIONS = {
     download: "Download",
     rate_this: "Rate this script",
     join_discord: "Join Discord",
-    about_small: "ABOUT CARLODZ",
-    about_title: "BUILT FOR <em>FIVEM</em>",
+    about_small: "About Carlodz",
+    about_title: "Built for FiveM",
     about_desc: "CARLODZ creates custom FiveM resources with polished NUI, gameplay systems, optimized performance and a focus on clean server integration. Every script is built with quality, security and player experience in mind.",
     about_li1: "Optimized performance for large servers",
     about_li2: "Modern & responsive NUI interfaces",
@@ -67,8 +67,8 @@ const TRANSLATIONS = {
     about_h2d: "Gameplay systems designed for fun and immersion.",
     about_h3: "Always Improving",
     about_h3d: "Regular updates based on community feedback.",
-    contact_small: "NEED HELP?",
-    contact_title: "LET'S BUILD<br><em>SOMETHING</em>",
+    contact_small: "Need help?",
+    contact_title: "Let's build<br>something together",
     contact_desc: "Have a custom request or need support? Reach out via Discord, WhatsApp or Email — we're ready to help.",
     contact_btn: "Contact on Discord",
     contact_email: "Email us",
@@ -310,18 +310,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const description = document.getElementById('heroDescription');
   const label = document.querySelector('.clothing-hero-label');
   const slides = [
-    {key:'cphone', eyebrow:'PREMIUM • QBCORE • PHONE', subtitle:'THE COMPLETE SMARTPHONE FOR YOUR SERVER', desc:'A full Samsung-style phone with messages, calls, bank, garage, maps, YouTube, camera, social apps and the Yasir taxi app. Try it live before you buy.', label:'CPHONE S26', meta:'PHONE • NUI • TAXI • MAPS'},
-    {key:'carlodzclothing', eyebrow:'PREMIUM • QBCORE • CARLODZ CHARACTER', subtitle:'THE COMPLETE CHARACTER STYLE SYSTEM', desc:'Premium QBCore clothing and character ecosystem with clothing shops, tattoo shops, female-only beauty surgery and a complete creator system.', label:'CARLODZ CLOTHING', meta:'CHARACTER • BEAUTY • STYLE'},
-    {key:'carlodz_character', eyebrow:'PREMIUM • QBCORE • CHARACTER', subtitle:'THE COMPLETE CHARACTER CREATOR SYSTEM', desc:'A dedicated Carlodz Character creator for building and customizing your FiveM character, designed to work together with Carlodz Clothing and QBCore.', label:'CARLODZ CHARACTER', meta:'CREATOR • CUSTOMIZATION • QBCORE'},
-    {key:'carlodzbanking', eyebrow:'PREMIUM • QBCORE • BANKING', subtitle:'THE BEST BANKING SYSTEM FOR YOUR SERVER', desc:'A complete QBCore banking system with card and code, code sharing with friends and a loan system.', label:'CARLODZ BANKING', meta:'BANKING • CARDS • LOANS'},
-    {key:'cardealer', eyebrow:'PREMIUM • QBCORE • CAR DEALER', subtitle:'THE COMPLETE CAR DEALERSHIP EXPERIENCE', desc:'A premium QBCore car dealer with a showroom, live vehicle preview, color selection and test drive.', label:'CARLODZ CAR DEALER', meta:'SHOWROOM • PREVIEW • TEST DRIVE'},
-    {key:'wayscoot', eyebrow:'PREMIUM • QBCORE • RENTAL', subtitle:'MODERN SCOOTER RENTAL SYSTEM', desc:'A polished scooter rental experience with stations, payment flow, rental timer, vehicle keys and modern NUI.', label:'WAY SCOOT', meta:'RENTAL • NUI • CITY MOBILITY'},
-    {key:'burgershot', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'COMPLETE BURGER SHOT EXPERIENCE', desc:'A complete restaurant job with cooking, food props, animations, orders, deliveries and a polished gameplay flow.', label:'BURGER SHOT', meta:'JOB • COOKING • DELIVERY'},
+    {key:'cphone', eyebrow:'PREMIUM • QBCORE • PHONE', subtitle:'The complete smartphone for your server', desc:'A full Samsung-style phone with messages, calls, bank, garage, maps, YouTube, camera, social apps and the Yasir taxi app. Try it live before you buy.', label:'CPHONE S26', meta:'PHONE • NUI • TAXI • MAPS'},
+    {key:'carlodzclothing', eyebrow:'PREMIUM • QBCORE • CARLODZ CHARACTER', subtitle:'The complete character style system', desc:'Premium QBCore clothing and character ecosystem with clothing shops, tattoo shops, female-only beauty surgery and a complete creator system.', label:'CARLODZ CLOTHING', meta:'CHARACTER • BEAUTY • STYLE'},
+    {key:'carlodz_character', eyebrow:'PREMIUM • QBCORE • CHARACTER', subtitle:'The complete character creator system', desc:'A dedicated Carlodz Character creator for building and customizing your FiveM character, designed to work together with Carlodz Clothing and QBCore.', label:'CARLODZ CHARACTER', meta:'CREATOR • CUSTOMIZATION • QBCORE'},
+    {key:'carlodzbanking', eyebrow:'PREMIUM • QBCORE • BANKING', subtitle:'The best banking system for your server', desc:'A complete QBCore banking system with card and code, code sharing with friends and a loan system.', label:'CARLODZ BANKING', meta:'BANKING • CARDS • LOANS'},
+    {key:'cardealer', eyebrow:'PREMIUM • QBCORE • CAR DEALER', subtitle:'The complete car dealership experience', desc:'A premium QBCore car dealer with a showroom, live vehicle preview, color selection and test drive.', label:'CARLODZ CAR DEALER', meta:'SHOWROOM • PREVIEW • TEST DRIVE'},
+    {key:'wayscoot', eyebrow:'PREMIUM • QBCORE • RENTAL', subtitle:'Modern scooter rental system', desc:'A polished scooter rental experience with stations, payment flow, rental timer, vehicle keys and modern NUI.', label:'WAY SCOOT', meta:'RENTAL • NUI • CITY MOBILITY'},
+    {key:'burgershot', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'Complete Burger Shot experience', desc:'A complete restaurant job with cooking, food props, animations, orders, deliveries and a polished gameplay flow.', label:'BURGER SHOT', meta:'JOB • COOKING • DELIVERY'},
     {key:'pets', eyebrow:'PREMIUM • QBCORE • PETS', subtitle:'YOUR PETS. YOUR CITY. YOUR STORY.', desc:'A modern pets system with adoption, care, interaction and animal features designed for immersive FiveM servers.', label:'CARLODZ PETS', meta:'PETS • NUI • IMMERSION'},
     {key:'fishing', eyebrow:'FREE • QBCORE • FISHING', subtitle:'FISH. CATCH. REWARD.', desc:'A clean fishing experience with fishing spots, catches, rewards and simple QBCore integration.', label:'FISHING', meta:'FREE • FISHING • REWARDS'},
-    {key:'hunting', eyebrow:'FREE • QBCORE • HUNTING', subtitle:'ENTER THE HUNTING ZONE', desc:'A lightweight hunting zone system built for simple configuration, hunting gameplay and a clean server experience.', label:'HUNTING ZONE', meta:'FREE • HUNTING • ZONE'},
-    {key:'catcoffee', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'RUN YOUR OWN CAT COFFEE', desc:'A complete cat coffee job with orders, crafting, cat interactions and a polished QBCore workflow.', label:'CAT COFFEE', meta:'JOB • CAFE • CATS'},
-    {key:'carlodj', eyebrow:'PREMIUM • QBCORE • CLUB & DJ', subtitle:'CUSTOMIZE YOUR CLUB WITH CARLODJ', desc:'Search YouTube, sample any track, play with DJ animations and control volume for every song. The ultimate nightclub experience for QBCore servers.', label:'CARLODJ', meta:'CLUB • DJ • MUSIC • YOUTUBE'}
+    {key:'hunting', eyebrow:'FREE • QBCORE • HUNTING', subtitle:'Enter the Hunting Zone', desc:'A lightweight hunting zone system built for simple configuration, hunting gameplay and a clean server experience.', label:'HUNTING ZONE', meta:'FREE • HUNTING • ZONE'},
+    {key:'catcoffee', eyebrow:'PREMIUM • QBCORE • JOB', subtitle:'Run your own Cat Coffee', desc:'A complete cat coffee job with orders, crafting, cat interactions and a polished QBCore workflow.', label:'CAT COFFEE', meta:'JOB • CAFE • CATS'},
+    {key:'carlodj', eyebrow:'PREMIUM • QBCORE • CLUB & DJ', subtitle:'Customize your club with CarloDJ', desc:'Search YouTube, sample any track, play with DJ animations and control volume for every song. The ultimate nightclub experience for QBCore servers.', label:'CARLODJ', meta:'CLUB • DJ • MUSIC • YOUTUBE'}
   ];
   if(!photo || !logo) return;
   const heroStrip=document.getElementById('heroScriptStrip');
@@ -378,9 +378,9 @@ function applyTheme(theme){
   document.body.classList.toggle('light-theme', theme === 'light');
   const icon = themeBtn?.querySelector('img');
   if(icon) icon.src = 'assets/icons/moon.svg';
-  localStorage.setItem('carlodz-theme', theme);
+  localStorage.setItem('carlodz-theme-v2', theme);
 }
-applyTheme(localStorage.getItem('carlodz-theme') || 'dark');
+applyTheme(localStorage.getItem('carlodz-theme-v2') || 'light');
 themeBtn?.addEventListener('click', () => {
   applyTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
 });
