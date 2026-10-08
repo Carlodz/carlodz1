@@ -1,6 +1,6 @@
 
-const CACHE = 'carlodz-v6';
-const CORE = ['./', './index.html', './style.css', './app.js'];
+const CACHE = 'carlodz-v9';
+const CORE = ['./', './index.html', './style.css', './style.store.css', './style.dc.css', './app.js'];
 
 self.addEventListener('install', e => {
   self.skipWaiting();

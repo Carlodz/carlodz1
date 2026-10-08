@@ -1,0 +1,135 @@
+/* =====================================================
+   CARLODZ v6 — style "Discord" (sombre, blurple, salons)
+   Chargé après style.store.css. Portée : body.dc
+   ===================================================== */
+body.light-theme.store.dc:is(.night,:not(.night)){
+  --bg:#313338;--panel:#2b2d31;--white:#f2f3f5;--muted:#b5bac1;--soft:#949ba4;
+  --red:#5865f2;--red2:#7983f5;--line:rgba(255,255,255,.07);--ink:#1e1f22;
+  --blurple:#5865f2;--green:#23a559;--dark:#1e1f22;--chat:#313338;
+  font-family:'gg sans','Segoe UI',Inter,system-ui,Helvetica,Arial,sans-serif;
+  background:var(--bg);background-image:none;color:var(--white);color-scheme:dark
+}
+body.light-theme.store.dc:is(.night,:not(.night)):before{display:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .loader{background:#1e1f22}
+
+/* header = barre des serveurs */
+body.light-theme.store.dc:is(.night,:not(.night)) .topbar{background:var(--dark);border-bottom:1px solid #111214}
+body.light-theme.store.dc:is(.night,:not(.night)) .topbar nav a{text-transform:none;letter-spacing:0;font-size:14px;color:#b5bac1;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .topbar nav a:before{content:"#";opacity:.6;margin-right:5px}
+body.light-theme.store.dc:is(.night,:not(.night)) .topbar nav a:hover{background:#35373c;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .topbar nav a.active{background:#404249;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .search{background:#111214;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .search input{color:#dbdee1}
+body.light-theme.store.dc:is(.night,:not(.night)) .search img{filter:invert(1) brightness(.6)}
+body.light-theme.store.dc:is(.night,:not(.night)) .lang-switch,body.light-theme.store.dc:is(.night,:not(.night)) .icon-btn,body.light-theme.store.dc:is(.night,:not(.night)) .music-btn,body.light-theme.store.dc:is(.night,:not(.night)) .hamburger{background:#2b2d31;border-color:transparent;border-radius:6px;color:#dbdee1}
+body.light-theme.store.dc:is(.night,:not(.night)) .lang-btn.active{background:#5865f2;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .discord-top{background:#5865f2;border-color:#5865f2;color:#fff;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .topbar nav.open{background:var(--dark)}
+body.light-theme.store.dc:is(.night,:not(.night)) .visitor-strip{color:#949ba4}
+body.light-theme.store.dc:is(.night,:not(.night)) .visitor-item strong{color:#f2f3f5}
+body.light-theme.store.dc:is(.night,:not(.night)) .visitor-dot{background:#23a559;box-shadow:0 0 0 4px rgba(35,165,89,.2)}
+body.light-theme.store.dc:is(.night,:not(.night)) .online-text{color:#23a559!important}
+
+/* hero = bannière de profil */
+body.light-theme.store.dc:is(.night,:not(.night)) .hero{background:linear-gradient(135deg,#232428 0%,#2b2d31 55%,#35378a 130%);border:1px solid #1e1f22;box-shadow:0 8px 30px rgba(0,0,0,.35);border-radius:16px}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-bg{background:radial-gradient(circle at 80% 40%,rgba(88,101,242,.4),transparent 42%)}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-grid{opacity:.05}
+body.light-theme.store.dc:is(.night,:not(.night)) .eyebrow{background:#5865f2;color:#fff;border-radius:4px;font-size:11px}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-copy h2{text-transform:none;letter-spacing:-1.5px;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-copy p{color:#b5bac1}
+body.light-theme.store.dc:is(.night,:not(.night)) .btn-primary{background:#5865f2;border-color:#5865f2;color:#fff;border-radius:4px;text-transform:none;box-shadow:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .btn-primary:hover{background:#4752c4;transform:none;box-shadow:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .btn-ghost{background:#4e5058;border-color:transparent;color:#fff;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .btn-ghost:hover{background:#6d6f78}
+body.light-theme.store.dc:is(.night,:not(.night)) .btn-ghost i{background:#2b2d31}
+body.light-theme.store.dc:is(.night,:not(.night)) .btn-ghost i img{filter:invert(1)}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-script-pill{background:#2b2d31;border-color:transparent;color:#b5bac1;border-radius:4px;text-transform:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-script-pill span{color:#949ba4}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-script-pill:hover{background:#35373c;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-script-pill.active{background:#5865f2;color:#fff;border-color:#5865f2}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-script-pill.active span{color:#dbdee1}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-character{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.06);border-radius:12px}
+body.light-theme.store.dc:is(.night,:not(.night)) .hero-character:after{background:linear-gradient(transparent,rgba(30,31,34,.8))}
+body.light-theme.store.dc:is(.night,:not(.night)) .character-label{background:#1e1f22;color:#fff;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .character-label em{color:#949ba4}
+
+/* features */
+body.light-theme.store.dc:is(.night,:not(.night)) .feature-item{background:var(--panel);border:1px solid var(--line);border-radius:8px}
+body.light-theme.store.dc:is(.night,:not(.night)) .feature-item b{background:#5865f2;border-radius:50%}
+body.light-theme.store.dc:is(.night,:not(.night)) .feature-item b img{filter:invert(1)}
+body.light-theme.store.dc:is(.night,:not(.night)) .feature-item strong{color:#f2f3f5}
+body.light-theme.store.dc:is(.night,:not(.night)) .feature-item span{color:#949ba4}
+
+/* bloc discord */
+body.light-theme.store.dc:is(.night,:not(.night)) .unified-discord{background:linear-gradient(110deg,#5865f2,#4752c4);border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.3)}
+body.light-theme.store.dc:is(.night,:not(.night)) .discord-join{background:#fff;color:#4752c4;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .discord-join img{filter:none}
+
+/* catalogue */
+body.light-theme.store.dc:is(.night,:not(.night)) .section-title{border-bottom:1px solid #3f4147}
+body.light-theme.store.dc:is(.night,:not(.night)) .section-title small{background:#5865f2;color:#fff;border-radius:4px;padding:3px 9px}
+body.light-theme.store.dc:is(.night,:not(.night)) .section-title h2{text-transform:none;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .section-title p{color:#949ba4}
+body.light-theme.store.dc:is(.night,:not(.night)) .filter-bar{background:#1e1f22;border:0;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .filter-btn{color:#b5bac1;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .filter-btn.active{background:#5865f2;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .clothing-feature-banner{background:#2b2d31;border:1px solid #5865f2;color:#fff;border-radius:8px}
+body.light-theme.store.dc:is(.night,:not(.night)) .clothing-feature-banner strong{color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .clothing-feature-banner>span:last-child{color:#949ba4}
+body.light-theme.store.dc:is(.night,:not(.night)) .clothing-banner-kicker{background:#5865f2;color:#fff;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .script-card{background:#2b2d31;border:1px solid #1e1f22;border-radius:10px;box-shadow:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .script-card:hover{border-color:#5865f2;transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.4)}
+body.light-theme.store.dc:is(.night,:not(.night)) .script-card .cover{background:radial-gradient(circle at 50% 30%,rgba(88,101,242,.3),transparent 60%),#232428;border-bottom:1px solid #1e1f22}
+body.light-theme.store.dc:is(.night,:not(.night)) .script-card .cphone-cover{background:radial-gradient(circle at 50% 30%,rgba(123,77,255,.35),transparent 55%),linear-gradient(145deg,#1a1c3a,#0c0d1e)}
+body.light-theme.store.dc:is(.night,:not(.night)) .card-meta h3{color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .card-meta p{color:#949ba4}
+body.light-theme.store.dc:is(.night,:not(.night)) .badge.paid{background:#5865f2;color:#fff;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .badge.free{background:#23a559;color:#fff;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .badge.new{background:#f0b232;color:#1e1f22;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .qbcore-badge{background:rgba(30,31,34,.85);color:#fff;border-color:transparent;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .desc{color:#b5bac1}
+body.light-theme.store.dc:is(.night,:not(.night)) .tags span{background:#1e1f22;color:#b5bac1;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .clothing-feature-grid div{background:#232428;border-color:transparent;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .clothing-feature-grid b{color:#7983f5}
+body.light-theme.store.dc:is(.night,:not(.night)) .clothing-feature-grid span{color:#b5bac1}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-btn{background:#4e5058;border:0;color:#fff;border-radius:4px;text-transform:none;font-size:13px}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-btn:hover{background:#6d6f78;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .download-btn{background:#23a559;border-color:#23a559;color:#fff;border-radius:4px;text-transform:none;font-size:13px}
+body.light-theme.store.dc:is(.night,:not(.night)) .download-btn:hover{background:#1a8647}
+body.light-theme.store.dc:is(.night,:not(.night)) .phone-preview-btn{border-radius:4px;text-transform:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .script-rating{border-top-color:#3f4147}
+body.light-theme.store.dc:is(.night,:not(.night)) .rating-value{color:#b5bac1}
+body.light-theme.store.dc:is(.night,:not(.night)) .heart-btn svg{stroke:#80848e}
+body.light-theme.store.dc:is(.night,:not(.night)) .heart-btn:hover svg,body.light-theme.store.dc:is(.night,:not(.night)) .heart-btn.active svg{fill:#f23f43;stroke:#f23f43}
+
+/* bouton WhatsApp (vert, reste lisible sur fond Discord) */
+body.light-theme.store.dc:is(.night,:not(.night)) .wa-btn{background:#25d366!important;border-color:#25d366!important;color:#072e24!important;border-radius:4px;text-transform:none;font-size:13px!important;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}
+body.light-theme.store.dc:is(.night,:not(.night)) .wa-btn:hover{background:#1ebe5b!important;transform:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .wa-btn .wa-ico{width:18px;height:18px;flex:none}
+
+/* à propos / contact / footer */
+body.light-theme.store.dc:is(.night,:not(.night)) .about-inner{background:#2b2d31;border:1px solid #1e1f22;border-radius:12px;box-shadow:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .about-text p{color:#b5bac1}
+body.light-theme.store.dc:is(.night,:not(.night)) .about-list li{background:#232428;color:#dbdee1;border:0;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .about-list li:before{color:#23a559}
+body.light-theme.store.dc:is(.night,:not(.night)) .highlight-box{background:#232428;border:0;border-left:4px solid #5865f2;border-radius:6px;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .highlight-box strong{color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .highlight-box span{color:#b5bac1}
+body.light-theme.store.dc:is(.night,:not(.night)) .contact-inner{background:linear-gradient(135deg,#232428,#35378a);border-radius:14px}
+body.light-theme.store.dc:is(.night,:not(.night)) .contact h2{text-transform:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .contact-icon-btn{background:#2b2d31;border-color:transparent;border-radius:50%;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .contact-icon-btn:hover{background:#5865f2;color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .contact-icon-btn.whatsapp-icon{background:#25d366;color:#072e24}
+body.light-theme.store.dc:is(.night,:not(.night)) footer{background:var(--dark);border-top:1px solid #111214}
+
+/* fenêtres */
+body.light-theme.store.dc:is(.night,:not(.night)) .details-panel{background:#313338;border:1px solid #1e1f22;border-radius:14px}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-content h2{color:#fff}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-content p{color:#b5bac1}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-tags span{background:#1e1f22;color:#b5bac1;border-radius:4px}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-video-wrap{background:#1e1f22;border-color:#111214}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-close{background:#1e1f22;color:#fff;border-color:transparent;border-radius:6px}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-actions .btn-primary{border-radius:4px;text-transform:none}
+body.light-theme.store.dc:is(.night,:not(.night)) .details-back{background:#4e5058;color:#fff;border-radius:4px;border:0}
+
+@media(max-width:780px){body.light-theme.store.dc:is(.night,:not(.night)) .topbar{height:62px}}
