@@ -2,7 +2,7 @@
 /* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
 const SCRIPT_VIDEOS = {
   fishing: "",
-  carlotv: "",
+  carlotv: "https://www.youtube.com/watch?v=3LT94pZaIJ4",
   wayscoot: "",
   burgershot: "",
   pets: "",
