@@ -2,6 +2,7 @@
 /* CARLODZ — Video links per script (YouTube or direct mp4 URL only) */
 const SCRIPT_VIDEOS = {
   fishing: "",
+  carlotv: "",
   wayscoot: "",
   burgershot: "",
   pets: "",
@@ -430,6 +431,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 const SCRIPT_DETAILS={
   cphone:{title:'Cphone S26',category:'PAID SCRIPT',description:'A complete Samsung-style phone for QBCore with a polished NUI: messages, calls, contacts, bank, garage, maps with GPS, YouTube, gallery, camera, social apps, AI assistant, radio and the Yasir taxi app (call a bot taxi that picks you up and drives you to your waypoint). Click Phone Preview to try the real interface before buying.',logo:'assets/cphone-logo.svg',photo:'assets/cphone-photo.png',tags:['QBCore','NUI','Phone','Maps','Yasir Taxi','Bank','Camera','YouTube'],preview:true,video:SCRIPT_VIDEOS.cphone,features:['Messages & calls','Bank & garage','Maps & GPS waypoint','Yasir taxi app','Camera & gallery','YouTube & social apps']},
   fishing:{title:'Fishing',category:'FREE SCRIPT',description:'Fish in any weather with a clean QBCore fishing system featuring catches, rewards and simple setup.',logo:'assets/fishing-logo.png',photo:'assets/design-reference 2.png',tags:['QBCore','Fishing','Any Weather','Rewards','Free'],video:SCRIPT_VIDEOS.fishing,download:'assets/downloads/fishing/script.zip',downloadName:'Fishing.zip',features:['Fishing in any weather','Catches & rewards','QBCore ready','Easy configuration']},
+  carlotv:{title:'CarloTV',category:'FREE SCRIPT',description:'Watch YouTube and TV channels right inside the game. Enjoy your favorite series and keep your favorite channels one click away. A simple, free QBCore script.',logo:'assets/carlotv-logo.png',photo:'assets/carlotv-logo.png',tags:['QBCore','Free','TV','YouTube','Series','Favorite Channels'],video:SCRIPT_VIDEOS.carlotv,download:'assets/downloads/carlotv/script.zip',downloadName:'CarloTV.zip',features:['YouTube in-game','TV channels','Watch your series','Favorite channels','QBCore ready']},
   hunting:{title:'Hunting Zone',category:'FREE SCRIPT',description:'A complete hunting loop with weapon purchase, animal selling and off-road vehicle rental inside the hunting zone.',logo:'assets/Hunting Zone-logo.png',photo:'assets/design-reference 4.png',tags:['QBCore','Free','Hunting','Weapons','Animal Sales','Offroad'],video:SCRIPT_VIDEOS.hunting,download:'assets/downloads/hunting/script.zip',downloadName:'Hunting-Zone.zip',features:['Buy the weapon','Hunt and sell animals','Rent the off-road','Dedicated hunting zone']},
   wayscoot:{title:'WayScoot',category:'PAID SCRIPT',description:'Modern scooter rental with a polished NUI, payment flow and flexible rental durations: 15 minutes or 1 hour 30 minutes.',logo:'assets/wayscoot-logo.png',photo:'assets/design-reference.png',tags:['QBCore','Target','NUI','Rental','15 Min','1H 30 Min'],video:SCRIPT_VIDEOS.wayscoot,features:['15 minute rental','1 hour 30 minute rental','Payment system','Multiple stations','Return system']},
   burgershot:{title:'Burger Shot',category:'PAID SCRIPT',description:'A full Burger Shot system with ingredient deliveries in boxes, custom boxes, duty management, a custom NUI and an advanced order system.',logo:'assets/burgershot-logo.png',photo:'assets/design-reference 3.png',tags:['QBCore','Job','NUI','Delivery','Boxes','Duty','Orders'],video:SCRIPT_VIDEOS.burgershot,features:['Ingredient delivery with boxes','Custom box system','Duty system','New custom NUI','Advanced order system','More restaurant features']},
@@ -629,7 +631,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&detailsModal?.class
 (() => {
   const RATING_NS = 'carlodz-gthyrtj-ratings';
   const ABACUS='https://abacus.jasoncameron.dev';
-  const scripts = ['cphone','carlodz_character','carlodzclothing','cardealer','hunting','wayscoot','burgershot','fishing','pets','catcoffee','carlodzbanking','carlodj'];
+  const scripts = ['cphone','carlodz_character','carlodzclothing','cardealer','hunting','wayscoot','burgershot','fishing','carlotv','pets','catcoffee','carlodzbanking','carlodj'];
   const votedKey = key => `carlodz-rated-${key}`;
 
   function setVisual(root, value){
