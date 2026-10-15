@@ -3,7 +3,7 @@
 const SCRIPT_VIDEOS = {
   fishing: "",
   carlotv: "https://www.youtube.com/watch?v=3LT94pZaIJ4",
-  wayscoot: "",
+  wayscoot: "https://youtu.be/iLhNeWddkZI?si=7lOFdzJ0guDXFT4r",
   burgershot: "",
   pets: "",
   hunting: "",
